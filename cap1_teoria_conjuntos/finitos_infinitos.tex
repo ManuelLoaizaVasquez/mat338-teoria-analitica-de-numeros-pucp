@@ -1,0 +1,79 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+\begin{defn}
+    Un subconjunto se dice propio si no es igual al conjunto de referencia.
+\end{defn}
+
+\begin{theorem}
+    El vac\'io siempre es subconjunto propio excepto si el conjunto de referencia es el vac\'io.
+\end{theorem}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{defn}
+    Un conjunto es infinito si admite una funci\'on inyectiva a un subconjunto propio. En caso contrario, el conjunto es finito.
+\end{defn}
+
+\begin{example}
+    Algunos ejemplos de conjuntos finitos e infinitos con los cuales estamos familiarizados:
+    \begin{itemize}
+        \item $\{1\}, \{1, 2\}, \{1 \dots n\}$ son conjuntos finitos.
+        \item Los n\'umeros naturales $\BN = \{0, 1, 2, \dots\}$ forman un conjunto infinito, pues podemos tomar la funci\'on inyectiva sucesor $s(n) = n + 1$.
+        \item $\BR$ y $\BZ$ son conjuntos infinitos.
+    \end{itemize}
+\end{example}
+
+\begin{theorem}
+    Si $A \subset B$, entonces $A$ infinito implica $B$ infinito.
+\end{theorem}
+
+\begin{proof}
+    $A$ es conjunto infinito entonces existe una funci\'on inyectiva $\varphi: A \to A$ en la cual existe al menos un elemento $\alpha$ que no pertenece a la imagen. Como $A \subset B$, Luego escribir\'e $B = A \cup (B \setminus A)$ donde estos dos conjuntos son disjuntos. Defino $f: B \to B$ con
+    \[
+        f(x) = 
+        \begin{cases}
+            x, &\quad x \in B \setminus A \\
+            \varphi(x), &\quad x \in A
+        \end{cases}
+    \]
+    $f$ es inyectiva, pues $f(x_1) = f(x_2)$ implica lo siguiente:
+    \begin{itemize}
+        \item Si $x_1 \in B \setminus A$ y $x_2 \in B \setminus A$, $x_1 = x_2$.
+        \item Si $x_1 \in A$ y $x_2 \in A$, $\varphi(x_1) = \varphi(x_2)$ implica que $x_1 = x_2$, pues $\varphi$ es inyectiva en $A$.
+        \item Si $x_1 \in A$ y $x_2 \in B \setminus A$, $\varphi(x_1) = x_2$ es imposible, pues $x_2 \in B \setminus A$ y $\varphi(x_1) \in A$.
+    \end{itemize}
+    Asimismo, $\alpha$ tambi\'en fue excluido por $f$, pues la \'unica posibilidad de que $\alpha$ se encuentre el rango es cuando el elemento del dominio pertenece a $A$, y como la regla de correspondencia es la de $\varphi$ en ese caso, sigue siendo excluido por $f$. Finalmente, $f$ es una funci\'on inyectiva a un subconjunto propio y concluimos que $B$ es infinito.
+\end{proof}
+
+\begin{defn}
+    Decimos que un conjunto es anterior a otro utilizando como s\'imbolos $A \preceq B$ para decir que $A$ es anterior a $B$, cuando existe una funci\'on inyectiva con dominio de partida $A$ y rango de llegada $B$.
+\end{defn}
+
+\begin{remark}
+    La relaci\'on de precedencia cumple lo siguiente:
+    \begin{itemize}
+        \item Esta relaci\'on es reflexiva (v\'ia la funci\'on identidad).
+        \item Esta relaci\'on es transitiva (v\'ia composici\'on de funciones).
+        \item El vac\'io es anterior a todos los conjuntos.
+    \end{itemize}
+\end{remark}
+
+\begin{theorem}
+    Dos conjuntos son equivalentes si y solo si cada uno es anterior al otro.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+    Dado dos conjuntos, alguno de ellos es anterior al otro.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+\end{document}

@@ -1,0 +1,47 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\begin{defn}
+Sea $f$ una funci\'on aritm\'etica y $p$ un n\'umero primo, denotamos a $f_p(x)$ a la serie de potencia
+$$f_p(x) = \sum_{n = 0}^\infty f(p^n)x^n$$
+y esta es llamada serie de Bell de $f$ m\'odulo $p$.
+\end{defn}
+A diferencia de las series de an\'alisis, ac\'a entran a tallar apenas aspectos manipulativos formales; es decir, nos desentendemos de asuntos relacionados con la convergencia o no de estos objetos.
+\begin{theorem}
+Sean $f$ y $g$ funciones multiplicativas, luego $f = g$ si y solo si
+$$f_p(x) = g_p(x),\;\forall p \text{ primo}$$
+\end{theorem}
+\begin{proof}
+\end{proof}
+\begin{example}
+Para la funci\'on $1$ y $|x| < 1$, tenemos
+$$1_p(x) = \sum_{n = 0}^\infty1(p^n)x^n = \sum_{n=0}^\infty x^n = \frac{1}{1-x}$$
+\end{example}
+\begin{example}
+Para la funci\'on $\mathbb U$ tenemos
+$$\mathbb U_p(x) = \sum_{n = 0}^\infty \mathbb U(p^n)x^n = 1 + \sum_{n = 1}^\infty \mathbb U(p^n)x^n = 1$$
+\end{example}
+\begin{example}
+Para la funci\'on $\mu$ de M\"obius tenemos
+$$\mu_p(x) = \mu(1) + \mu(p)x = 1 - x$$
+\end{example}
+\begin{example}
+Para la funci\'on $\varphi$ de Euler y $|x| < 1$ tenemos
+\begin{align*}
+    \sum_{k = 0}^n \varphi(p^k)x^k &= \varphi(1) + \varphi(p)x + \dots + \varphi(p^k)x^k\\
+    &= 1 + (p-1)x + \dots + p^{n-1}(p-1)x^n\\
+    &= (1 + px + \dots + p^n x^n) - (x + \dots + p^{n-1}x^n)\\
+    \lim_{n\to\infty}\sum_{k=0}^n \varphi(p^k)x^k &= \frac{1}{1 - px} - \frac{x}{1-px}\\
+    \varphi_p(x) &= \frac{1 - x}{1 - px}
+\end{align*}
+\end{example}
+\begin{example}
+Funciones completamente multiplicativas. Si $f$ es completamente multiplicativa, luego $f(p^n) = f(p)^n$, para todo $n \geq 0$, por lo tanto, la serie de Bell es una serie geom\'etrica
+$$f_p(x) = \sum_{n = 0}^\infty f(p)^n x^n = \frac{1}{1 - f(p)x}$$
+\end{example}
+\begin{theorem}
+Para cualquier par de funciones aritm\'eticas $f, g$, sea $h = f * g$. Luego, para todo primo $p$ tenemos
+$$h_p(x) = f_p(x)g_p(x)$$
+\end{theorem}
+\begin{proof}
+\end{proof}
+\end{document}

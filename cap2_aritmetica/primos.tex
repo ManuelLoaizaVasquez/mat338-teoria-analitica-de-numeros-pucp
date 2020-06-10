@@ -1,0 +1,38 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+\begin{defn}
+    Un primo es un entero mayor que $1$ cuyos \'unicos divisores positivos son $1$ y \'el mismo.
+\end{defn}
+
+El motivo de restringirnos a valores positivos es clara. Cuando $a$ divide a $b$, entonces $\pm a$ divide a $\pm b$. Por su lado, el $0$ mira impotente el juego pues no divide a ning\'un valor no nulo, mientras $\pm 1$ no intervienen, pues siempre son divisores y su presencia solo aumenta confusi\'on pues infla la notaci\'on innecesariamente.
+
+\begin{lemma}
+    Un entero positivo $p$ es primo si y solo si ning\'un entero $a$ sujeto a $1 < a < p$ lo divide.
+\end{lemma}
+
+\begin{defn}
+    En la teor\'ia de ideales, un ideal $\mathcal{I}$ es llamado maximal si no es todo el anillo pero, adem\'as, no est\'a contenido en ning\'un ideal con esta propiedad.
+\end{defn}
+
+Como todos los ideales en $\BZ$ son principales, es indispensable caracterizar cuales elementos positivos tienen esta propiedad. En otras palabras $\mathcal{M} \subset \BZ$ es un ideal maximal cuando $\mathcal{M} \subset \mathcal{I} \subset \BZ$, con $\mathcal{I}$ ideal, implica que $\mathcal{I}$ es igual a $\mathcal{M}$ o a todo $\BZ$ y aqu\'i $\mathcal{M}$ no puede ser $\BZ$.
+
+\begin{proposition}
+    El ideal $(p)$ es maximal si y solo si $p$ es primo.
+\end{proposition}
+
+\begin{proof}
+    $\implies$: Sea $(p)$ un ideal maximal y $a$ un divisor de $p$. Por la Proposici\'on 6.10, $(p) \subset (a)$ y, al ser $(p)$ maximal, solo puede estar contenido en s\'i mismo o en $\BZ$, por lo que $a = \pm p$ o $a = \pm 1$. Por lo tanto, $p$ es primo.
+    
+    $\impliedby$: Sea $p$ primo, si intercalamos un ideal principal entre $(1)$ y $(p)$ tal que $(p) \subset (a) \subset (1)$, significa que $a$ divide a $p$ y solo le queda ser $a = \pm 1$ o $a = \pm p$. Concluimos que $(p)$ es maximal.
+\end{proof}
+
+\begin{theorem}
+    Si $p$ es primo y $a$ no es m\'ultiplo de $p$, entonces existen enteros $n, m$ con los cuales se cumple
+    $$np + ma = 1$$
+\end{theorem}
+
+\begin{proof}
+    $p = (1)p + (0)a \implies p \in (p, a) \implies (p) \subset (p, a)$. Asimismo, $(p)$ es maximal y $(p, a)$ tiene elementos, por ejemplo $a$, que $(p)$ no tiene $\implies (p, a) = \BZ$. Por definici\'on de ideal generado, existen $n, m \in \BZ$ tal que $np + ma = 1$.
+\end{proof}
+\end{document}

@@ -1,0 +1,66 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+Conocida una funci\'on $f$, muchas veces resulta \'util y autom\'atico definir $g = f * 1$ como funci\'on auxiliar. Por otro lado, el proceso inverso tambi\'en suele ser interesante. Como ejemplo trataremos de resolver la siguiente ecuaci\'on
+$$\ln = f * 1$$
+\begin{defn}
+Para todo entero $n \geq 1$ definimos
+\[
+\Lambda(n) =
+\begin{cases}
+\log(p)&\quad\text{si }n=p^m\text{ para alg\'un primo }p\text{ y alg\'un } m\geq1,\\
+0&\quad \text{en otro caso}
+\end{cases}
+\]
+\end{defn}
+\begin{example}
+Algunos ejemplos con los $10$ primeros n\'umeros enteros positivos $\Lambda(1)=0,\Lambda(2)=\log(2),\Lambda(3)=\log(3),\Lambda(4)=\log(2),\Lambda(5)=\log(5),\Lambda(6)=0,\Lambda(7)=\log(7),\Lambda(8)=\log(2),\Lambda(9)=\log(3),\Lambda(10)=0$.
+\end{example}
+\begin{example}
+Calcular $\Lambda*1(12)$.
+\begin{align*}
+    \Lambda*1(12) &= \sum_{d \mid 12}\Lambda(d)\\
+    &= \Lambda(1)+\Lambda(2)+\Lambda(3)+\Lambda(4)+\Lambda(6)+\Lambda(12)\\
+    &= 0+\log(2)+\log(3)+\log(2)+0+0\\
+    &= \log(12)
+\end{align*}
+\end{example}
+La respuesta del ejemplo anterior no es casualidad, es consecuencia del teorema fundamental de la aritm\'etica y lo probaremos en el siguiente teorema.
+\begin{theorem}
+Para todo entero positivo $n \geq 1$ tenemos
+$$\log(n) = \sum_{d \mid n}\Lambda(d)$$
+\end{theorem}
+\begin{proof}
+Si $n = 1$, se cumple la igualdad. Si $n > 1$, por el teorema fundamental de la aritm\'etica, lo expresaremos como $n = p_1^{\ord_{p_1}(n)}\dots p_k^{\ord_{p_k}(n)}$.
+\begin{align*}
+    \sum_{d \mid n}\Lambda(d) &= \sum_{i=1}^k\sum_{\alpha=1}^{\ord_{p_i}(n)}\Lambda(p_i^\alpha)\\
+    &= \sum_{i=1}^k\sum_{\alpha=1}^{\ord_{p_i}(n)}\log(p_i)\\
+    &= \sum_{i=1}^k\log(p_i^{\ord_{p_i}(n)})\\
+    &= \log(n)
+\end{align*}
+Solo hemos analizamos la funci\'on $\Lambda$ sobre las potencias de los divisores primos, pues los dem\'as divisores contribuir\'ian con cero a la sumatoria. Finalmente, concluimos que la igualdad se cumple. 
+\end{proof}
+\begin{corollary}
+A nivel de productos de Dirichlet, tenemos
+$$\log = \Lambda * 1$$
+\end{corollary}
+\begin{theorem}
+Para todo entero positivo $n \geq 1$, tenemos
+$$\Lambda(n) = -\sum_{d \mid n}\mu(d)\log(d)$$
+\end{theorem}
+\begin{proof}
+Del corolario tenemos
+\begin{align*}
+    \Lambda * 1 &= \log\\
+    \Lambda &= \log * \mu
+\end{align*}
+Evaluando la funci\'on en $n$ tenemos lo siguiente
+\begin{align*}
+    \Lambda(n) &= \sum_{d \mid n} \mu(d)\log(\frac{n}{d})\\
+    &= \sum_{d \mid n} \mu(d)\log(n) - \sum_{d \mid n} \mu(d)\log(d)\\
+    &= \log(n)\sum_{d \mid n} \mu(d) - \sum_{d \mid n} \mu(d)\log(d)\\
+    &= \log(n)\mathbb U(n) - \sum_{d \mid n} \mu(d)\log(d)\\
+    &= - \sum_{d \mid n} \mu(d)\log(d)
+\end{align*}
+La igualdad queda probada, pues $\log$ y $\mathbb U$ se eliminan mutuamente porque $n = 1 \implies \log(1) = 0$ y $n > 1 \implies \mathbb U(n) = 0$.
+\end{proof}
+\end{document}

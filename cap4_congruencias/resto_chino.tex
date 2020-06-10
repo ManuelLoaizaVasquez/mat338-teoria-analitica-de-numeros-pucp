@@ -1,0 +1,90 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+Un sistema lineal de congruencias puede que no tenga soluci\'on a pesar de que cada congruencia tenga soluci\'on por s\'i sola. El siguiente teorema prueba que podemos encontrar siempre soluci\'on en sistemas lineales de congruencias con m\'odulos primos relativos.
+
+\begin{theorem}
+    Sean $m_1, m_2, \dots, m_k \in \BZ$ relativamente primos dos a dos. Sean $b_1, b_2, \dots, b_k \in \BZ$ tales que
+    \begin{align*}
+        x &\equiv b_1 \pmod{m_1}\\
+        x &\equiv b_2 \pmod{m_2}\\
+        &\dots\\
+        x &\equiv b_k \pmod{m_k}
+    \end{align*}
+    El sistema de congruencias tiene soluci\'on \'unica m\'odulo $m_1 m_2 \dots m_k$.
+\end{theorem}
+
+\begin{proof}
+    Sea $M = m_1 m_2 \dots m_k$, definimos $M_i = \frac{M}{m_i},\;i = 1, \dots, k$. Como $(M_i, m_i) = 1 \implies$ existe $M_i^{-1}$ m\'odulo $m_i$.
+    Afirmo que
+    $$x = b_1 M_1 M_1^{-1} + \dots + b_k M_k M_k^{-1}$$
+    cumple lo requerido, pues sabemos que
+    $$M_i \equiv 0 \pmod{m_j},\; i \not= j$$
+    luego obtenemos lo siguiente
+    \begin{align*}
+        x &\equiv b_i M_i M_i^{-1} \pmod{i}\\
+        x &\equiv b_i \cdot 1 \pmod{i}\\
+        x &\equiv b_i \pmod{i}\\
+    \end{align*}
+    lo cual satisface las congruencias individuales para todo $i = 1, \dots, k$.
+    
+    Para probar la unicidad, supongamos que existe otra soluci\'on $x'$. En cada congruencia tenemos que
+    $$x \equiv x' \pmod{m_i}$$
+    para todo $i = 1, \dots, k$, y al ser todos los m\'odulos coprimos en parejas tenemos
+    $$x \equiv x' \pmod{M}$$
+    Finalmente, $x - x' \in \{0, 1, \dots, M - 1\}$ y $x - x' \in (M) \implies x = x'$.
+\end{proof}
+
+\begin{proposition}
+    Si $m$ y $n$ son relativamente primos, entonces los grupos $\BZ_{nm}$ y $\BZ_n \times \BZ_m$ son isomorfos.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{proposition}
+    Si $m$ y $n$ son relativamente primos, entonces los grupos $\BZ_{nm}^*$ y $\BZ_n^*\times\BZ_m^*$ son isomorfos.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{lemma}
+    Si $n$ y $m$ son enteros relativamente primos, entonces la funci\'on de Euler goza de la siguiente propiedad multiplicativa
+    $$\varphi(nm) = \varphi(n)\varphi(m)$$
+\end{lemma}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{proposition}
+    Si $a$ es invertible m\'odulo $m$ entonces existe soluci\'on \'unica a la congruencia $ax \equiv b \pmod{m}$.
+\end{proposition}
+
+\begin{proof}
+    Este ser\'ia un caso particular del teorema del resto chino para un sistema lineal con una sola congruencia. Multiplicando por la inversa, obtenemos la \'unica soluci\'on $x = a^{-1}b$.
+\end{proof}
+
+\begin{proposition}
+    Sea $a \not\equiv 0 \pmod{m}$. Si la congruencia $ax\equiv b\pmod{m}$ admite una soluci\'on, entonces admite exactamente $(a, m)$ soluciones.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{example}
+    La ecuaci\'on $2x\equiv5\pmod{6}$ no tiene soluci\'on. Como $2$ es u divisor de $0$, entonces $2x$ tambi\'en. Asimismo, $5$ no es un divisor de $0$, lo cual har\'ia que la congruencia sea imposible, pues $2x$ ser\'ia y no ser\'ia divisor de $0$ al mismo tiempo.
+\end{example}
+
+\begin{proposition}
+    Sea $a \not\equiv 0 \pmod{m}$. La congruencia $ax\equiv b\pmod{m}$ admite soluci\'on si y solo si $(a, m)$ divide a $b$.
+\end{proposition}
+
+\begin{proof}
+    
+\end{proof}
+
+\end{document}

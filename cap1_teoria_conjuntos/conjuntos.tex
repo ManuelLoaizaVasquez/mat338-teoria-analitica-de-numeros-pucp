@@ -1,0 +1,59 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+Se supone que sabemos teor\'ia de conjuntos b\'asica. Qu\'e es un conjunto. Qu\'e es un elemento de un conjunto. Qu\'e es el conjunto vac\'io. Qu\'e es una uni\'on entre conjuntos. Qu\'e es una intersecci\'on entre conjuntos. Qu\'e es una funci\'on entre dos conjuntos. Qu\'e es un producto cartesiano de conjuntos.
+
+\medskip
+\noindent
+\textbf{La paradoja de Russel.}
+\textit{El conjunto de los conjuntos que no pertenecen a s\'i mismos, ¿pertenece a s\'i mismo?}
+
+El conjunto que se hace menci\'on est\'a dado por $O = \{ A : A \not \in A \}$.
+Si asumen que se cumple que $O \not \in O$, entonces $O$ no pertenece a s\'i mismo y; por consiguiente, pertenece a $O$. No puede estar y no estar a la vez, por lo que no es el caso.
+Por descarte, se debe cumplir que $O \in O$. As\'i, $O$ pertenece a s\'i mismo y; por consiguiente, no es miembro de $O$. Nuevamente, no puede estar y no estar a la vez; es decir, tampoco es el caso.
+
+La explicaci\'on es simple: creemos saber algo que no es cierto. Hemos aceptado apresuradamente que "el conjunto de todos los conjuntos" es un conjunto. Esto es falso. No cualquier "cosa" es un conjunto.
+
+\medskip
+Un subconjunto es un conjunto que se forma con elementos de otro conjunto que satisfacen cierta propiedad. En este caso es indispensable la existencia previa de un conjunto de referencia.
+
+\begin{defn}
+    Una funci\'on entre dos conjuntos $A$ y $B$ es un subconjunto $F \subset A \times B$ que cumple dos reglas adicionales a las que la definen como subconjunto.
+    \begin{itemize}
+        \item Para cada $a \in A$ existe $b \in B$ sujeto a $(a, b) \in F$.
+        \item Si $(a, b), (a, b') \in F$, entonces $b = b'$.
+    \end{itemize}
+\end{defn}
+
+\begin{defn}
+    Una funci\'on $F : A \to B$ es inyectiva si $F(x) = F(y)$ implica $x = y$.
+\end{defn}
+
+\begin{defn}
+    Una funci\'on $F: A \to B$ es sobreyectiva si para todo $b \in B$ existe $a \in A$ tal que $F(a) = b$.
+\end{defn}
+
+\begin{defn}
+    Una funci\'on $F: A \to B$ es biyectiva si es inyectiva y sobreyectiva.
+\end{defn}
+
+\begin{defn}
+    DEFINIR INVERSA
+\end{defn}
+
+\begin{theorem}
+    Una funci\'on tiene inversa si y solo si es biyectiva.
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
+
+\begin{defn}
+    Dos conjuntos son equivalentes como conjuntos si existe una biyecci\'on entre ellos.
+\end{defn}
+
+\begin{note}
+    Esto representa una relaci\'on de equivalencia. Es reflexiva (usando la identidad), sim\'etrica (usando la inversa) y transitiva (gracias a la composici\'on).
+\end{note}
+\end{document}

@@ -1,0 +1,89 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\begin{defn}
+Sea $n \geq 1$ un entero con $n = p_1^{\ord_{p_1}(n)}\dots p_k^{\ord_{p_k}(n)}$, definimos a la funci\'on de Liouville de la siguiente manera
+$$\lambda(n) = (-1)^{\ord_{p_1}(n) + \dots +\ord_{p_k}(n)}$$
+\end{defn}
+\begin{remark}
+$\lambda(1) = 1$, el orden de cualquier primo ser\'ia siempre cero.
+\end{remark}
+\begin{theorem}
+La funci\'on de Liouville $\lambda$ es totalmente multiplicativa.
+\end{theorem}
+\begin{proof}
+Sean $M, N \in \BZ$ con $$M = r_1^{\gamma_1^1}\dots r_k^{\gamma_k^1}p_1^{\alpha_1}\dots p_m^{\alpha_m}$$
+y
+$$N = r_1^{\gamma_1^2}\dots r_k^{\gamma_k^2}q_1^{\beta_1}\dots q_n^{\beta_n}$$ donde $r_1, \dots, r_k$ son los factores primos que tienen en com\'un. Luego
+$$MN = r_1^{\gamma_1^1 + \gamma_1^2} \dots r_k^{\gamma_k^1 + \gamma_k^2}p_1^{\alpha_1}\dots p_m^{\alpha_m}q_1^{\beta_1}\dots q_n^{\beta_n}$$
+\begin{align*}
+    \lambda(MN) &= (-1)^{\gamma_1^1 + \gamma_1^2 + \dots + \gamma_k^1 + \gamma_k^2 + \alpha_1 + \dots + \alpha_m + \beta_1 + \dots + \beta_n}\\
+    &= (-1)^{\gamma_1^1 + \dots + \gamma_k^1 + \alpha_1 + \dots + \alpha_m}(-1)^{\gamma_1^2 + \dots + \gamma_k^2 + \beta_1 + \dots + \beta_n}\\
+    &= \lambda(M)\lambda(N)
+\end{align*}
+Concluimos que es totalmente multiplicativa, pues $M$ y $N$ eran enteros positivos arbitrarios.
+\end{proof}
+\begin{theorem}
+Para todo $n \geq 1$, tenemos
+\[
+\sum_{d \mid n} \lambda(d) =
+\begin{cases}
+1 \quad \text{si } n \text{ es cuadrado perfecto,}\\
+0 \quad \text{en otro caso.}
+\end{cases}
+\]
+\end{theorem}
+\begin{proof}
+Sea $n = p_1^{\alpha_1}\dots p_k^{\alpha_k}$, definir\'e la funci\'on 
+$$c: \BZ^+ \to \BZ \text{ con } c(n) = \sum_{i = 1}^k \alpha_i$$
+Luego, podemos reescribir
+$$\lambda(n) = (-1)^{c(n)}$$
+y
+$$\sum_{d \mid n} \lambda(d) = \sum_{d \mid n} (-1)^{c(d)}$$
+Sea $f:\BR\to\BR$ con
+$$f(x) = (1 + x + \dots + x^{\alpha_1})(1 + x + \dots + x^{\alpha_2})\dots(1 + x + \dots + x^{\alpha_k})$$
+La expasi\'on de este nos da
+$$f(x) = 1 + \dots + a_i x^i + \dots + x^{\alpha_1 + \dots + \alpha_k}$$
+donde $a_i$ indica la cantidad de veces que aparecen t\'erminos con exponente $i$ y este \'ultimo cumple lo siguiente
+$$\beta_1 + \beta_2 + \dots + \beta_k = i$$
+$$0 \leq \beta_j \leq \alpha_j,\; j = 1, \dots, k$$
+Observemos que ocurre si evaluamos $f$ en $-1$
+$$f(-1) = 1 + \dots + a_i (-1)^{i} + \dots + (-1)^{\alpha_1 + \dots + \alpha_k}$$
+Lo cual representa $\sum_{d \mid n} \lambda(d)$, pues cada exponente $i$ es alguna manera de combinar los exponentes de los factores primos de $n$ y el coeficiente $a_i$ es la cantidad de divisores $d$ tales que $c(d) = i$. As\'i, tenemos
+$$\sum_{d \mid n} \lambda(d) = f(-1) = (1 + (-1)^1 + \dots + (-1)^{\alpha_1})\dots(1 + (-1)^1 + \dots + (-1)^{\alpha_k})$$
+Lo primero que podemos observar es que para el $i$-\'esimo par\'entesis, la sumatoria es igual a $1$ si $\alpha_i$ es par y $0$ si $\alpha_i$ es impar. De esta manera, tenemos que el producto de todos los par\'entesis solo puede tomar el valor de $0$ o $1$. Analicemos ambos casos:
+\begin{itemize}
+    \item $f(-1) = 0 \iff$ existe $i$ tal que $\alpha_i$ es impar, por lo cual $n$ no ser\'ia cuadrado perfecto.
+    \item $f(-1) = 1 \iff$ para todo $i = 1, \dots, k$, $\alpha_i$ es par, lo cual implica que $n$ es un cuadrado perfecto.
+\end{itemize}
+Finalmente, concluimos con la demostraci\'on en ambos sentidos.
+\end{proof}
+\begin{theorem}
+Para todo entero $n \geq 1$ se cumple
+$$\lambda(n)\mu(n) = |\mu(n)|$$
+\end{theorem}
+\begin{proof}
+Si $n$ no es libre de cuadrados
+$$\lambda(n)\mu(n) = \lambda(n)\cdot0 = |0| = |\mu(n)|$$
+En otro caso, podemos expresar $n = p_1 p_2 \dots p_k$, luego
+$$\lambda(n)\mu(n) = (-1)^k(-1)^k = ((-1)^k)^2 = \mu^2(n) = |\mu(n)|$$
+En ambos casos se cumple la igualdad.
+\end{proof}
+\begin{theorem}
+La inversa de Dirichlet de la funci\'on de Liouville es
+$$\lambda^{-1} = |\mu|$$
+\end{theorem}
+\begin{proof}
+Si $n = 1$, tenemos
+$$\lambda * |\mu|(1) = \lambda(1)|\mu(1)| = 1$$
+En otro caso, $n \geq 2$
+\begin{align*}
+    \lambda*|\mu|(n) &= \sum_{d \mid n} \lambda(d)|\mu(\frac{n}{d})|\\
+    &= \sum_{d \mid n} \lambda(d)\lambda(\frac{n}{d})\mu(\frac{n}{d})\\
+    &= \sum_{d \mid n} \lambda(n)\mu(\frac{n}{d})\\
+    &= \lambda(n)\sum_{d \mid n} \mu(\frac{n}{d})\\
+    &= \lambda(n)\sum_{d \mid n} \mu(d)\\
+    &= 0
+\end{align*}
+Por lo tanto $\lambda * |\mu| = \mathbb U \implies \lambda^{-1} = |\mu|$
+\end{proof}
+\end{document}

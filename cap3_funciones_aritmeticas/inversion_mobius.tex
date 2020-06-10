@@ -1,0 +1,69 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+Sabemos que $\sum_{d \mid n}\mu(d) = \mathbb U(n)$. As\'i, observamos que $\mu * 1 = \mathbb U$. En otras palabras, la funci\'on uno y la funci\'on de M\"obius son inversas una de la otra.
+$$1^{-1}=\mu \quad \mu^{-1}=1$$
+\begin{theorem}[F\'ormula de Inversi\'on de M\"obius]
+Se satisface la ecuaci\'on
+$$f(n) = \sum_{d \mid n}g(d)$$
+si y solo si
+$$g(n) = \sum_{d \mid n} f(d)\mu(\frac{n}{d})$$
+\end{theorem}
+\begin{proof}
+$\implies$: Tenemos $f = g * 1$.
+\begin{align*}
+    f * 1^{-1} &= (g * 1) * 1^{-1}\\
+    f * \mu &= g * (1 * \mu)\\
+    f * \mu &= g * \mathbb U\\
+    g &= f * \mu
+\end{align*}
+$\impliedby$: Tenemos $g = f * \mu$.
+\begin{align*}
+    g * 1 &= (f * \mu) * 1\\
+    g * 1 &= f * (\mu * 1)\\
+    g * 1 &= f * \mathbb U\\
+    f &= g * 1
+\end{align*}
+\end{proof}
+\begin{theorem}
+$\varphi$ y $\mu$ se relacionan de la siguiente manera
+$$\varphi(n) = n\sum_{d \mid n}\frac{\mu(d)}{d}$$
+\end{theorem}
+\begin{proof}
+Sabemos que $\sum_{d \mid n}\varphi(d) = n$. As\'i, observamos que $\varphi * 1 = N$.
+\begin{align*}
+    (\varphi * 1) * \mu &= N * \mu\\
+    \varphi &= \mu * N\\
+    \varphi(n) &= \sum_{d \mid n} \mu(d)\cdot(\frac{n}{d})\\
+    \varphi(n) &= n\sum_{d \mid n} \frac{\mu(d)}{d}
+\end{align*}
+\end{proof}
+\begin{theorem}
+Sea $p$ un n\'umero primo y $\alpha \geq 1$ se cumple
+$$\varphi(p^\alpha) = p^{\alpha}\left(1 - \frac{1}{p}\right)$$
+\end{theorem}
+\begin{proof}
+Utilizando el teorema anterior, tenemos
+\begin{align*}
+    \varphi(p^\alpha) &= p^\alpha\sum_{d \mid n}\frac{\mu(d)}{d}\\
+    &= p^\alpha\left(\frac{\mu(1)}{1} + \frac{\mu(p)}{p} + \dots + \frac{\mu(p^\alpha)}{p^\alpha}\right)\\
+    &= p^\alpha\left(\frac{\mu(1)}{1} + \frac{\mu(p)}{p}\right)\\
+    &= p^\alpha\left(1 - \frac{1}{p}\right)
+\end{align*}
+\end{proof}
+\begin{theorem}
+Sea $n \geq 1$, tenemos
+$$\varphi(n) = n \prod_{p | n}\left(1 - \frac{1}{p}\right)$$
+\end{theorem}
+\begin{proof}
+El caso $n = 1$ es trivial. Para $n > 1$, por el teorema $3.19$.
+$$\varphi(n) = n \sum_{d|n} \frac{\mu(d)}{d}$$
+Sabemos que $\mu$ eliminar\'a todos los divisores que no son libres de cuadrados, por lo que nos quedar\'iamos con la suma de los divisores con primos distintos. Sea $n = p_1^{ord_{p_1}(n)}\dots p_k^{ord_{p_k}(n)}$. Desarrollando la sumatoria
+\begin{align*}
+    \varphi(n) &= n\left(1 + \frac{\mu(p_1)}{p_1} + \dots + \frac{\mu(p_k)}{p_k} + \frac{\mu(p_1 p_2)}{p_1 p_2} + \dots + \frac{\mu(p_{k-1} p_k)}{p_{k-1} p_k} + \dots + \frac{\mu(p_1 \dots p_k)}{p_1 \dots p_k}\right)\\
+    &= n\left(1 - \sum\frac{1}{p_i} + \sum\frac{1}{p_i p_j} + \dots + (-1)^k\sum\frac{1}{p_1 \dots p_k}\right)\\
+    &= n\prod_{p \mid n}\left(1 - \frac{1}{p}\right)
+\end{align*}
+La \'ultima igualdad se puede probar sencillamente con inducci\'on.
+\end{proof}
+\end{document}

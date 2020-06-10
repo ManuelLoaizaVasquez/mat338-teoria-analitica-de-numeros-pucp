@@ -1,0 +1,94 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+Tomemos un n\'umero positivo $a$. En su descoposici\'on
+$$a = \prod_{p \text{ primo}} p^{ord_p(a)}$$
+aparece un n\'umero finito de primos. Distinguimos entre aquellos primos que aparecen un \'unica vez y los coleccionaremos en $P_1(a)$. Por otro lado, aquellos primos que aparezcan m\'as de una vez los coleccionaremos en $P_2(a)$. Ambos conjuntos son finitos con $N_1(a)$ y $N_2(a)$ elementos respectivamente.
+
+\begin{defn}
+    Decimos que un n\'umero entero $a$ es libre de cuadrados si ning\'un entero mayor que $1$ elevado al cuadrado lo divide.
+\end{defn}
+
+\begin{lemma}
+    Un entero no nulo $a$ es libre de cuadrados si y solo si $N_2(|a|) = 0$.
+\end{lemma}
+
+\begin{defn}
+    La funci\'on de M\"obius es la funci\'on aritm\'etica dada por
+    \[
+    \mu(a) = 
+    \begin{cases}
+        0 &\quad \text{si } N_2(a) > 0 \\
+        (-1)^{N_1(a)} &\quad \text{si } N_2(a) = 0
+    \end{cases}
+    \]
+\end{defn}
+
+Podemos tener una descripci\'on verbal de la funci\'on de M\"obius. Si $a$ es divisible por un n\'umero entero cuadrado perfecto distinto de $1$, entonces $\mu(a) = 0$; en caso contrario, $a$ es divisible por un producto de n\'umeros primos distintos, si esta cantidad es par $\mu(a) = 1$ sino $\mu(a) = -1$.
+
+\begin{example}
+    Calculemos lo siguiente.
+
+    \begin{align*}
+        \sum_{d \mid 20} \mu(d) &= \mu(1) + \mu(2) + \mu(4) + \mu(5) + \mu(10) + \mu(20) \\
+        &= 1 + (-1) + 0 + (-1) + 1 + 0 \\
+        &= 0
+    \end{align*}
+
+    \begin{align*}
+        \sum_{d \mid 1} \mu(d) = \mu(1) = 1
+    \end{align*}
+
+    \begin{align*}
+        \sum_{d \mid p} \mu(d) = \mu(1) + \mu(p) = 1 + (-1) = 0
+    \end{align*}
+
+    \begin{align*}
+        \sum_{d \mid p_1 p_2} \mu(d) = \mu(1) + \mu(p_1) + \mu(p_2) + \mu(p_1 p_2) = 1 + (-1) + (-1) + 1 = 0
+    \end{align*}
+
+    \begin{align*}
+        \sum_{d \mid p_1 p_2 p_3} \mu(d) &= \mu(1) + \mu(p_1) + \mu(p_2) + \mu(p_3) + \mu(p_1 p_2) + \mu(p_1 p_3) + \mu(p_2 p_3) + \mu(p_1 p_2 p_3) \\
+        &= 1 + (-1) + (-1) + (-1) + 1 + 1 + 1 + (-1) \\
+        &= 0
+    \end{align*}
+\end{example}
+
+\begin{theorem}
+    Sea $n \geq 1$, tenemos
+    \[
+    \sum_{d \mid n} \mu(d) =
+    \begin{cases}
+        1 &\quad \text{si } n = 1, \\
+        0 &\quad \text{si } n > 1.
+    \end{cases}
+    \]
+\end{theorem}
+
+\begin{proof}
+    $n = 1$ se cumple. Para $n > 1$, sabemos que podemos expresar $n = p_1^{ord_{p_1}(n)} p_2^{ord_{p_2}(n)} \dots p_k^{ord_{p_k}(n)}$. Luego, en la suma $\sum_{d \mid n} \mu(d)$ los \'unicos t\'erminos distintos de $0$ vienen de los factores $1$ y los que tiene productos de primos distintos. Desarrollando la expresi\'on
+    \begin{align*}
+        \sum_{d \mid n} \mu(n) &= \mu(1) + \mu(p1) + \dots + \mu(p_k) + \mu(p_1 p_2) + \dots \mu(p_{k - 1} p_k) + \dots + \mu(p_1 \dots p_k) \\
+        &= \binom{k}{0}(-1)^0 + \binom{k}{1}(-1)^1 + \binom{k}{2}(-1)^2 + \dots \binom{k}{k}(-1)^k \\
+        &= (1 - 1)^k \\
+        &= 0
+    \end{align*}
+\end{proof}
+
+\begin{theorem}
+    Dados $M, N$ enteros no nulos.
+    \[
+        \mu(MN) =
+        \begin{cases}
+        \mu(M)\mu(N) &\quad \text{si } M \text{ y } N \text{ son coprimos,} \\
+        0 &\quad \text{en otro caso.}
+        \end{cases}
+    \]
+\end{theorem}
+
+\begin{proof}
+    Supongamos que $M$ y $N$ no son coprimos, entonces 
+    $(M, N) = d > 1$. Luego, expreso $M = d m_1^{\alpha_1} \dots m_k^{\alpha_k}$ y $N = d n_1^{\beta_1} \dots n_l^{\beta_l} \implies MN = d^2 m_1^{\alpha_1} \dots m_k^{\alpha_k} n_1^{\beta_1} \dots n_l^{\beta_l}$. Observamos que $MN$ no es libre de cuadrados, por lo tanto $\mu(MN) = 0$. Ahora probaremos el caso en el cual $(M, N) = 1$. Podemos expresar $M = p_1^{ord_{p_1}(M)} \dots p_m^{ord_{p_m}(M)}$ y $N = q_1^{ord_{q_1}(N)} \dots q_n^{ord_{q_n}(N)}$. Si existe alg\'un factor con exponente $\geq 2$ en $M$ o $N$, sin p\'erdida generalidad, supongamos que en $M$, entonces $\mu(MN) = 0$ y $\mu(M)\mu(N) = 0 \cdot \mu(N) = 0 = \mu(MN)$. Si ambos son libres de cuadrados, entonces $M = p_1 p_2 \dots p_m$ y $N = q_1 q_2 \dots q_n \implies MN = p_1 p_2 \dots p_m q_1 q_2 \dots q_n$. $\mu(MN) = (-1)^{m + n} = (-1)^m (-1)^n = \mu(M)\mu(N)$.
+\end{proof}
+
+\end{document}

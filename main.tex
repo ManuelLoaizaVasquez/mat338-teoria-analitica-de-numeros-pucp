@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts,latexsym,amsthm,amssymb,amsmath,amscd,euscript, mathtools}
+\usepackage{framed}
+%\usepackage{fullpage}
+\usepackage{hyperref}
+    \hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
+
+%Below are the theorem, definition, example, lemma, etc. body types.
+\renewcommand*{\proofname}{Prueba}
+\renewcommand{\contentsname}{Contenido}
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{proposition}[theorem]{Proposici\'on}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{conjecture}[theorem]{Conjetura}
+\newtheorem{postulate}[theorem]{Postulado}
+\theoremstyle{definition}
+\newtheorem{defn}[theorem]{Definici\'on}
+\newtheorem{example}[theorem]{Ejemplo}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Observaci\'on}
+\newtheorem*{notation}{Notaci\'on}
+\newtheorem*{note}{Nota}
+
+% You can define new commands to make your life easier.
+\newcommand{\BR}{\mathbb R}
+\newcommand{\BC}{\mathbb C}
+\newcommand{\BF}{\mathbb F}
+\newcommand{\BQ}{\mathbb Q}
+\newcommand{\BZ}{\mathbb Z}
+\newcommand{\BN}{\mathbb N}
+
+\DeclareMathOperator{\ord}{ord}
+
+\usepackage{subfiles}
+
+\title{MAT338 Teor\'ia Anal\'itica de N\'umeros} % IMPORTANT: Change the problemset number as needed.
+\author{Manuel Loaiza Vasquez}
+\date{Ciclo 2020--1}
+
+\begin{document}
+
+\maketitle
+
+\vspace*{-0.25in}
+% Just so that your CA's can come knocking on your door when you don't hand in that problemset on time...
+\centerline{Pontificia Universidad Cat\'olica del Per\'u}
+\centerline{Lima, Per\'u}
+\centerline{\href{mailto:manuel.loaiza@pucp.edu.pe}{{\tt manuel.loaiza@pucp.edu.pe}}}
+\vspace*{0.15in}
+
+\begin{framed}
+    Notas de clase del curso de T\'opicos de An\'alisis de la Especialidad de Matem\'aticas dictado en la Facultad de Ciencias e Ingenier\'ia en la Pontificia Universidad Cat\'olica del Per\'u (PUCP) por el PhD. Alfredo Poirier Schmitz en el ciclo 2020 - 1. Algunas secciones han sido extra\'idas de los libros {\it Introduction to Analytic Number Theory} de Tom M. Apostol, {\it A Classical Introduction to Modern Number Theory} de Kennet Ireland y Michael Rosen y {\it An Introduction to the Theory of Numbers} de Ivan Niven y Herbert Zuckerman. Si tiene alguna duda o encuentra alg\'un error no dude en contactarme v\'ia correo electr\'onico.
+\end{framed}
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Teor\'ia de Conjuntos}
+\subsection{El lenguaje de la teor\'ia de conjuntos}
+\subfile{cap1_teoria_conjuntos/conjuntos}
+
+\subsection{Conjuntos finitos e infinitos}
+\subfile{cap1_teoria_conjuntos/finitos_infinitos}
+
+\subsection{Los n\'umeros naturales}
+\subfile{cap1_teoria_conjuntos/naturales}
+
+\subsection{Conjuntos enumerables}
+\subfile{cap1_teoria_conjuntos/enumerables}
+
+\subsection{Los n\'umeros enteros}
+\subfile{cap1_teoria_conjuntos/enteros}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{El Teorema Fundamental de la Aritm\'etica}
+En este cap\'itulo se introducir\'an los conceptos b\'asicos de la teor\'ia de n\'umeros elemental como la divisibilidad, m\'aximo com\'un divisor, primalidad y factorizaci\'on de un n\'umero. A diferencia del colegio, haremos uso del \'algebra abstracta, en particular, de los anillos e ideales para realizar la mayor\'ia de pruebas y extender las definiciones.
+
+\subsection{Divisibilidad e Ideales}
+\subfile{cap2_aritmetica/divisibilidad_ideales}
+
+\subsection{Primos}
+\subfile{cap2_aritmetica/primos}
+
+\subsection{Factorizaci\'on \'Unica}
+\subfile{cap2_aritmetica/factorizacion_unica}
+
+\subsection{M\'aximo Com\'un Divisor}
+\subfile{cap2_aritmetica/maximo_comun_divisor}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Funciones Aritm\'eticas}
+En la Teor\'ia de N\'umeros, al igual que en otras ramas de las Matem\'aticas, hay una preocupaci\'on por las sucesiones de n\'umeros reales o complejos.
+
+\begin{defn}
+    Una funci\'on definida en los enteros positivos con valores reales o complejos es llamada una funci\'on aritm\'etica.
+\end{defn}
+
+\subsection{La Funci\'on de M\"obius}
+\subfile{cap3_funciones_aritmeticas/funcion_de_mobius}
+
+\subsection{La Funci\'on Indicatriz de Euler}
+\subfile{cap3_funciones_aritmeticas/funcion_de_euler}
+
+\subsection{El Producto de Dirichlet}
+\subfile{cap3_funciones_aritmeticas/producto_dirichlet}
+
+\subsection{Inversi\'on de M\"obius}
+\subfile{cap3_funciones_aritmeticas/inversion_mobius}
+
+\subsection{Inversa de Dirichlet}
+\subfile{cap3_funciones_aritmeticas/inversa_dirichlet}
+
+\subsection{La Funci\'on de Mangoldt}
+\subfile{cap3_funciones_aritmeticas/funcion_mangoldt}
+
+\subsection{La Funci\'on de Liouville}
+\subfile{cap3_funciones_aritmeticas/funcion_liouville}
+
+\subsection{Funciones Multiplicativas}
+\subfile{cap3_funciones_aritmeticas/funciones_multiplicativas}
+
+\subsection{Series de Bell}
+\subfile{cap3_funciones_aritmeticas/series_bell}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\section{Congruencias}
+\subsection{Definici\'on y propiedades en $\BZ$}
+\subfile{cap4_congruencias/congruencias}
+
+\subsection{Teorema de Euler-Fermat}
+\subfile{cap4_congruencias/euler_fermat}
+
+\subsection{Teorema del Resto Chino}
+\subfile{cap4_congruencias/resto_chino}
+\end{document}

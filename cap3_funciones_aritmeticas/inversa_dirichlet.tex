@@ -1,0 +1,61 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+Es bueno tener el recurso de invertibilidad ya que esto permite ``despejar" funciones. Desgraciadamente, no todas las funciones admiten inversa; sin embargo, en caso la tengan, hallaremos esta con un algoritmo constructivo.
+\begin{theorem}
+Sea $f$ una funci\'on aritm\'etica, decimos que existe una \'unica funci\'on aritm\'etica inversa $f^{-1}$, a la cual llamaremos inversa de Dirichlet de $f$, si y solo si $f(1)\not=0$.
+\end{theorem}
+\begin{proof}
+$\implies$: Si $f$ tiene inversa, entonces se cumple lo siguiente
+$$1 = \mathbb U(1) = f * f^{-1}(1) = \sum_{cd = 1} f(c)f^{-1}(d) = f(1)f^{-1}(1)$$
+$\impliedby$: Necesitamos una inversa $f^{-1}$ cuyo producto de Dirichlet con $f$ deje $\mathbb U$ como resultado. Nosotros debemos construir una funci\'on de tal manera que $f*f^{-1}(1) = 1, f*f^{-1}(2) = f*f^{-1}(3) = \dots = 0$. Para $n = 1$ tenemos que resolver
+$$f*f^{-1}(1) = \mathbb U(1)$$
+lo cual se reduce a
+$$f(1)f^{-1}(1) = 1$$
+como $f(1) \not= 0$, entonces podemos despejar y obtener una \'unica soluci\'on
+$$f^{-1}(1) = \frac{1}{f(1)}$$
+Supongamos que existe el valor \'unico de $f^{-1}(k)$ para todo $k < n$. Luego
+\begin{align*}
+    f*f^{-1}(n) &= \sum_{d \mid n} f(d)f^{-1}(\frac{n}{d})\\
+    0 &= f(1)f^{-1}(n) + \sum_{d \mid n, 1 < d} f(d)f^{-1}(\frac{n}{d})\\
+    f^{-1}(n) &= -\frac{1}{f(1)}\sum_{d \mid n, 1 < d} f(d)f^{-1}(\frac{n}{d})\\
+    f^{-1}(n) &= -\frac{1}{f(1)}\sum_{d \mid n, d < n}f(\frac{n}{d})f^{-1}(d)
+\end{align*}
+concluimos que esta expresi\'on recursiva est\'a perfectamente determinar pues los valores de $f^{-1}(d)$ para todo $d < n$ los conocemos y son \'unicos por la hip\'otesis inductiva.
+\end{proof}
+Aprovechemos la ocasi\'on para indicar que las funciones aritm\'eticas con el producto de Dirichlet forman un anillo conmutativo con unidad.
+\begin{theorem}
+El conjunto de las funciones aritm\'eticas que se anulan en $1$ forman un ideal $\mathcal{M}$.
+\end{theorem}
+\begin{proof}
+Sean $f, g \in \mathcal{M}$, $(f + g)(1) = f(1) + g(1) = 0$. Para todo $h$ en anillo de funciones aritm\'eticas con el producto de Dirichlet, $f * h(1) = f(1)h(1) = 0$. Concluimos que $\mathcal{M}$ es un ideal.
+\end{proof}
+A diferencia del teorema anterior, una funci\'on que no se anula en $1$ es invertible y, por lo tanto, multiplicativamente generan todo el anillo.
+\begin{theorem}
+$\mathcal{J}_n = \{f : f(1) = f(2) = \dots = f(n) = 0\}$ es un ideal.
+\end{theorem}
+\begin{proof}
+\end{proof}
+\begin{theorem}
+Sea $p$ un n\'umero entero primo. Para todo $a \geq 0$
+$$\mathcal{P}_a(p) = \{f : f(1) = f(p) = \dots = f(p^a) = 0\}$$
+es un ideal.
+\end{theorem}
+\begin{proof}
+\end{proof}
+\begin{theorem}
+El ideal $\mathcal{P}_{\infty}(p)$ es primo.
+\end{theorem}
+\begin{proof}
+\end{proof}
+\begin{theorem}
+En el anillo de las funciones aritm\'eticas con el producto de Dirichlet, el ideal $\mathcal{M}$ de las funciones que se anulan en $1$ es el \'unica ideal maximal. En efecto, todo ideal no trivial est\'a incluido en $\mathcal{M}$.
+\end{theorem}
+\begin{proof}
+\end{proof}
+Definamos $\mathcal{M}^2$ al conjunto de todos los productos de Dirichlet de dos funciones en $\mathcal{M}$. Similarmente se puede definir $\mathcal{M}^3$ y as\'i sucesivamente.
+\begin{theorem}
+$\mathcal{M}^k \subset \mathcal{J}_{2^k}$.
+\end{theorem}
+\begin{proof}
+\end{proof}
+\end{document}

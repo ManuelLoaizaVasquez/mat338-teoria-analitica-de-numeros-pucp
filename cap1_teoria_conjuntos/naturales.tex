@@ -1,0 +1,96 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+\begin{defn}
+    Un n\'umero natural es la clase de equivalencia de un conjunto finito. Reunimos a estos n\'umeros naturales en un conjunto
+    $$\BN = \{0, 1, 2, \dots\}$$
+\end{defn}
+
+La clase de $\emptyset$ es denotada por $0$. la clase de $\{\emptyset\}$ por $1$, la clase de $\{\emptyset, \{\emptyset\}\}$ por $2$ y as\'i sucesivamente. Curiosamente, este conjunto que re\'une en un solo lote a los conjuntos finitos es, como hemos demostrado en el cap\'itulo anterior, un conjunto infinito.
+
+\begin{defn}
+    Dados dos n\'umeros naturales $n, m$, fijemos los conjuntos representantes $X_n$ y $X_m$ con $n$ y $m$ elementos respectivamente. Por el Teorema $2.8$, necesariamente uno es anterior al otro, digamos $X_n \preceq X_m$, en ese caso, escribiremos $n \leq m$. Si adem\'as los conjuntos no son iguales, utilizaremos $n < m$. Esto se puede expresar como la existencia de una funci\'on inyectiva $\varphi: X_n \to X_m$. En caso de que $X_m - \varphi(X_n)$ sea un subconjunto unitario de $X_m$, diremos que $m$ es el sucesor de $n$ y escribiremos $m = s(n)$.
+\end{defn}
+
+\begin{example}
+    Al $0$ le sigue el $1$, al $1$ le sigue el $2$ y as\'i en adelante. Por otro lado, el $0$ no es sucesor de nadie, pues al vac\'io le puedes quitar lo que quieras y nunca quedar\'a un unitario.
+\end{example}
+
+\begin{theorem}
+    Todo n\'umero natural tiene un sucesor. Salvo por el cero, todos tienen un predecesor y, adem\'as, es \'unico.
+\end{theorem}
+
+\begin{proof}
+    Dado un conjunto finito $F$, el conjunto $F \cup \{F\}$ tiene exactamente un elemento m\'as. Si un conjunto finito $F$ representa a un n\'umero $n \not= 0$, entonces es no vac\'io. De este modo, elegiremos $x \in F$. Es trivial que $F$ es el sucesor de $F \setminus \{x\}$ (utilizando la definici\'on de sucesor). Si $G$ es otro predecesor de $F$, entonces sea $\varphi: G \to F$ inyectiva de modo que $F \setminus \varphi(G)$ sea unitario, digamos igual a $\{x'\}$. Si $x$ y $x'$ son el mismo elemento, entonces $\varphi: G \to F \setminus \{x\}$ es inyectiva y sobreyectiva y, de este modo, $G$ y $F \setminus \{x\}$ representan al mismo n\'umero natural. En caso contrario, existe $g \in G$ tal que $\varphi(g) = x$. Si redefinimos $\phi: G \to F \setminus \{x\}$ mediante la siguiente regla
+    \[
+        \phi(h) =
+        \begin{cases}
+            \varphi(h), &\quad h \not= g \\
+            x', &\quad h = g 
+        \end{cases}
+    \]
+\end{proof}
+
+\begin{theorem}
+    $\BN$ es un conjunto infinito.
+\end{theorem}
+
+\begin{proof}
+    La funci\'on $s: \BN \to \BN$ que lleva un natural a su sucesor es inyectiva pero no sobreyectiva, pues evita el $0$. Esto hace de los naturales un conjunto infinito.
+\end{proof}
+
+\begin{theorem}
+    Entre un natural y su sucesor no aparecen otros n\'umeros naturales.
+\end{theorem}
+
+\begin{proof}
+    Supongamos que se tenga $n \leq m \leq s(n)$, debemos probar que $m$ es $n$ o $s(n)$. Si partimos
+\end{proof}
+
+Si $a$ representa al conjunto finito $A$, entonces $s(a)$ est\'a representado por $A \cup \{a\}$.
+\begin{itemize}
+    \item Por definici\'on, $0 = \emptyset$.
+    \item $1 = s(0) = 0 \cup \{0\} = \emptyset \cup \{0\} = \{0\}.$
+    \item $2 = s(1) = 1 \cup \{1\} = \{0\} \cup \{1\} = \{0, 1\}.$
+    \item $3 = s(2) = 2 \cup \{2\} = \{0, 1\} \cup \{2\} = \{0, 1, 2\}.$
+\end{itemize}
+En general, como consecuencia de la definici\'on tenemos $m = \{0, 1, \dots , m - 1\}.$
+Sea $\widetilde{\BN} = \{0, s(0), s(s(0)), \dots\} = \{0, 1, 2, \dots\}$ un conjunto que llamaremos sistema inductivo completo. Observamos en $n \in \widetilde{\BN}$ implica que $s(n) \in \widetilde{\BN}$.
+
+\begin{lemma}
+    El entero $m \in \widetilde{\BN}$ est\'a representado por el conjunto finito $\{0, \dots, m - 1\}$.
+\end{lemma}
+
+Los sistemas inductivos completos gozan de dos propiedades: principio del buen orden y principio de inducci\'on matem\'atica.
+
+\begin{defn}
+    Un orden parcial en un conjunto $X$ es una relaci\'on reflexiva, antisim\'etrica y transitiva en $X$.
+\end{defn}
+
+\begin{note}
+    El s\'imbolo com\'unmente usado para esta relaci\'on es el signo de desigualdad $\leqq$.
+\end{note}
+
+\begin{defn}
+    Un orden total en un conjunto $X$ es un orden parcial que para todo $x, y \in X$, $x \leqq y$ o $y \leqq x$.
+\end{defn}
+
+\begin{note}
+    Un conjunto ordenado totalmente es frecuentemente llamado cadena.
+\end{note}
+
+Supongamos que el conjunto $\mathcal{O}$ es una cadena. Si tomamos $X \in \mathcal{O}$, un elemento $x_0 \in X$ ser\'a el m\'inimo si se tiene que $x_0 \leq x, \forall x \in X$. Notamos que si hubiese m\'as de un m\'inimo en $X$, por ejemplo $x_0$ y $x_0'$, tenemos que $x_0 \leq x_0'$ y $x_0' \leq x_0$, concluyendo que $x_0 = x_0'$ y el m\'inimo resulta ser \'unico. Por ejemplo, $\BN$ tiene como m\'inimo al $0$, mientras que $\BZ, \BR$ no tienen m\'inimo.
+
+\begin{theorem}
+    Todo subconjunto no vac\'io de $\widetilde{\BN}$ tiene m\'inimo.
+\end{theorem}
+
+\begin{proof}
+    Llamemos $X$ al conjunto de referencia y $\widetilde{X} = \{m \in \widetilde{\BN}: \exists n \in X \text{ tal que } n \leq m\}$.
+    Primero notemos que $\widetilde{\BN}$ es invariante por sucesores; es decir, $s(\widetilde{X}) \subset X$.
+\end{proof}
+
+\begin{theorem}
+    Consideremos una propiedad $P$ decidible en $\widetilde{\BN}$. Supongamos que $P$ sea cierta para $0$. Si $P$ es cierta para $0, 1, \dots, n - 1$ implica que $P$ es cierta para $n$, entonces necesariamente $P$ es cierta para todo elemento de $\widetilde{\BN}$.
+\end{theorem}
+\end{document}

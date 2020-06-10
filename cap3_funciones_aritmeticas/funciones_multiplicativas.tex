@@ -1,0 +1,75 @@
+\documentclass[main.tex]{subfiles}
+\begin{document}
+\begin{defn}
+Una funci\'on aritm\'etica $f$ es multiplicativa si $f$ no es id\'entica a cero y si
+$$f(mn) = f(m)f(n),\quad (m, n) = 1$$
+Una funci\'on multiplicativa $f$ ser\'a llamada totalmente multiplicativa cuando
+$$f(mn) = f(m)f(n),\quad\forall m, n$$
+\end{defn}
+\begin{example}
+Las funciones aritm\'eticas $0, 1, \mathbb U$ son totalmente multiplicativas.
+\end{example}
+
+\begin{example}
+$\mu$ y $\varphi$ son funciones aritm\'eticas multiplicativas. En el teorema 3.7 demostramos que $\mu$ es multiplicativa. Nos falta probar de que $\varphi$ lo es.
+\end{example}
+\begin{theorem}
+Dados $M, N$ enteros no nulos tales que $(M, N)=1$ se cumple
+$$\varphi(MN) = \varphi(M)\varphi(N)$$
+\end{theorem}
+\begin{proof}
+Como $M$ y $N$ son coprimos, entonces puedo expresarlos como
+$$M = p_1^{\alpha_1} \dots p_m^{\alpha_m}$$
+$$N = q_1^{\beta_1} \dots q_n^{\beta_n}$$
+As\'i tenemos que
+\begin{align*}
+    \varphi(MN) &= MN \prod_{r \mid MN} (1 - \frac{1}{r})\\
+    &= M\prod_{p \mid M}(1 - \frac{1}{p})N\prod_{q \mid N}(1 - \frac{1}{q})\\
+    &= \varphi(M)\varphi(N)
+\end{align*}
+Concluyendo de que se cumple la igualdad.
+\end{proof}
+\begin{theorem}
+Sea $f$ con $f(1)=1$, entonces, para todo $p_i, p$ primos y $\alpha_i, \alpha \geq 1$
+\begin{enumerate}
+    \item $f$ es multiplicativa si y solo si $f(p_1^{\alpha_1}\dots p_k^{\alpha_k})=f(p_1^{\alpha_1})\dots f(p_k^{\alpha_k})$
+    \item Si $f$ es multiplicativa, entonces $f$ es totalmente multiplicativa si solo si $f(p^\alpha)=f(p)^\alpha$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\end{proof}
+Una manera sencilla de construir funciones multiplicativas es centr\'andose en un primo y sus potencias. Esto lo podemos hacer al despreciar la contribuci\'on de los otros primos, es decir, ponemos $f(n) = 0$ si $n$ no es potencia de $p$. A\'un falta asignar los valores correspondientes a $f(p^\alpha) = \pi_\alpha$, sin olvidar de que $\pi_0 = 1$. Luego de esto no hay otra restricci\'on que no sea nuestra imaginaci\'on. Si queremos que esta funci\'on adem\'as sea totalmente multiplicativa, la \'unica exigencia adicional ser\'a que $\pi_\alpha = \pi_1^\alpha$ debido a la propiedad $f(p^\alpha) = f(p)^\alpha$.
+\begin{theorem}
+Si $f$ y $g$ son multiplicativas, entonces $f*g$ tambi\'en lo es.
+\end{theorem}
+\begin{proof}
+Sea $h = f*g$ y $m, n \in \BZ$ tal que $(m, n) = 1$. Luego
+$$h(mn) = \sum_{c \mid mn} f(c)g(\frac{mn}{c})$$
+Asimismo, podemos expresar a cada divisor $c$ de $mn$ como $c = ab$ donde $a \mid m$ y $b \mid n$. Es m\'as, $(a, b) = 1$, $(\frac{m}{a}, \frac{n}{b}) = 1$. As\'i
+\begin{align*}
+    h(mn) &= \sum_{a \mid m, b \mid n} f(ab)g(\frac{m}{a}\frac{n}{b})\\
+    &= \sum_{a \mid m, b \mid n} f(a)f(b)g(\frac{m}{a})g(\frac{n}{b})\\
+    &= \sum_{a \mid m, b \mid n} f(a)g(\frac{m}{a})f(b)g(\frac{n}{b})\\
+    &= \sum_{a \mid m}f(a)g(\frac{m}{a})\sum_{b \mid n}f(b)g(\frac{n}{b})\\
+    &= h(m)h(n)
+\end{align*}
+Concluimos con la prueba.
+\end{proof}
+\begin{theorem}
+Si $g$ y $f*g$ son multiplicativas, entonces $f$ es multiplicativa.
+\end{theorem}
+\begin{proof}
+\end{proof}
+\begin{theorem}
+Si $g$ es multiplicativa, entonces $g^{-1}$ es multiplicativa.
+\end{theorem}
+\begin{proof}
+\end{proof}
+\begin{theorem}
+Sea $f$ multiplicativa. $f$ es totalmente multiplicativa si y solo si
+$$f^{-1}(n) = \mu(n)f(n),\;\forall n \geq 1$$
+\end{theorem}
+\begin{proof}
+\end{proof}
+
+\end{document}

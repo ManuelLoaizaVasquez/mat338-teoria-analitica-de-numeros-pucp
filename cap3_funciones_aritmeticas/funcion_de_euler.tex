@@ -1,0 +1,29 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\begin{defn}
+    La funci\'on indicatriz de Euler $\varphi(n)$ asigna a cada n\'umero entero positivo $n$ la cantidad de n\'umeros coprimos con $n$ entre $1$ y $n$ incluy\'endolos.
+\end{defn}
+
+\begin{example}
+    $\varphi(1) = 1$, $\varphi(2) = 1$, $\varphi(3) = 2$, $\varphi(4) = 2$, $\varphi(5) = 4$, $\varphi(6) = 2$,
+    $\varphi(7) = 6$, $\varphi(8) = 4$. Si $p$ es primo, $\varphi(p) = p - 1$.
+\end{example}
+
+\begin{example}
+    Calcular $\sum_{d \mid 20} \varphi(d)$.
+    $$\sum_{d \mid 20} \varphi(d) = \varphi(1) + \varphi(2) + \varphi(4) + \varphi(5) + \varphi(10) + \varphi(20) = 1 + 1 + 2 + 4 + 4 + 8 = 20$$
+    Quiz\'as este ejemplo pueda ser suficiente evidencia para aventurarse a conjeturar algo.
+\end{example}
+
+\begin{theorem}
+    Sea $n \geq 1$, tenemos
+    $$\sum_{d \mid n} \varphi(d) = n$$
+\end{theorem}
+
+\begin{proof}
+    Sea $S_d = \{m \in [1, \dots, n] : (m, n) = d\}$, donde $d$ es un divisor de $n$. Sabemos que $S_i$ es disjunto de $S_j$, para todo par $i \not= j$, pues no podr\'ia ocurrir que el maximo com\'un divisor de $m$ fijado $n$ no sea \'unico, para todo $m$. Asimismo, para todo $m \in [1, \dots, n]$, $(m, n) \mid n \implies \sum_{d \mid n}|S_d| = n$. Finalmente, tenemos que $\sum_{d \mid n} |S_d| = \sum_{d \mid n} \varphi(\frac{n}{d}) = \sum_{d \mid n} \varphi(d) = n$.
+\end{proof}
+
+\end{document}

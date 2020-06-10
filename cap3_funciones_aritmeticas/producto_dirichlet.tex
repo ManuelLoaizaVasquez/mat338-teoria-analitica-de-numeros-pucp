@@ -1,0 +1,73 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+A continuaci\'on introduciremos otras fuciones que ser\'a de gran utilidad en su momento.
+\begin{itemize}
+    \item La funci\'on cero, $\mathbb O$, asigna el valor de $0$ a cada entero.
+    \item La funci\'on uno, $1$, asigna el valor de $1$ a cada entero.
+    \item La funci\'on unidad, $\mathbb U$, asigna el valor de $1$ si $n = 1$ y $0$ al resto de enteros. Una definici\'on alternativa directa est\'a dada por $\mathbb U(n) = \lfloor\frac{1}{n}\rfloor$.
+    \item La funci\'on ene, $N$, asigna a cada entero su mismo valor $N(n) = n$. Asimismo, definiremos $N_\alpha(n) = n^{\alpha}$ y la bautizaremos como ene a la alfa.
+\end{itemize}
+\begin{remark}
+La notaci\'on de $N_\alpha$ re\'une varias funciones ya definidas. Por ejemplo, $N_0$ es la funci\'on $1$ y, si estiramos la notaci\'on, $N_{-\infty}$ es la funci\'on $\mathbb U$.
+\end{remark}
+La suma de dos funciones aritm\'eticas se define entrada a entrada, esta es claramente asociativa y distributiva. La funci\'on cero es el elemento neutro para esta operaci\'on y cambiar el signo t\'ermino a t\'ermino es el m\'etodo m\'as directo para hallar el inverso aditivo.
+\begin{defn}
+Sean $f, g$ dos funciones aritm\'eticas, definimos su producto de Dirichlet (o convoluci\'on de Dirichlet) a la funci\'on aritm\'etica
+$$f*g(n) = \sum_{d \mid n} f(d)g(\frac{n}{d}) = \sum_{cd = n} f(c)g(d)$$
+\end{defn}
+\begin{example}
+Calcular $\mu*\varphi(120)$.
+\begin{align*}
+    \mu*\varphi(120) &= \sum_{d \mid 120}\mu(d)\varphi(\frac{120}{d})\\
+    &= \mu(1)\varphi(120) + \mu(2)\varphi(60) + \mu(3)\varphi(40) + \mu(4)\varphi(30)\\
+    &+ \mu(5)\varphi(24) + \mu(6)\varphi(20) + \mu(8)\varphi(15) + \mu(10)\varphi(12)\\
+    &+ \mu(12)\varphi(10) + \mu(15)\varphi(8) + \mu(20)\varphi(6) + \mu(24)\varphi(5)\\
+    &+ \mu(30)\varphi(4) + \mu(40)\varphi(3) + \mu(60)\varphi(2) + \mu(120)\varphi(1)\\
+    &= (1)(32) + (-1)(16) + (-1)(16) + (0)(8)\\
+    &+ (-1)(8) + (1)(8) + (0)(8) + (1)(4)\\
+    &+ (0)(4) + (1)(4) + (0)(2) + 0(4)\\
+    &+ (-1)(2) + (0)(2) + (0)(1) + (0)(1)\\
+    &= 6
+\end{align*}
+\end{example}
+\begin{example}
+En la subsecci\'on anterior se manipul\'o sumas de la forma $\sum_{d \mid n}\mu(d)$. Observe que estas sumas no son otra cosa que $\mu*1(n)$.
+\end{example}
+\begin{theorem}
+El producto de Dirichlet es conmutativo y asociativo.
+\end{theorem}
+\begin{proof}
+La prueba de que es conmutativo es inmediato, pues ambas funciones pasan por todos los divisores y son complementarias al mismo instante.
+$$f*g(n) = \sum_{cd = n}f(c)g(d) = \sum_{cd = n}g(c)f(d) = g*f(n)$$
+Para probar la asociatividad definimos $B = g * k$ y consideramos $f * B = f * (g * k)$. Luego, tenemos
+$$f*B(n) = \sum_{cd = n}f(c)B(d) = \sum_{cd = n}f(c)\sum_{ab = d}g(a)k(b) = \sum_{abc = n}f(a)g(b)k(c)$$
+Asimismo, definimos $A = f*g$ y consideramos $A*k = (f*g)*k$. As\'i
+$$A*k(n) = \sum_{cd = n}A(c)k(d) = \sum_{ab = c}f(a)g(b)\sum_{cd = n}k(d) = \sum_{abc=n}f(a)g(b)k(c)$$
+Finalmente
+\begin{align*}
+    f*B(n) &= A*k(n)\\
+    f*(g*k)(n) &= (f*g)*k(n)
+\end{align*}
+Concluyendo que el producto de Dirichlet es asociativo.
+\end{proof}
+\begin{theorem}
+Para todo $f$ tenemos $\mathbb U * f = f * \mathbb U = f$.
+\end{theorem}
+\begin{proof}
+Por definici\'on y por el teorema anterior, tenemos la siguiente igualdad
+$$\mathbb U * f(n) = f * \mathbb U(n) = \sum_{cd = n} f(c)\mathbb U(d) = f(n)$$
+pues si $d = 1 \implies f(c)\mathbb U(d) = f(n) \cdot 1 = f(n)$, en otro caso, $\mathbb U(d) = 0$ y los sumandos se anulan.
+\end{proof}
+\begin{example}
+Para cada $\alpha$ definimos $\sigma_\alpha = N_\alpha * 1$. Desarrollando obtenemos
+$$\sigma_\alpha(n) = \sum_{d \mid n} d^\alpha$$
+Podemos observar lo siguiente
+\begin{itemize}
+    \item $\sigma_\alpha(1) = 1$.
+    \item $\sigma_0(n) \coloneqq$ cantidad de divisores de $n$.
+    \item $\sigma_0(p^a) = a + 1$, $p$ primo.
+    \item $\sigma_\alpha(p^a) = \frac{p^{(a + 1)\alpha}-1}{p^\alpha-1}$, $p$ primo, $\alpha \not= 0$.
+\end{itemize}
+\end{example}
+\end{document}

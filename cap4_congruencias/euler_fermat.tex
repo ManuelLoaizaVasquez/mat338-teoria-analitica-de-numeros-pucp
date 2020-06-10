@@ -1,0 +1,64 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+\begin{theorem}[Teorema de Euler]
+    Para todo $a \in \BZ_n^*$ se tiene lo siguiente
+    $$a^{\varphi(m)}\equiv 1\pmod{m}$$
+\end{theorem}
+
+\begin{proof}
+    Multiplicar\'e los $\varphi(m)$ elementos de $\BZ_m^*$ de dos maneras distintas y ambas son id\'enticas, pues sabemos que la multiplicaci\'on por $a$ es una biyecci\'on, lo cual implica que las colecciones $\BZ_m^*$ y $a\cdot\BZ_m^*$ son id\'enticas.
+    $$\prod_{x \in \BZ_m^*} x \equiv \prod_{x \in \BZ_m^*} (ax) \equiv a^{\varphi(m)}\prod_{x \in \BZ_m^*}x \pmod{m}$$
+    Adem\'as, el producto de todos los n\'umeros relativamente primos con $m$ sigue siendo relativamente primo con $m$, por lo cual multiplicaremos por su inversa
+    \begin{align*}
+        a^{\varphi(m)}\prod_{x\in\BZ_m^*}x&\equiv\prod_{x\in\BZ_m^*}x\pmod{m}\\
+        a^{\varphi(m)}&\equiv1\pmod{m}
+    \end{align*}
+    y obtenemos la relaci\'on buscada.
+\end{proof}
+
+\begin{corollary}[Pequeño Teorema de Fermat]
+    Si $p$ es primo, para todo $a \in \BZ_p^*$ entonces se tiene lo siguiente
+    $$a^p\equiv a\pmod{p}$$
+\end{corollary}
+
+\begin{proof}
+    Como $a < p$ y $p$ es primo, entonces $(a, p) = 1$. Utilizando el teorema de Euler tenemos lo siguiente
+    \begin{align*}
+        a^{\varphi(p)}\equiv1\pmod{p}\\
+        a^{p-1}\equiv1\pmod{p}\\
+        a^p\equiv a\pmod{p}
+    \end{align*}
+    El cual vendr\'ia a ser un caso particular del teorema anterior.
+\end{proof}
+
+\begin{example}
+    ¿Cu\'anto vale $7^{111}$ m\'odulo 13?
+\end{example}
+
+\begin{proof}
+    Lo primero que observamos es que $(7, 13) = 1$, por lo tanto podemos utilizar el teorema de Euler
+    \begin{align*}
+        7^{\varphi(13)}&\equiv 1\pmod{13}\\
+        7^{12}&\equiv 1\pmod{13}\\
+        (7^{12})^9 &\equiv 1\pmod{13}\\
+        7^{108}\cdot 7^3 &\equiv 7^3\pmod{13}\\
+        7^{111} &\equiv 5\pmod{13} 
+    \end{align*}
+\end{proof}
+
+\begin{example}
+    ¿En qu\'e digito termina $3^{100}$?
+\end{example}
+
+\begin{proof}
+    Lo primero que observamos es que $(3, 10) = 1$, por lo tanto podemos utilizar el teorema de Euler
+    \begin{align*}
+        3^{\varphi(10)}&\equiv 1\pmod{10}\\
+        3^4&\equiv 1\pmod{10}\\
+        (3^4)^{25}&\equiv 1\pmod{10}\\
+        3^{100}&\equiv 1\pmod{10}
+    \end{align*}
+    Concluimos que $3^{100}$ termina en $1$, pues el \'ultimo d\'igito es el residuo al dividir el n\'umero entre $10$.
+\end{proof}
+\end{document}

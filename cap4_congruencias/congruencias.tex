@@ -1,0 +1,223 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+
+\begin{defn}
+    Sean $a, b, m \in \BZ$ y $m \not= 0$. Decimos que $a$ es congruente con $b$ modulo $m$ si $a - b \in (m)$; es decir, $m$ divide a $a - b$. Simb\'olicamente escribiremos $a \equiv b \pmod{m}$.
+\end{defn}
+
+\begin{proposition}
+    La congruencia $\equiv$ es una relaci\'on de equivalencia.
+\end{proposition}
+
+\begin{proof}
+    Tenemos que probar que es reflexiva, sim\'etrica y transitiva.
+    \begin{itemize}
+        \item Reflexiva: $a - a = 0 \in (m) \implies a \equiv a \pmod{m}$.
+        \item Sim\'etrica: $a \equiv b \pmod{m}$, por definici\'on, $a - b \in (m) \implies b - a \in (m) \implies b \equiv a \pmod{m}$.
+        \item Transitiva: $a \equiv b \pmod{m}$ y $b \equiv c \pmod{m}$, por definici\'on, $a - b \in (m)$ y $b - c \in (m)$. Como $(m)$ es un ideal, entonces $(a - b) - (c - b) \in (m) \implies a - c \in (m) \implies a \equiv c \pmod{m}$.
+    \end{itemize}
+\end{proof}
+
+\begin{theorem}
+    Si $n \mid m$, entonces $a \equiv b \pmod{m} \implies a \equiv b \pmod{n}$.
+\end{theorem}
+
+\begin{proof}
+    Por definici\'on, $b - a \in (m)$. Como $n \mid m \implies (m) \subset (n) \implies b - a \in (n) \implies a \equiv b \pmod{n}$.
+\end{proof}
+
+\begin{theorem}
+    Si $a \equiv b \pmod{m}$ para todo $m$, entonces $ a = b$.
+\end{theorem}
+
+\begin{proof}
+    Sabemos que $0 \in (m)$, para todo $m$. Probar\'e que es el \'unico elemento que pertenece a todo ideal. Supongamos que existe $x > 0$ que pertenece a todos los ideales, luego $x \not\in (x + 1)$. Finalmente, $a - b \in (m)$ para todo m $\implies a - b = 0 \implies a = b$.
+\end{proof}
+
+\begin{lemma}
+    Si $a \equiv b \pmod{m}$ y $c \equiv d \pmod{m}$, entonces $a + c \equiv b + d \pmod{m}$.
+\end{lemma}
+
+\begin{proof}
+    Por definici\'on, $a - b \in (m)$. Tambi\'en $c - d \in (m) \implies d - c \in (m)$. Como ambos pertenece al mismo ideal, entonces $[a - b] - [d - c] = [a + c] - [b + d]\in (n) \implies a + c \equiv b + d \pmod{m}$.
+\end{proof}
+
+\begin{lemma}
+    Si $a \equiv b \pmod{m}$ y $c \equiv d \pmod{m}$, entonces $ac \equiv bd \pmod{m}$.
+\end{lemma}
+
+\begin{proof}
+    Por definici\'on, tenemos $a - b \in (m) \implies d[a - b] = ad - bd \in (m)$, $c - d \in (m) \implies b[c - d] = bc - bd \in (m)$. As\'i $[a - b][c - d] = ac - ad - bc + bd \in (m)$. Finalmente $[ac - ad - bc + bd] + [ad - bd] + [bc - bd] = ac - bd \in (m) \implies ac \equiv bd \pmod{m}$.
+\end{proof}
+
+\begin{lemma}
+    La suma y multiplicaci\'on m\'odulo $m$ son conmutativa, asociativas y distributivas una respecto a la otra.
+\end{lemma}
+
+\begin{remark}
+    Si $a \equiv b \pmod{m}$ y $r > 0$, entonces $ar \equiv br \pmod{m}$ y $ar \equiv br \pmod{mr}$.
+\end{remark}
+
+\begin{theorem}
+    Si $a \equiv b \pmod{m}$ demuestre la igualdad $(a, m) = (b, m)$.
+\end{theorem}
+
+\begin{proof}
+    Sea $(a, m) = (d_a)$ y $(b, m) = (d_b)$. Luego, $a - b \in (m) \implies d_a \mid b$, adem\'as, $d_a \mid m$; por lo tanto, $d_a \mid (b, m) = d_b$. An\'alogamente, obtenemos que $d_b \mid d_a$. Como dividir es contener, $(d_b) \subset (d_a)$ y $(d_a) \subset (d_b) \implies (d_a) = (d_b)$. Finalmente, $d_a = \pm d_b$.
+\end{proof}
+
+\begin{lemma}
+    Los enteros m\'odulo $N$ con la operaci\'on de suma ensamblan un grupo.
+\end{lemma}
+
+\begin{proof}
+    En efecto, la operaci\'on de suma es conmutativa y asociativa, la clase del $0$ es neutral y cada elemento tiene un \'unico elemento inverso, la clase de $-a$ y $N - a$ es la misma.
+\end{proof}
+
+\begin{remark}
+    Aqu\'i existe la propiedad cancelativa. $a + c \equiv b + c \pmod{m} \implies a \equiv b \pmod{m}$.
+\end{remark}
+
+Lamentablemente, los enteros no nulos no forman un grupo multiplicativo. Sin embargo, s\'i forman lo que se llama un anillo con unidad, pues la suma y multiplicaci\'on son conmutativas y asociativas, as\'i como compatibles unas con otras. La multiplicaci\'on por $1$ es una operaci\'on inerte y multiplicar por $0$ es lo mismo que aniquilar.
+
+\begin{lemma}
+    Los enteros m\'odulo $N$, los cuales denotaremos como $\BZ_N$, forman un anillo con unidad.
+\end{lemma}
+
+\begin{example}
+    En cualquier anillo $R$, los ideales $(0)$ y R son llamados ideales triviales. En $\BZ_6$, los m\'ultiplos de $2$ y los m\'ultiplos de $3$ son ideales en $\BZ_6$ aparte de los triviales.
+\end{example}
+
+\begin{example}
+    Hacer la tabla de multiplicar de $\BZ_5$.
+\end{example}
+
+\begin{proof}
+    Este grupo es denotado por $\BZ_5^*$. Eliminando la fila y columna del cero, tenemos un grupo multiplicativo con $1$ por unidad, todo elemento tiene inversa \'unica. Un detalle a tomar en cuenta es que en cada fila y cada columna aparecen todos los elementos del grupo.
+    $$\vbox{\tabskip0.5em\offinterlineskip
+    \halign{\strut$#$\hfil\ \tabskip1em\vrule&&$#$\hfil\cr
+    ~   & 0   & 1   &2 & 3   & 4\cr
+    \noalign{\hrule}\vrule height 12pt width 0pt
+    0   & 0   & 0   & 0   & 0   & 0 \cr
+    1   & 0   & 1   & 2   & 3   & 4 \cr
+    2   & 0   & 2   & 4   & 1   & 3 \cr
+    3   & 0   & 3   & 1   & 4   & 2 \cr
+    4   & 0   & 4   & 3   & 2   & 1 \cr
+}}$$
+    Asimismo, la multiplicaci\'on por un elemento no nulo $a$ determina una biyecci\'on de $\BZ_5^*$ en s\'i mismo.
+\end{proof}
+
+\begin{example}
+    Hacer la tabla de $\BZ_4$.
+\end{example}
+
+\begin{proof}
+    $$\vbox{\tabskip0.5em\offinterlineskip
+    \halign{\strut$#$\hfil\ \tabskip1em\vrule&&$#$\hfil\cr
+    ~   & 0   & 1   &2 & 3 \cr
+    \noalign{\hrule}\vrule height 12pt width 0pt
+    0   & 0   & 0   & 0   & 0 \cr
+    1   & 0   & 1   & 2   & 3 \cr
+    2   & 0   & 2   & 0   & 2 \cr
+    3   & 0   & 3   & 2   & 1 \cr
+}}$$
+\end{proof}
+
+\begin{example}
+    Hacer la tabla de $\BZ_7$.
+\end{example}
+
+\begin{proof}
+    $$\vbox{\tabskip0.5em\offinterlineskip
+    \halign{\strut$#$\hfil\ \tabskip1em\vrule&&$#$\hfil\cr
+    ~   & 0   & 1   &2 & 3   & 4 & 5 &6\cr
+    \noalign{\hrule}\vrule height 12pt width 0pt
+    0   & 0   & 0   & 0   & 0   & 0    &0    &0\cr
+    1   & 0   & 1   & 2   & 3   & 4    &5    &6\cr
+    2   & 0   & 2   & 4   & 6   & 1    &3    &5\cr
+    3   & 0   & 3   & 6   & 2   & 5    &1    &4\cr
+    4   & 0   & 4   & 1   & 5   & 2    &6    &3\cr
+    5   & 0   & 5   & 3   & 1   & 6    &4    &2\cr
+    6   & 0   & 6   & 5   & 4   & 3    &2    &1\cr
+}}$$
+\end{proof}
+
+\begin{example}
+    Hacer la tabla de $\BZ_{10}$.
+\end{example}
+
+\begin{proof}
+    $$\vbox{\tabskip0.5em\offinterlineskip
+    \halign{\strut$#$\hfil\ \tabskip1em\vrule&&$#$\hfil\cr
+    ~   & 0   & 1   &2 & 3   & 4 & 5 &6 &7 &8 &9\cr
+    \noalign{\hrule}\vrule height 12pt width 0pt
+    0   & 0   & 0   & 0   & 0   & 0    &0    &0 &0 &0 &0\cr
+    1   & 0   & 1   & 2   & 3   & 4    &5    &6 &7 &8 &9\cr
+    2   & 0   & 2   & 4   & 6   & 8    &0    &2 &4 &6 &8\cr
+    3   & 0   & 3   & 6   & 9   & 2    &5    &8 &1 &4 &7\cr
+    4   & 0   & 4   & 8   & 2   & 6    &0    &4 &8 &2 &6\cr
+    5   & 0   & 5   & 0   & 5   & 0    &5    &0 &5 &0 &5\cr
+    6   & 0   & 6   & 2   & 8   & 4    &0    &6 &2 &8 &4\cr
+    7   & 0   & 7   & 4   & 1   & 8    &5    &2 &9 &6 &3\cr
+    8   & 0   & 8   & 6   & 4   & 2    &0    &8 &6 &4 &2\cr
+    9   & 0   & 9   & 8   & 7   & 6    &5    &4 &3 &2 &1\cr
+}}$$
+\end{proof}
+
+\begin{theorem}
+    La clase de $a$ tiene inversa m\'odulo $m$ si y solo si $a$ y $m$ son relativamente primos. En consecuencia, los elementos invertibles se ordenan en grupo, denotado $\BZ_m^*$, con exactamente $\varphi(m)$ elementos.
+\end{theorem}
+
+\begin{proof}
+    $\impliedby$: Como $a$ y $m$ son relativamente primos, entonces existen enteros $x, y \in \BZ$ tales que
+    $$ax + my = 1 \implies ax \equiv 1 \pmod{m}$$
+    y $x$ ser\'ia la inversa de $a$ m\'odulo $m$.
+    
+    $\implies$: La clase de $a$ tiene inversa m\'odulo $m$, entonces existe $x \in \BZ$ tal que $ax \equiv 1 \pmod{m}$. Por definici\'on, $ax - 1 \in (m)$, esto quiere decir lo siguiente
+    \begin{align*}
+        ax - 1 &= km\\
+        ax - km &= 1
+    \end{align*}
+    Lo cual implica que $a$ y $m$ son relativamente primos.    
+    
+    Finalmente, por el algoritmo de la divisi\'on, todo n\'umero m\'odulo $m$ pertenece a una clase entre $0$ y $m - 1$ y los n\'umeros relativamente primos con $m$ ser\'ian $\varphi(m)$.
+\end{proof}
+
+\begin{remark}
+    Cuando $p$ es primo, todos los enteros no nulos son invertibles. De este modo, los enteros m\'odulo $p$ se ordenan en lo que se llama un cuerpo, el cual es denotado por $\mathbb{F}_p$.
+\end{remark}
+
+En importante notar que la propiedad cancelativa respecto a la multiplicaci\'on se da \'unica y exclusivamente cuando el factor a cencelar es invertible. En efecto, en $ab \equiv ac \pmod{m}$ multiplicamos por $a^{-1}$ siendo $a$ primo relativo con $m$ y listo.
+
+\begin{defn}
+    Sea $a \in \BZ_m$, decimos que $a$ es divisor de cero si no es m\'ultiplo de $m$ ni relativamente primo con $m$.
+\end{defn}
+
+En la teor\'ia de anillos, un divisor de cero es un elemento no nulo $r$ para el cual es posible encontrar alg\'un elemento $s$, tambi\'en no nulo, con el cual se satisface $rs = 0$.
+
+\begin{example}
+    En $\BZ_6$, los divisores de cero son $2, 3$, y $4$, pues existe al menos un valor no nulo para cada uno de estos tal que $2\cdot3\equiv3\cdot2 \equiv 4\cdot3\equiv0\pmod{6}$
+\end{example}
+
+\begin{theorem}
+    En $\BZ_m$, un divisor de cero no tiene inversa.
+\end{theorem}
+
+\begin{proof}
+    Por reducci\'on al absurdo, supongamos que un divisor no nulo de cero $r$ tuviese inversa. Por definici\'on, existe un $s$ no nulo tal que $rs \equiv 0 \pmod{m}$. Asimismo, tenemos que $s \equiv (r^{-1} \cdot r)\cdot s \equiv r^{-1}\cdot(r \cdot s) \equiv r^{-1} \cdot 0 \equiv 0 \pmod{m}$ contradiciendo el hecho de que $s$ es no nulo.
+\end{proof}
+
+\begin{theorem}
+    Sea $a \in \BZ_m$ un divisor de cero m\'odulo $m$, la cantidad de elementos $x$ que satisfacen $ax \equiv 0 \pmod{m}$ es $a$.
+\end{theorem}
+
+\begin{proof}
+    Sabemos que $a \cdot \frac{km}{a} \equiv 0 \pmod{m}$. Como este n\'umero que estamos multiplicando debe pertenecer al grupo, entonces $\frac{km}{a} < m \implies k < a \implies 0 \leq k \leq a - 1$, concluyendo que existen $a$ elementos que cumplen esto.
+\end{proof}
+
+\begin{theorem}
+    La multiplicaci\'on por $a$ en $\BZ_m$, denotada por $m_a$, es una biyecci\'on en $\BZ_m$ si y solo si $a$ es invertible m\'odulo $m$
+\end{theorem}
+
+\end{document}

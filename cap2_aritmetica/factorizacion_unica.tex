@@ -1,0 +1,64 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+El hecho de que un n\'umero entero pueda descomponerse de manera \'unica como producto de n\'umeros irreducibles es un privilegio. Nos hemos demorado varias sesiones en llegar a este punto para convencerlos que este es un fen\'omeno del que debemos sentirnos agradecidos y no creer soberbiamente que lo merecemos. Quienes piensen que lo que sigue es una p\'erdida de tiempo, pi\'ensenlo un poco y salten directamente al ejemplo final de esta secci\'on. Lo que sigue es una bater\'ia de resultados que por alg\'un u otro motivo les deben resultar familiares aunque pocas veces hayan visto su prueba.
+
+\begin{lemma}
+    Todo n\'umero distinto de $\pm 1$ es divisible por un primo. En efecto, dado un n\'umero $a > 1$, existe un primo $p$ y un entero positivo $b$ menor que $a$ con los cuales se tiene que $a = pb$.
+\end{lemma}
+
+\begin{proof}
+    El lema es trivialmente cierto para $0$. Bastar\'a trabajar con n\'umeros positivos. Para ello formaremos el conjunto
+    $$X = \{n : n \geq 2 \text{ no es dividido por ning\'un primo}\}$$
+    Si el lema fuese falso, entonces este conjunto existir\'ia y, por el principio de buen orden, existi\'ia un m\'inimo $m \in X$. Si ning\'un entero entre $2$ y $m - 1$ divide $m$, entonces $m$ es primo. Esto ser\'ia un problema pues $m$ divide a $m$. Por tanto, existe $x$ entre $1$ y $m$ que divide a $m$. Por la minimalidad de $m$, se tiene que $x$ es dividido por un primo $p$. Luego $(x) \subset (p)$ y $(m) \subset (x) \implies (m) \subset (p)$, entonces $p$ divide a $m$ y esto es una contradicci\'on.
+    Finalmente, $a = pb$ y $b < pb = a$ pues $p$ es mayor que $1$.
+\end{proof}
+
+\begin{theorem}
+    Existen infinitos primos en $\BZ$.
+\end{theorem}
+
+\begin{proof}
+    Por contadicci\'on, supongamos que existe una cantidad finita de primos y los enumeramos como $p_1, p_2, \dots, p_k$. Observamos que $N = p_1 p_2 \dots p_k + 1$ no es divisible por ning\'un $p_i$, $i = 1, \dots, k$. Despejando, $1 = N - p_1 p_2 \dots p_k$, lo cual indica que el ideal generado por $N$ y $p_i$ es $\BZ$, y $N$ no es m\'ultiplo de $p_i$. De este modo, $N$ es un entero mayor que $1$ que no es divisible por alg\'un primo, lo cual har\'ia que este sea un n\'umero primo, contradiciendo el hecho de que los primos eran finitos.
+\end{proof}
+
+\begin{lemma}
+    Todo entero positivo puede ser expresado como un producto finito de n\'umeros primos. Es decir, dado $n > 1$ existen primos $p_1, p_2, \dots, p_k$, no necesariamente distintos, con los cuales tenemos
+    $$n = p_1 p_2 \dots p_k$$
+\end{lemma}
+
+\begin{proof}
+    Por inducci\'on, vemos que para $n = 2$ se cumple. Supongamos que se cumple para todo entero menor que $n$. Si $n$ es primo ya est\'a, de no serlo, por el Lema 7.1, podemos expresar $n = pb$, donde $p$ es primo y $b$ es menor que n. Finalmente, por la hip\'otesis inductiva, $b = p_1 p_2 \dots p_b$ y $n = p p_1 \dots p_b$.
+\end{proof}
+
+\begin{lemma}
+    Si un primo divide a un producto, entonces divide a uno de los factores. Simb\'olicamente, si un primo $p$ divide a un producto $xy$, luego $p \mid x$ o $p \mid y$.
+\end{lemma}
+
+\begin{proof}
+    Supongamos que $p$ no divide a $y$. Por el Teorema 6.18, existen $n, m \in \BZ$ tal que $np + my = 1$. Multiplicando por $x$ a cada lado obtenemos $xnp + mxy = x$. Como $p \mid xy \implies \exists \; c \in \BZ : xy = cp$. As\'i podemos escribir la expresi\'on como $xnp + mcp = x \implies p(xn + mc) = x \implies p \mid x$.
+\end{proof}
+
+\begin{lemma}[Propiedad cancelativa de la multiplicaci\'on]
+    Si $n \not= 0$, entonces $an = bn$ implica $a = b$.
+\end{lemma}
+
+\begin{proof}
+    $an - bn = 0 \implies (a - b)n = 0 \implies a = b$.
+\end{proof}
+
+\begin{theorem}[Teorema fundamental de la aritm\'etica]
+    Todo n\'umero entero no nulo puede escribirse como producto de factores primos $\pm p_1 p_2 \dots p_k$ de manera \'unica salvo por el orden de los factores.
+\end{theorem}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{example}[Carencia de factorizaci\'on \'unica]
+    Observe que en el conjunto
+    $$\BZ[\sqrt{-5}] = \{a + b\sqrt{-5} : a, b \in \BZ\}$$
+    las operaciones de suma y producto usual son cerradas. Esto hace de este un anillo.
+\end{example}
+
+\end{document}

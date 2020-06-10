@@ -1,0 +1,85 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+Para un entero $a \not= 0$, ponemos $\mathcal{D}_a$ para denotar al conjunto de sus divisores positivos. Por ejemplo, $\mathcal{D}_1 = \{1\}$, $\mathcal{D}_{10} = \{1, 2, 5, 10\}$, $\mathcal{D}_{-12} = \{1, 2, 3, 4, 6, 12\}$, $\mathcal{D}_p = \{1, p\}$ con $p$ primo. Notamos que $\mathcal{D}_a$ es un conjunto finito que contiene un m\'aximo de $|a|$ elementos.
+
+\begin{defn}
+    Dados $a, b \not= 0$, su m\'aximo com\'un divisor es el m\'aximo elemento del conjunto finito $\mathcal{D}_a \cap \mathcal{D}_b$
+\end{defn}
+
+\begin{lemma}
+    Sean $a, b \not= 0$. Si tenemos $(a, b) = (c)$ con $c > 0$, entonces $c$ es el m\'aximo com\'un divisor de $a$ y $b$.
+\end{lemma}
+
+\begin{proof}
+    $a, b \in (a, b) = (c) \implies c \mid a$ y $c \mid b$, por lo que $c$ es un divisor com\'un. Solo faltar\'ia probar que $c$ es el mayor de todos. Como $c \in (a, b)$, existen dos enteros $n, m \in \BZ$ tal que $na + mb = c$. Para cualquier divisor com\'un positivo $d$ de $a$ y $b$, al reemplazarlo en la igualdad tenemos $ndx + mdy = c \implies d(nx + my) = c \implies d \mid c \land d \leq c$.
+\end{proof}
+
+Debido al lema anterior resulta natural definir $(a, 0) = (a)$. Tambi\'en debe quedar claro que aludir al m\'aximo com\'un divisor de tres o m\'as factores como el ideal principal de este es para cualquier fin lo mismo.
+
+En la pr\'actica, existe dos maneras diametralmente opuestas de encontrar el m\'aximo com\'un divisor de dos n\'umeros: sin factorizar y factorizando.
+
+\begin{theorem}[Algoritmo de Euclides]
+    Sea $D \not= 0$ y $0 \leq r < |D|$. Si $a = qD + r$, entonces $(a, D) = (D, r)$.
+\end{theorem}
+
+\begin{proof}
+    $a = (q)D + (1)r \implies a \in (D, r)$ y $D \in (D, r)$. Luego, $(a, D) \subset (D, r)$. De una manera similar, $r = (1)a - (q)D \implies r \in (a, D)$ y $D \in (a, D)$, por lo tanto $(D, r) \subset (a, D)$. Finalmente, $(a, D) = (D, r)$.
+\end{proof}
+
+\begin{example}
+    Para calcular $(1890, 826)$, dividimos
+    $$1890 = 2(826) + 238$$
+    por el teorema anterior, tenemos $(1890, 826) = (826, 238)$, diviendo
+    $$826 = 3(238) + 112$$
+    luego, obtenemos $(826, 238) = (238, 112)$ y volvemos a aplicar el algoritmo
+    $$238 = 2(112) + 14$$
+    as\'i, $(238, 112) = (112, 14)$ y dividimos por \'ultima vez
+    $$112 = 8(14) + 0$$
+    finalmente, concluimos que $(112, 14) = (14, 0) = (14)$
+\end{example}
+
+\begin{defn}
+    Fijemos un primo $p$. Dado $a \not= 0$, llamamos orden $p$-\'esimo de $a$ al mayor entero $r$ tal que $p^r \mid a$. A este valor no negativo se le denota $ord_p(a)$.
+\end{defn}
+
+\begin{remark}
+    Este n\'umero est\'a bien definido, pues $p^0 = 1 \mid a, \forall a \in \BZ$. Asimismo, por definici\'on $p^{ord_p(a)} \mid a \implies p^{ord_p(a) + 1} \nmid a$.
+\end{remark}
+
+Con esta notaci\'on, al menos desde el punto de vista te\'orico, todos los n\'umeros no nulos vinieron al mundo factorizados de la siguiente manera
+$$a = \pm \prod_{p \text{ primo}} p^{ord_p(a)}$$
+
+\begin{theorem}
+    El m\'aximo com\'un divisor de dos n\'umeros $a, b \in \BZ$ est\'a dado por
+    $$(a, b) = \prod_{p \text{ primo}} p^{\min\{ord_p(a), ord_p(b)\}}$$
+\end{theorem}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{defn}
+    Dos enteros $a, b$ son relativamente primos si su m\'aximo com\'un divisor es $1$.
+\end{defn}
+
+\begin{remark}
+    Del Lema $2.27$, obtenemos que dos enteros $a, b$ ser\'an relativamente primos siempre y cuando existan enteros $n, m$ tales que $a n + b m = 1$.
+\end{remark}
+
+\begin{theorem}
+    Sean $a$ y $N$ coprimos y $b$ y $N$ coprimos, entonces $ab$ y $N$ son coprimos.
+\end{theorem}
+
+\begin{proof}
+    Como $a$ y $N$ son coprimos, entonces existen $x, y$ enteros tales que $ax + Ny = 1$. Asimismo, como $b$ y $N$ son coprimos, entonces existen $\alpha, \beta$ tales que $b\alpha + N\beta = 1$. Tenemos que $ax = 1 - Ny$ y $b\alpha = 1 - N\beta$. Luego,
+    \begin{align*}
+        axb\alpha &= (1 - Ny)(1 - N\beta) \\
+        axb\alpha &= 1 - N\beta - Ny + N^2y\beta \\
+        axb\alpha + N\beta + Ny + N^2y\beta &= 1 \\
+        ab(x\alpha) + N(\beta + y + Ny\beta) &= 1
+    \end{align*}
+   De la observaci\'on, concluimos que $ab$ y $N$ son coprimos. 
+\end{proof}
+
+\end{document}

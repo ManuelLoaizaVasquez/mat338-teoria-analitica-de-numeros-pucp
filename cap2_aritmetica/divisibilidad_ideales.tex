@@ -1,0 +1,142 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+Empezaremos con el resultado que es pilar para poder sentar una adecuada teor\'ia de divisibilidad en $\mathbb Z$. (Generalizaci\'on del teorema 3.10.)
+
+\begin{theorem}[Algoritmo de la divisi\'on de Euclides]
+    Sea $D \not= 0$ {\bf (divisor)}. Entonces, para cada $d$ {\bf (dividendo)} existe $q$ {\bf (cociente)} y $r$ {\bf (residuo)} relacionados entre s\'i mediante $d = qD + r$. Si se exige que $r$ est\'e sujeto a $0 \leq r < |D|$, entonces $q$ y $r$ son \'unicos.
+\end{theorem}
+
+\begin{proof}
+    Sea $r = \min \{d - qD : q \in \mathbb Z \land d - qD \geq 0\}$
+    lo puedo tomar debido al principio del buen orden en un subconjunto de $\mathbb N$. Necesariamente $0 \leq r < |D|$, pues si $r \geq |D|$ tenemos que $r - |D| \geq 0$ ser\'ia el m\'inimo, lo cual es una contradicci\'on. As\'i tenemos que $r = d - qD$, despejando obtenemos que $d = qD + r$, $q, r \in \mathbb Z$ y $0 \leq r < |D|$. Falta probar la unicidad. Supongamos que existe un par $r', q' \in \mathbb Z$ tal que $d = q'D + r'$, $0 \leq r' < |D|$. Como $r$ y $r'$ son distintos, sin p\'erdida de generalidad, supongamos que $r < r'$, cuando $r' < r$ es an\'alogo. Tenemos que $0 < r' - r < |D|$. Restando ambas igualdades obtenemos $r' - r = D(q - q')$, como el lado izquierdo es positivo, necesariamente $|D| \leq r' - r < |D|$ lo cual es una contradicci\'on. Por lo tanto $r = r'$. Reemplazando esto en la \'ultima igualdad, $D(q - q') = 0$ implicar\'ia que $q - q' = 0$, pues $D$ es distinto de cero. Finalmente, obtenemos que $q = q'$.
+\end{proof}
+
+\begin{example}
+    Este teorema necesita como comentario \'unicamente el c\'omo pasar del caso positivo a negativo. Dividamos $20$ entre $6$. Obtenemos $20 = (3)6 + 2$. Si cambiamos de signo a $20$, pasamos a $-20 = (-3)6 - 2$.
+    
+    Desgraciadamente, el residuo es negativo, por lo que la expresi\'on no representa el despliegue prometido. Para ello reescribiremos $-2 = (-1)6 + 4$ y llegamos a $-20 = (-3)6 + (-1)6 + 4$. Al reagrupar conseguimos la respuesta $-20 = (-4)6 + 4$.
+\end{example}
+
+\begin{defn}
+    Dados $a, b \in \mathbb Z$, decimos que $a$ {\bf divide a} $b$ o que $b$ {\bf es m\'ultiplo de} $a$ si existe un entero $c$ tal que $b = ac$. Para abreviar escibiremos $a | b$.
+\end{defn}
+
+
+\begin{note}
+    Observemos lo siguiente:
+    \begin{itemize}
+        \item $0$ divide \'unicamente a $0$ (proposici\'on 5.6).
+        \item Tanto $1$ como $-1$ dividen a todo n\'umero.
+        \item $ab = 1$ implica $a = b = \pm 1$. Por lo tanto, solo $\pm 1$ son divisores de $\pm 1$ (propiedad 3.9 y ejercicio 5.9).
+    \end{itemize}
+\end{note}
+
+Los divisores m\'ultiplos de $a$ se congregan en lo que se llama un ideal.
+
+\begin{defn}
+    Un ideal de $\mathbb Z$ es un subconjunto no vac\'io $\mathcal{I} \subset \BZ$ que satisface estas dos propiedades:
+    \begin{itemize}
+        \item Para todo $a, b \in \mathcal{I}$, se tiene que $a - b \in \mathcal{I}$.
+        \item Para cada $a \in \mathcal{I}$ y $r \in \mathbb Z$ se tiene $ar \in \mathcal{I}$.
+    \end{itemize}
+\end{defn}
+
+\begin{note}
+    El utilizar la resta en la primera condici\'on en vez de suma esconde cuestiones un tanto m\'as tradicionales que solo cobran sentido cuando se trabaja en anillos sin unidad y que, por lo tanto, no les debe preocupar por el momento). Como ejercicio pueden probar que la resta puede reemplazarse por la suma en la definici\'on cuando est\'en en escrutinio subconjuntos de $\mathbb Z$.
+\end{note}
+
+\begin{proposition}
+    El $0$ pertenece a cualquier ideal. Adem\'as, todo ideal es sim\'etrico: si $a \in \mathcal{I}$, entonces $-a \in \mathcal{I}$.
+\end{proposition}
+
+\begin{proof}
+    Sea $\mathcal{I}$ un ideal en $\mathbb Z$ arbitrario. Como es no vac\'io, escojo un elemento $a \in \mathcal{I}$. Por la segunda propiedad, $a0 = 0 \in \mathcal{I}$. Asimismo, para todo $a$ en $\mathcal{I}$, por la segunda propiedad, $(-1)a = -a \in \mathcal{I}$.
+\end{proof}
+
+\begin{notation}
+    Denotemos por $(a)$ al conjunto de todos los m\'ultiplos de $a \in \mathbb Z$.
+\end{notation}
+
+\begin{lemma}
+    $(a)$ es un ideal.
+\end{lemma}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{theorem}
+    Demuestre que $(a) = (b)$ si y solo si $a = \pm b$.
+\end{theorem}
+
+\begin{proof}
+    
+\end{proof}
+
+El ideal $(a)$ es llamado {\bf ideal principal} generado por $a$. N\'otese que se tiene $(0) = {0}$, pues el \'unico m\'ultiplo de $0$ es $0$. Tambi\'en se tiene que $(1) = \mathbb Z$, pues todo n\'umero es m\'ultiplo de $1$ (tambi\'en de $-1$).
+
+\begin{lemma}
+    La intersecci\'on de ideales es un ideal.
+\end{lemma}
+
+\begin{proof}
+    Sea $\mathcal{I}_\alpha$ una familia de ideales $\mathbb Z$ indexada por $\alpha \in \Lambda$. Llamemos $\mathcal{I} = \cap_\alpha \mathcal{I}_\alpha$ a la intersecci\'on de todos ellos. Debemos probar las tres propiedades.
+    
+    Primero, debemos verificar que la intersecci\'on es no vac\'ia, de lo contrario no se puede proseguir. En efecto, por la proposici\'on 6.5 el $0$ es un elemento com\'un a todos los ideales.
+    
+    En segundo lugar, tomemos $a, b$ en la intersecci\'on; es decir, en todos los ideales. De este modo, de la primera cl\'ausula, vemos que la diferencia $a - b$ est\'a en todo $\mathcal{I}_\alpha$; es decir, pertenece a la intersecci\'on $\mathcal{I}$.
+    
+    Por \'ultimo, sea $r$ un entero cualquiera. De $a \in \mathcal{I}$ se pasa a $a \in \mathcal{I}_\alpha$ y de ah\'i a $ra \in \mathcal{I}_\alpha$. Concluimos lo deseado sin mayor esfuerzo.
+\end{proof}
+
+\begin{example}
+    La uni\'on de ideales suele no ser un ideal (a veces lo es). Por ejemplo, considere la uni\'on $(2) \cup (3)$. Aqu\'i $a = 3$ y $b = 2$ pertenecen a la uni\'on. Con ellos formamos $1 = a - b$, elemento que no est\'a en la uni\'on pues $1$ no pertenece a $(2)$ ni a $(3)$.
+\end{example}
+
+La noci\'on de ideal y de divisibilidad est\'an estrechamente vinculadas.
+
+\begin{proposition}[Contener es dividir]
+    Sean $a, b$ enteros. $a$ divide a $b$ si y solo si $(b) \subset (a)$ a nivel de ideales principales.
+    Equivalentemente, $b \in (a)$ implica $(b) \subset (a)$.
+\end{proposition}
+
+\begin{proof}
+    Si $a$ divide a $b$, entonces existe $r \in \mathbb I$ tal que $b = ra$. Cualquier elemento de $(b)$ tiene la forma $nb \in (b)$ y de ello se obtiene $nb = n(ra) = (nr)a \in (a)$. Esto establece la inclusi\'on $(b) \in (a)$.
+    
+    Rec\'iprocamente, $b \in (b) \subset (a)$ implica que $b \in (a)$ y b es m\'ultiplo de $a$. Esto es lo mismo que afirmar que $a$ divide a $b$.
+\end{proof}
+
+\begin{note}
+    La prueba no es dif\'icil. Sin embargo, recordar el orden puede serlo. Una ayuda es pensar en $0$ y $1$. Los ideales principales generados son el m\'as pequeño y el m\'as grande posible respectivamente. Qui\'en divide a qui\'en ayuda a poner todo en perspectiva.
+\end{note}
+
+Pasemos a una definici\'on que ser\'a de poca utilidad para nosotros pero es relativamente importante.
+
+\begin{defn}
+    Sean $a_1, a_2, \dots, a_k$ un n\'umero finito de enteros. Entonces el ideal
+    $$(a_1, a_2, \dots, a_k) = \{a_1 n_1 + a_2 n_2 + \dots + a_k n_k : n_i \in \mathbb Z\}$$
+    es llamado el {\bf ideal generado por} $a_1, a_2, \dots, a_k$.
+\end{defn}
+
+\begin{note}
+    Por supuesto, el orden no interesa.
+\end{note}
+
+\begin{example}
+    El ideal generado por $6$ y $15$, sib\'olicamente $(6, 15)$, es el conjunto de todas las posibles combinaciones del tipo $6n + 15m$ con $n, m \in \mathbb Z$. A golpe de vista salta el hecho de que todo miembro puede ser reescrito como $(2n + 5m)3$, el cual es m\'ultiplo de $3$. Concluimos que se cumple la inclusi\'on $(6, 15) \subset (3)$. Pero algo m\'as es cierto, podemos recombinar para recuperar $3$ de manera evidente: $3 = 6(-2) + 15(1)$. Concluimos que se satisface $3 \in (6, 15)$. De la proposici\'on $6.9$ tenemos $(3) \in (6, 15)$ y, por el argumento previamente obtenido, $(3) = (6, 15)$. Para aquellos que no les gustaba el colegio les traigo un mal recuerdo
+\end{example}
+
+El ideal generado por dos elementos necesitaba un \'unico generador. En unos instantes veremos que esto es siempre cierto en $\BZ$. No obstante, hay ideales en ambientes m\'as extensos donde ello no se cumple.
+
+\begin{proposition}
+    Todo ideal entero es principal. Es decir, si $\mathcal{I} \subset \BZ$ es un ideal entonces existe $a \in \mathcal{I}$ tal que $\mathcal{I} = (a)$.
+\end{proposition}
+
+\begin{proof}
+    Si $\mathcal{I}$ es distinto de $\{0\}$, entonces el conjunto $\mathcal{I}^+ = \{n \in \mathcal{I} : n > 0\}$. Por el principio del buen orden en $\BN$, este conjunto tiene un m\'inimo, llam\'emoslo $a$. De la Proposici\'on, $(a) \subset \mathcal{I}$.
+    
+    Dado $b \in \mathcal{I}$, por el Teorema $6.1$, lo podemos escribir como $$b = aq + r$$ donde $q \in \BZ$ y $0 \leq r < a$. Como $\mathcal{I}$ es un ideal, entonces $aq \in \mathcal{I}$ y $r = b - aq \in \mathcal{I}$. $r$ tiene dos posibilidades: $0$ o positivo. Si $r$ fuese positivo, entonces ser\'ia menor que $a$ y $a$ ya no ser\'ia el m\'inimo, lo cual es una contradicci\'on. Por lo tanto le queda ser cero y $b$ ser\'ia un m\'ultiplo de $a$.
+\end{proof}
+
+\end{document}
