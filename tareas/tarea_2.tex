@@ -63,6 +63,7 @@ Segunda tarea del curso de T\'opicos de An\'alisis de la Especialidad de Matem\'
 Conseguir estimados de orden $\cfrac{1}{n^2}$ por arriba y por abajo para
 $$\sum_{k \leq n} \frac{1}{k} - \ln\left(n + \frac{1}{2} - \gamma\right).$$
 \end{statement}
+
 Primero hallemos el l\'imite
 $$\lim_{n \to \infty} \left(\sum_{k = 1} ^ n \frac{1}{k} - \ln(n + r) \right)$$
 para valores positivos de $r$.
@@ -72,6 +73,7 @@ para valores positivos de $r$.
 &= \sum_{k = 1} ^ n \frac{1}{k} - \ln(n) - \ln\left(\frac{n + r}{n}\right)\\
 &= \sum_{k = 1} ^ n \frac{1}{k} - \ln(n) - \ln\left(1 + \frac{r}{n}\right).\\
 \end{align*}
+
 Aplicamos aritm\'etica de l\'imites al resultado anterior
 \begin{align*}
 \lim_{n \to \infty} \left(\sum_{k = 1} ^ n \frac{1}{k} - \ln(n + r)\right) &=
@@ -79,24 +81,29 @@ Aplicamos aritm\'etica de l\'imites al resultado anterior
 &= \gamma - 0\\
 &= \gamma.
 \end{align*}
+
 Asimismo, del corolario $21.2$ tenemos lo la siguientes igualdad
 \begin{align*}
 \sum_{k = 2} ^ n \frac{1}{k} &= \int_1^n \frac{dt}{t} + \int_1^n (t - \floor{t})\left(-\frac{1}{t^2}\right) dt\\
 &= \int_1^n \frac{dt}{t} - \int_1^n \frac{t - \floor{t}}{t^2} dt\\
 &= \ln(n) - \int_1^n \frac{t - \floor{t}}{t^2} dt.
 \end{align*}
+
 Sumamos uno a cada lado de la igualdad y obtenemos el siguiente resultado
 \begin{align*}
 1 + \sum_{k = 2} ^ n \frac{1}{k} &= 1 + \ln(n) - \int_1^n \frac{t - \floor{t}}{t^2} dt\\
 \sum_{k = 1} ^ n \frac{1}{k} &= 1 + \ln(n) - \int_1^n \frac{t - \floor{t}}{t^2} dt.
 \end{align*}
+
 Despejamos la diferencia entre la serie arm\'onica y el logaritmo natural para aplicar l\'imites
 \begin{align*}
 \sum_{k = 1} ^ n \frac{1}{k} - \ln(n) &= 1 - \int_1^n \frac{t - \floor{t}}{t^2} dt\\
 \lim_{n \to \infty} \left(\sum_{k = 1} ^ n \frac{1}{k} - \ln(n)\right) &= 1 - \int_1^\infty \frac{t - \floor{t}}{t^2} dt.
 \end{align*}
+
 As\'i obtenemos que la constante de Euler es igual a lo calculado previamente
 $$\gamma = 1 - \int_1^\infty \frac{t - \floor{t}}{t^2} dt.$$
+
 Combinaremos los resultados anteriores utilizando $\ln(n + r)$ con $r = \cfrac{1}{2}$
 \begin{align*}
 \sum_{k = 2} ^ n \frac{1}{k} &= \int_1^n \frac{dt}{t} + \int_1^n (t - \floor{t})\left(-\frac{1}{t^2}\right) dt\\
@@ -104,13 +111,116 @@ Combinaremos los resultados anteriores utilizando $\ln(n + r)$ con $r = \cfrac{1
 &= \int_1^{n + \frac{1}{2}} \frac{dt}{t} - \int_n^{n + \frac{1}{2}}\frac{dt}{t} + - \int_1^n \frac{t - \floor{t}}{t^2} dt\\
 &= \ln\left(n + \frac{1}{2}\right) - \int_n^{n + \frac{1}{2}}\frac{dt}{t} - \int_1^n \frac{t - \floor{t}}{t^2} dt.
 \end{align*}
+
 Sumamos uno a cada lado de la igualdad y despejamos la diferencia entre la serie arm\'onica y el logaritmo natural
 \begin{align*}
 \sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) &= 1 - \int_n^{n + \frac{1}{2}}\frac{dt}{t} - \int_1^n \frac{t - \floor{t}}{t^2} dt.
 \end{align*}
+
 Restamos $\gamma$ a ambos lados de la igualdad
 \begin{align*}
 \sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma &= 1 - \int_n^{n + \frac{1}{2}}\frac{dt}{t} - \int_1^n \frac{t - \floor{t}}{t^2} dt - \gamma\\
-&= \int_n^\infty \frac{t - \floor{t}}{t^2} dt - \int_n^{n + \frac{1}{2}}\frac{dt}{t}
+&= \int_n^\infty \frac{t - \floor{t}}{t^2} dt - \int_n^{n + \frac{1}{2}}\frac{dt}{t}.
 \end{align*}
+
+Ahora nos toca realizar la jugada m\'as astuta del problema, la cual me tom\'o dos d\'ias y diecis\'eis horas seguidas incluyendo una madrugada sin dormir para encontrar la recursi\'on adecuada para obtener una antiderivada f\'acil de aplicarle una desigualdad similar a la no desfasada pero con menor orden
+\begin{align*}
+\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma &= \int_n^\infty \frac{t - \floor{t}}{t^2} dt - \int_n^{n + \frac{1}{2}}\frac{dt}{t}\\
+&= \int_n^{n + 1} \frac{t - \floor{t}}{t^2}dt + \int_{n + 1}^\infty \frac{t - \floor{t}}{t^2}dt - \int_n^{n + \frac{1}{2}}\frac{dt}{t}\\
+&= \int_n^{n + 1} \frac{t}{t^2}dt - \int_n^{n + 1} \frac{\floor{t}}{t^2}dt + \int_{n + 1}^\infty \frac{t - \floor{t}}{t^2}dt - \int_n^{n + \frac{1}{2}}\frac{dt}{t}\\
+&= \int_n^{n + 1} \frac{dt}{t}dt - \int_n^{n + \frac{1}{2}}\frac{dt}{t} - \int_n^{n + 1} \frac{\floor{t}}{t^2}dt + \int_{n + 1}^\infty \frac{t - \floor{t}}{t^2}dt\\
+&= \int_{n + \frac{1}{2}}^{n + 1}\frac{dt}{t} - \int_n^{n + 1} \frac{\floor{t}}{t^2}dt + \int_{n + 1}^\infty \frac{t - \floor{t}}{t^2}dt\\
+&= \int_{n + \frac{1}{2}}^{n + 1}\frac{dt}{t} - \int_n^{n + 1} \frac{\floor{t}}{t^2}dt + \int_{n + 1}^\infty \frac{t - \floor{t}}{t^2}dt + \int_{n + 1}^{n + \frac{3}{2}}\frac{dt}{t} - \int_{n + 1}^{n + \frac{3}{2}}\frac{dt}{t}\\
+&= \int_{n + \frac{1}{2}}^{n + 1}\frac{dt}{t} + \int_{n + 1}^{n + \frac{3}{2}}\frac{dt}{t} - \int_n^{n + 1} \frac{\floor{t}}{t^2}dt + \int_{n + 1}^\infty \frac{t - \floor{t}}{t^2}dt - \int_{n + 1}^{n + \frac{3}{2}}\frac{dt}{t}\\
+&= \int_{n + \frac{1}{2}}^{n + \frac{3}{2}}\frac{dt}{t} - \int_n^{n + 1} \frac{\floor{t}}{t^2}dt + \int_{n + 1}^\infty \frac{t - \floor{t}}{t^2}dt - \int_{n + 1}^{n + \frac{3}{2}}\frac{dt}{t}\\
+&= \int_{n + \frac{1}{2}}^{n + \frac{3}{2}}\frac{dt}{t} - \int_n^{n + 1} \frac{\floor{t}}{t^2}dt + \sum_{k = 1} ^ {n + 1} \frac{1}{k} - \ln\left(n + \frac{3}{2}\right) - \gamma.
+\end{align*}
+
+Resolvemos la primera integral
+\begin{align*}
+\int_{n + \frac{1}{2}}^{n + \frac{3}{2}} \frac{dt}{t} = \ln\left(n + \frac{3}{2}\right) - \ln\left(n + \frac{1}{2}\right).
+\end{align*}
+
+Resolvemos la segunda integral
+\begin{align*}
+\int_n^{n + 1} \frac{\floor{t}}{t^2}dt &= \int_n^{n + 1} \frac{n}{t^2}dt\\
+&= n \int_n^{n + 1} \frac{dt}{t^2}\\
+&= n \left(-\frac{1}{n + 1} + \frac{1}{n}\right)\\
+&= n \left(\frac{1}{n (n + 1)}\right)\\
+&= \frac{1}{n + 1}.
+\end{align*}
+
+Al reemplazar estos resultados conseguimos la igualdad
+$$
+\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma = \ln\left(n + \frac{3}{2}\right) - \ln\left(n + \frac{1}{2}\right) - \frac{1}{n + 1} + \sum_{k = 1} ^ {n + 1} \frac{1}{k} - \ln\left(n + \frac{3}{2}\right) - \gamma.
+$$
+
+De este modo, la diferencia entre dos aproximaciones resulta
+$$
+\left(\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma\right)
+- \left(\sum_{k = 1} ^ {n + 1} \frac{1}{k} - \ln\left(n + \frac{3}{2}\right) - \gamma\right)
+= \ln\left(n + \frac{3}{2}\right) - \ln\left(n + \frac{1}{2}\right) - \frac{1}{n + 1}.
+$$
+
+Definamos $f: \BR^+ \to \BR$ con
+$$f(x) = \ln\left(x + \frac{3}{2}\right) - \ln\left(x + \frac{1}{2}\right) - \frac{1}{x + 1}$$
+de donde se se pasa de inmediato a
+$$
+\left(\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma\right)
+- \left(\sum_{k = 1} ^ {n + 1} \frac{1}{k} - \ln\left(n + \frac{3}{2}\right) - \gamma\right)
+= f(n).
+$$
+
+Para conseguir una desigualdad telesc\'opica recurrimos a
+\begin{align*}
+\left(\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma\right)
+- \left(\sum_{k = 1} ^ {n + 1} \frac{1}{k} - \ln\left(n + \frac{3}{2}\right) - \gamma\right)
+&= f(n)\\
+\left(\sum_{k = 1} ^ {n + 1} \frac{1}{k} - \ln\left(n + \frac{3}{2}\right) - \gamma\right)
+- \left(\sum_{k = 1} ^ {n + 2} \frac{1}{k} - \ln\left(n + \frac{5}{2}\right) - \gamma\right)
+&= f(n + 1)\\
+\vdots\\
+\left(\sum_{k = 1} ^ {m} \frac{1}{k} - \ln\left(m + \frac{1}{2}\right) - \gamma\right)
+- \left(\sum_{k = 1} ^ {m + 1} \frac{1}{k} - \ln\left(m + \frac{3}{2}\right) - \gamma\right)
+&= f(m)
+\end{align*}
+y sumamos estos t\'erminos consiguiendo
+$$
+\left(\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma\right)
+- \left(\sum_{k = 1} ^ {m + 1} \frac{1}{k} - \ln\left((m + 1) + \frac{1}{2}\right) - \gamma\right)
+= \sum_{i = n}^m f(i).
+$$
+
+Aplicamos l\'imites a ambos lados de la igualdad
+\begin{align*}
+\lim_{m \to \infty} \left[\left(\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma\right)
+- \left(\sum_{k = 1} ^ {m + 1} \frac{1}{k} - \ln\left((m + 1) + \frac{1}{2}\right) - \gamma\right)\right]
+&= \lim_{m \to \infty} \sum_{i = n}^m f(i)\\
+\left(\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma\right)
+- \lim_{m \to \infty} \left[\left(\sum_{k = 1} ^ {m + 1} \frac{1}{k} - \ln\left((m + 1) + \frac{1}{2}\right) - \gamma\right)\right]
+&= \lim_{m \to \infty} \sum_{i = n}^m f(i)\\
+\left(\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma\right)
+- (\gamma - \gamma)
+&= \lim_{m \to \infty} \sum_{i = n}^m f(i)\\
+\sum_{k = 1} ^ n \frac{1}{k} - \ln\left(n + \frac{1}{2}\right) - \gamma &= \sum_{i = n}^\infty f(i).
+\end{align*}
+
+Con la idea de conseguir una integral, analicemos la derivada de $f$
+\begin{align*}
+f'(x) &= \frac{1}{x + \frac{3}{2}} - \frac{1}{x + \frac{1}{2}} + \frac{1}{(x + 1)^2}\\
+&= \frac{(x + \frac{1}{2})(x + 1)^2 - (x + \frac{3}{2})(x + 1)^2 + (x + \frac{3}{2})(x + \frac{1}{2})}{(x + \frac{3}{2})(x + 1)^2(x + \frac{1}{2})}\\
+&= \frac{-(x + 1)^2 + (x + \frac{3}{2})(x + \frac{1}{2})}{(x + \frac{3}{2})(x + 1)^2(x + \frac{1}{2})}\\
+&= \frac{- x^2 - 2x - 1 + x^2 + 2x + \frac{3}{4}}{(x + \frac{3}{2})(x + 1)^2(x + \frac{1}{2})}\\
+&= -\frac{1}{4(x + \frac{3}{2})(x + 1)^2(x + \frac{1}{2})}.
+\end{align*}
+
+Asimismo, sabemos que
+\begin{gather*}
+x + \frac{3}{2} > x + 1 > x + \frac{1}{2}\\
+\frac{1}{x + \frac{3}{2}} < \frac{1}{x + 1} < \frac{1}{x + \frac{1}{2}}
+\end{gather*}
+y por lo tanto tenemos
+$$f'(x) = -\frac{1}{4(x + \frac{3}{2})(x + 1)^2(x + \frac{1}{2})} < -\frac{1}{4(x + \frac{1}{2})^4}.$$
+
+
 \end{document}
