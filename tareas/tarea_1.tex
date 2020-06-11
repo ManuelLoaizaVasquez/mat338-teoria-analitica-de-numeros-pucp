@@ -1,0 +1,253 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts,latexsym,amsthm,amssymb,amsmath,amscd,euscript}
+\usepackage{mathtools}
+\usepackage{framed}
+% Descomentar fullpage cuando se quiera utilizar menos margen horizontal
+%\usepackage{fullpage}
+\usepackage{hyperref}
+    \hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
+
+\newenvironment{statement}[1]{\smallskip\noindent\color[rgb]{1.00,0.00,0.50} {\bf #1.}}{}
+\allowdisplaybreaks[1]
+
+% Comandos para teoremas, definiciones, ejemplos, lemas, etc. para sus respectivos body types.
+\renewcommand*{\proofname}{Prueba}
+\renewcommand{\contentsname}{Contenido}
+
+\newtheorem{theorem}{Teorema}
+\newtheorem*{proposition}{Proposici\'on}
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{conjecture}[theorem]{Conjetura}
+\newtheorem*{postulate}{Postulado}
+\theoremstyle{definition}
+\newtheorem{defn}[theorem]{Definici\'on}
+\newtheorem{example}[theorem]{Ejemplo}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Observaci\'on}
+\newtheorem*{notation}{Notaci\'on}
+\newtheorem*{note}{Nota}
+
+% Define tus comandos para hacer la vida más fácil.
+\newcommand{\BR}{\mathbb R}
+\newcommand{\BC}{\mathbb C}
+\newcommand{\BF}{\mathbb F}
+\newcommand{\BQ}{\mathbb Q}
+\newcommand{\BZ}{\mathbb Z}
+\newcommand{\BN}{\mathbb N}
+
+\title{MAT338 T\'opicos de An\'alisis}
+\author{Manuel Loaiza Vasquez, Jemisson Coronel Balde\'on}
+\date{30 de abril del 2020}
+
+\begin{document}
+
+\maketitle
+
+
+\vspace*{-0.25in}
+\centerline{Pontificia Universidad Cat\'olica del Per\'u}
+\centerline{Lima, Per\'u}
+\centerline{\href{mailto:manuel.loaiza@pucp.edu.pe}{{\tt manuel.loaiza@pucp.edu.pe}}, \href{mailto:   a20173133@pucp.edu.pe}{{\tt a20173133@pucp.edu.pe}}}
+\vspace*{0.15in}
+
+\begin{framed}
+    Solucionario de los problemas $36 - 40$ del cap\'itulo $2$ del libro {\it Introduction to Analytic Number Theory} de Tom Apostol para el curso dictado por el PhD. Alfredo Poirier el ciclo $2020-1$.
+\end{framed}
+
+\begin{statement}{36}
+Si $k \geq 1$ entonces $\mu_{k}(n^k) = \mu(n)$
+\end{statement}
+\begin{proof}
+Lo dividiremos en dos casos: \\ \\
+- Si $n = 1$, es f\'acil ver que cumple $\mu_{k}(1^{k}) = 1 = \mu(1)$. \\ \\
+- Si $n$ no es libre de cuadrados, entonces existe un $p$ primo tal que $p^2 \mid n$. En este caso, es f\'acil ver por definici\'on que
+$$\mu(n) = 0$$
+Ahora como $p^2 \mid n$, entonces $p^{2k} \mid n^k$, adem\'as es f\'acil notar que $p^{k + 1} \mid p^{2k}$ (ya que $k + 1 \leq 2k$, que es lo mismo que $1 \leq k$). Tenemos que $p^{k + 1} \mid n^k$, entonces 
+
+$$\mu_{k}(n^{k}) = 0$$ \\
+Claramente cumple que $\mu_{k}(n^k) = \mu(n)$. \\ \\
+- Si $n$ es libre de cuadrados, entonces $n$ se puede expresar como el producto $n = p_1\cdot p_2\dots p_r$, entonces tenemos que 
+
+$$\mu(n) = (-1)^r$$
+Ahora tambi\'en sabemos que $n^k = p_1^k\cdot p_2^k \dots p_r^k$, entonces por la definici\'on, obtenemos que 
+
+$$\mu_{k}(n^k) = (-1)^r$$ \\
+Claramente se cumple que $\mu_{k}(n^k) = \mu(n)$. \\ \\
+Finalmente, como cumple en los tres casos, tenemos que
+$$\mu_k(n^{k}) = \mu(n) \hbox{ , donde $k \geq 1$ } $$
+\end{proof}
+
+\begin{statement}{37}
+Cada funci\'on $\mu_k$ es multiplicativa.
+\end{statement}
+\begin{proof}
+Dado $k \geq 1$ fijo pero arbitrario y dos n\'umeros enteros positivos $M$ y $N$ tales que $(M, N) = 1$.
+Primero analicemos $MN = 1$, en este caso $M = 1$ y $N = 1$.
+$$\mu_k(1) = 1 = 1\cdot1 = \mu_k(1)\mu_k(1)$$
+Luego analicemos cuando existe $p$ tal que $p^{k + 1} \mid MN$. Por el teorema de divisibilidad, $p^{k + 1} \mid M$ o $p^{k + 1} \mid N$, pero no puede dividir a ambos porque son coprimos. Sin p\'erdida de generalidad, supongamos que divide a $M$, luego, por definici\'on, tenemos lo siguiente
+\begin{align*}
+    \mu_k(MN) &= 0\\
+    &= 0 \cdot \mu_k(N)\\
+    &= \mu_k(M)\mu_k(N)
+\end{align*}
+Finalmente, consideremos que podemos expresar a $M$ y $N$ de la siguiente forma, incluyendo el caso que $r_m$ y $r_n$ sean $0$.
+$$M = p_1^k p_2^k\dots p_{r_m}^k\prod_{i > r_m} p_i^{\alpha_i},\;\alpha_i < k$$
+$$N = q_1^k q_2^k\dots q_{r_n}^k\prod_{j > r_n} q_j^{\beta_j},\;\beta_j < k$$por lo cual no comparten ning\'un factor primo, por lo tanto, podemos multiplicar con tranquilidad. Ahora calculemos $\mu$ del producto
+\begin{align*}
+    \mu(MN) &= \mu(p_1^k p_2^k\dots p_{r_m}^k q_1^k q_2^k\dots q_{r_n}^k\prod_{i > r_m} p_i^{\alpha_i} \prod_{j > r_n} q_j^{\beta_j})\\
+    &= (-1)^{r_m + r_n}\\
+    &= (-1)^{r_m}(-1)^{r_n}\\
+    &= \mu(M)\mu(N)
+\end{align*}
+\end{proof}
+\begin{statement}{38}
+Si $k \geq 2$ tenemos que 
+$$\mu_k(n) = \sum_{d^k \mid n}\mu_{k - 1}\left (\frac{n}{d^k}\right )\mu_{k - 1}\left (\frac{n}{d} \right )$$
+\end{statement}
+
+\begin{proof}[Soluci\'on 1]
+Como todo problema, lo dividiremos en $3$ casos: \\ \\
+- Si $n = 1$, es f\'acil notar que cumple ya que $\mu_k(1) = 1 = \mu_{k - 1}(1)\cdot \mu_{k - 1}(1)$ \\ \\
+- Si existe $p$ tal que $p^{k + 1} \mid n$, entonces, es f\'acil notar que 
+$$\mu_k(n) = 0$$
+Ahora demostraremos que el factor $\mu_{k - 1}\left ( \frac{n}{d} \right )$ de la parte derecha siempre es $0$ para todo $d$ tal que $d^k \mid n$. Empezaremos asignando a $ord_p(n) = w$ y $ord_p(d) = \alpha$.\\ \\ 
+Como tenemos que $p^{k + 1} \mid n$, entonces $w \geq k + 1$. Tambi\'en tenemos que $d^{k} \mid n$, entonces $w \geq k\cdot \alpha$ (que es lo mismo que $\alpha \leq \frac{w}{k}$). Ahora veremos $ord_p(\frac{n}{d}) = ord_p(n) - ord_p(d) = w - \alpha$.
+$$ord_p(\frac{n}{d}) = w - \alpha \geq w - \frac{w}{k} \geq w\cdot \frac{k - 1}{k} \geq \frac{k^2 - 1}{k} > k - 1$$ \\
+Con lo cual tenemos que $ord_p(\frac{n}{d}) \geq k$ $\implies$ $p^k \mid \frac{n}{d}$ y ,por definici\'on, tenemos que $\mu_{k - 1}(\frac{n}{d}) = 0$. \\
+Con esto concluimos que cada sumando de la derecha siempre es $0$. Entonces cumple que 
+$$\mu_k(n) = 0 = \sum_{d^k \mid n}\mu_{k - 1}\left (\frac{n}{d^k}\right )\mu_{k - 1}\left (\frac{n}{d} \right )$$ \\ 
+- Todos los casos restantes, aqu\'i podemos expresar a $n$ de la siguiente forma:
+$$n = p_1^{k}p_2^{k}\dots p_a^{k}q_1^{k - 1}q_2^{k - 1}\dots q_b^{k - 1}t_1^{\alpha_1}\dots t_c^{\alpha_c}$$ \\
+donde $\alpha_i < k - 1$ y todos los $p's$, $q's$ y $t's$ son distintos dos a dos. Asignaremos a $P = p_1p_2\dots p_a$, $Q = q_1q_2\dots q_b$ y $T = t_1^{\alpha_1}\dots t_c^{\alpha_c}$ con lo cual tenemos que $n = P^kQ^{k - 1}T$ (adem\'as, es f\'acil notar que $P$, $Q$ y $T$ son coprimos). Por definici\'on, tenemos que
+$$\mu_k(n) = (-1)^{a}$$ \\
+Ahora veremos en que casos se anula la parte de la derecha. Si analizamos $\mu_{k - 1}\left (\frac{n}{d^k}\right )$, tenemos que
+$$\mu_{k - 1}\left (\frac{n}{d^k}\right ) = \mu_{k - 1}\left (\frac{P^kQ^{k - 1}T}{d^k}\right )$$ \\
+Supongamos que $d \nmid P$, entonces se pueden expresar $d = gd_1$ y $P = gP_1$ donde $(d_1, P_1) = 1$. Ahora como $d^{k} \mid P^{k}Q^{t - 1}T$ $\implies$ $d_1^k \mid P_1^kQ^{k - 1}T$ $\implies$ $d_1^k \mid Q^{k - 1}T$, entonces existe un primo $d_p$ tal que $d_p^k \mid Q^{k - 1}$ o $d_p^k \mid T$ (ya que $Q$ y $T$ son coprimos); sin embargo, por definici\'on, el exponente de todo primo que est\'a en $Q^{k - 1}$ y $T$ es a lo m\'as $k - 1$, con lo cual es imposible que exista $d_p$. \\ \\
+Entonces necesariamente $d \mid P$. Adem\'as
+$$\frac{P^kQ^{k - 1}T}{d^k} = \left ( \frac{P^k}{d^k} \right ) Q^{k - 1}T$$ \\
+y es f\'acil notar que los tres factores son coprimos, entonces por lo que vimos en el problema anterior tenemos que 
+$$\mu_{k - 1}(\frac{n}{d}) = \mu_{k - 1}\left ( \frac{P^k}{d^k} \right ) \mu_{k - 1}(Q^{k - 1}) \mu_{k - 1}(T)$$ \\
+Si $\frac{P}{d} > 1$, entonces $\mu_{k - 1}( \frac{P^k}{d^k} ) = 0$ , ya que si $\frac{P}{d}$ tiene un divisor primo $p_0$ $\implies$ $p_0^{k} \mid \frac{P^k}{d^k}$. Por lo que este t\'ermino no se anula en el \'unico caso de que $\frac{P}{d} = 1$ $\iff$ $d = P$.
+\begin{align*}
+    \sum_{d^k \mid n}\mu_{k - 1}\left (\frac{n}{d^k}\right )\mu_{k - 1}\left (\frac{n}{d} \right ) &= \sum_{d \neq P}\mu_{k - 1}\left (\frac{n}{d^k}\right )\mu_{k - 1}\left( \frac{n}{d}\right ) + \mu_{k - 1}\left ( \frac{n}{P^k} \right ) \mu_{k - 1} \left ( \frac{n}{P} \right ) \\
+    &= 0 + \mu_{k - 1}(Q^{k - 1}T) \mu_{k - 1}(P^{k - 1}Q^{k - 1}T)
+\end{align*} \\
+Si analizamos $Q^{k - 1}T = q_1^{k - 1}q_2^{k - 1}\dots q_b^{k - 1}t_1^{\alpha_1}\dots t_c^{\alpha_c}$ tenemos que $\mu_{k - 1}(Q^{k - 1}T) = (-1)^b$ y como $P^{k-1}Q^{k - 1}T = p_1^{k - 1}p_2^{k - 1}\dots p_a^{k - 1}q_1^{k - 1}q_2^{k - 1}\dots q_b^{k -1}t_1^{\alpha_1}\dots t_c^{\alpha_c}$, tenemos que $\mu(P^{k - 1}Q^{k - 1}T) = (-1)^{a + b}$. Por lo tanto su producto es $(-1)^b (-1)^{a + b} = (-1)^{2b} (-1)^a = (-1)^a.$
+$$\sum_{d^k \mid n}\mu_{k - 1}\left (\frac{n}{d^k}\right )\mu_{k - 1}\left (\frac{n}{d} \right ) = (-1)^{a}$$ \\
+Entonces concluimos que  
+$$\mu_{k}(n) = (-1)^a = \sum_{d^k \mid n}\mu_{k - 1}\left (\frac{n}{d^k}\right )\mu_{k - 1}\left (\frac{n}{d} \right )$$ \\ 
+
+\end{proof}
+\begin{proof}[Soluci\'on 2]
+Separaremos el problema en tres casos.
+
+-Primero analicemos $n = 1$. El \'unico divisor que tiene $1$ es $1$, por lo cual
+$$\sum_{d^k \mid 1} \mu_{k - 1}\left(\frac{1}{d^k}\right)\mu_{k - 1}\left(\frac{1}{d}\right) = \mu_{k - 1}(1)\mu_{k - 1}(1) = 1 \cdot 1 = 1 = \mu_k(1)$$
+
+-Luego analicemos cuando existe $p^{k + 1} \mid n$, para alg\'un $p$ primo. Aqu\'i analizar\'e todos los posibles divisores $d$.
+$$n = p_1^{a_1 k + b_1} \dots p_r^{a_r k + b_r}\prod_{i > r} p_i^{\alpha_i},\;\alpha_i \leq k,\; a_j k + b_j \geq k + 1,\;j = 1,\dots,r$$
+y $d$ es un divisor de $n$ tal que $d^k \mid n$. Supongamos que $(d^k, p_i) = 1,\;i = 1, \dots, r$, es decir, es un divisor que no comparte un factor primo con los elementos que tienen exponentes mayores o iguales que $k + 1$, entonces
+$$\mu_{k-1}\left(\frac{n}{d^k}\right)\mu_{k - 1}\left(\frac{n}{d}\right) = \mu_{k - 1}(p_1^{a_1 k + b_1} \dots p_r^{a_r k + b_r}X)\mu_{k-1}(Y) = 0$$
+pues $p_j^k \mid p_j^{a_j k + b_j} \implies \mu_{k - 1}(p_1^{a_1 k + b_1} \dots p_r^{a_r k + b_r}X) = 0$. Ahora analicemos cuando el divisor comparte al menos un factor primo, es decir, $(d^k, p_i) \not= 1,\; i = 1,\dots, r$. Supongamos que
+$$d = p_i^cX,\;(p_i^c, X) = 1,\; c \leq a$$
+pues $p_i^{ck} \mid p_i^{ak + b}$ mostar\'e que en este caso $\mu_{k-1}\left(\frac{n}{d}\right)$ siempre es igual a $0$.
+\begin{align*}
+    \frac{n}{d} &= \frac{p_i^{a_i k + b_i}Y}{p_i^cX}\\
+    &= p_i^{a_i k + b_i - c} Z
+\end{align*}
+Afirmo que $a_i k + b_i - c \geq k$. De la divisi\'on tenemos lo siguiente
+\begin{align*}
+    ak + b &\geq ck\\
+    ak + b - c &\geq ck - c\\
+    &= ck - c + k - k\\
+    &= k + k(c - 1) - c\\
+    &= k + k(c - 1) - c + 1 - 1\\
+    &= k + k(c - 1) -(c - 1) - 1\\
+    &= k + (k - 1)(c - 1) - 1\\
+    ak + b - c &\geq k + (k - 1)(c - 1) - 1
+\end{align*}
+Sabemos que $k \geq 2$, si $c > 1$ tenemos que
+$$ak + b - c \geq k + (k - 1)(c - 1) - 1 \geq k$$
+y si $c = 1$, tenemos que
+\begin{align*}
+    a_i k + b_i &\geq k + 1\\
+    a_i k + b_i - c &\geq k + 1 - c\\
+    a_i k + b_i - c &\geq k
+\end{align*}
+Por lo tanto $p_i^{a_i k + b_i - c} \geq p_i^k$ y $p_i^{a_i k + b_i - c} \mid p_i^{a_i k + b_i - c} \implies \mu_{k - 1}(p_i^{a_i k + b_i - c}Z) = 0$. Sea cual sea el valor de $d$, tenemos que siempre uno de los factores de la sumatoria da $0$ y, por lo tanto, el producto es $0$, as\'i que, al sumar todos estos
+$$\sum_{d^k \mid n}\mu_{k-1}\left(\frac{n}{d^k}\right)\mu_{k - 1}\left(\frac{n}{d}\right) = 0 = \mu_k(n)$$
+
+-Ahora liquidaremos el \'ultimo caso, analicemos cuando $n$ se puede escribir de la siguiente forma
+$$n = p_1^k p_2^k \dots p_r^k \prod_{i > r}p_i^{\alpha_i},\;\alpha_i < k$$
+y $d$ es un divisor de $n$ tal que $d^k \mid n$
+$$d = q_1 q_2 \dots q_m,\;m \leq r$$
+y $q_i$ es alg\'un $p_j$ que se encuentra elevado a la $k$ en la descomposici\'on de $n$. As\'i tenemos lo siguiente
+$$\frac{n}{d^k} = s_1^k s_2^k \dots s_{r - m}^k \prod_{i > r} p_i^{\alpha_i}$$
+$$\frac{n}{d} = s_1^k s_2^k \dots s_{r - m}^k s_{r - m + 1}^{k - 1} \dots s_r^{k - 1}\prod_{i > r} p_i^{\alpha_i}$$
+donde $s_i$ es alg\'un $p_j$ que se encuentra elevado a la $k$ en la descomposici\'on de $n$. Reemplazando esto en $\sum_{d^k \mid n} \mu_{k-1}\left(\frac{n}{d^k}\right)\mu_{k - 1}\left(\frac{n}{d}\right)$ obtenemos
+$$\sum_{d^k \mid n} \mu_{k - 1}(s_1^k s_2^k \dots s_{r - m}^k \prod_{i > r} p_i^{\alpha_i})\mu_{k - 1}(s_1^k s_2^k \dots s_{r - m}^k s_{r - m + 1}^{k - 1} \dots s_r^{k - 1}\prod_{i > r} p_i^{\alpha_i})$$
+Como $\mu_k$ es multiplicativa para todo $k \geq 1$ entonces separo la expresi\'on anterior
+$$\sum_{d^k \mid n} \mu_{k - 1}(s_1^k s_2^k \dots s_{r - m}^k)\mu_{k-1}(\prod_{i > r} p_i^{\alpha_i})\mu_{k - 1}(s_1^k s_2^k \dots s_{r - m}^k s_{r - m + 1}^{k - 1} \dots s_r^{k - 1})\mu_{k-1}(\prod_{i > r} p_i^{\alpha_i})$$
+$$\sum_{d^k \mid n} \mu_{k - 1}(s_1^k s_2^k \dots s_{r - m}^k)\mu_{k - 1}(s_1^k s_2^k \dots s_{r - m}^k s_{r - m + 1}^{k - 1} \dots s_r^{k - 1})(\mu_{k-1}(\prod_{i > r} p_i^{\alpha_i}))^2$$
+Asimismo, sabemos que $\mu_{k-1}(\prod_{i > r}p_i^{\alpha_i}) = \pm 1 \implies (\mu_{k-1}(\prod_{i>r}p_i^{\alpha_i}))^2 = 1$, pues $\alpha_i < k \implies \alpha_i \leq k - 1$, para todo $i > r$. Por lo tanto, nuestra expresi\'on se reduce a
+$$\sum_{d^k \mid n} \mu_{k - 1}(s_1^k s_2^k \dots s_{r - m}^k)\mu_{k - 1}(s_1^k s_2^k \dots s_{r - m}^k s_{r - m + 1}^{k - 1} \dots s_r^{k - 1})$$
+Todo factor $s_i^k \mid n \implies \mu_{k-1}(s_1^k\dots s_{r - m}^k) = 0$. La \'unica posibilidad de que esto sea distinto de $0$ es cuando $r = m$, es decir, $d = p_1 p_2 \dots p_r$. De esta manera, la sumatoria se reduce a lo siguiente
+\begin{align*}
+    \sum_{d^k \mid n} \mu_{k-1}\left(\frac{n}{d^k}\right)\mu_{k - 1}\left(\frac{n}{d}\right) &= \mu_{k-1}(1)\mu_{k-1}(p_1^{k-1}\dots p_r^{k-1})\\
+    &= \mu_{k-1}(p_1^{k-1}\dots p_r^{k-1})\\
+    &= (-1)^{r}\\
+    &= \mu_k(n)
+\end{align*}
+Finalmente, como cumple todos los casos, tenemos que
+$$\mu_k(n) = \sum_{d^k \mid n} \mu_{k-1}\left(\frac{n}{d^k}\right)\mu_{k - 1}\left(\frac{n}{d}\right),\;k\geq2$$
+\end{proof}
+
+\begin{statement}{39}
+Si $k \geq 1$ tenemos que
+$$|\mu_k(n)| = \sum_{d^{k + 1} \mid n}\mu(d)$$
+\end{statement}
+
+\begin{proof}
+Primero veremos el caso cl\'asico de $n = 1$, cumple ya que $|\mu_k(1)| = 1 = \mu(1)$. \\ \\
+Lo dividiremos en $2$ casos: \\ \\
+- En caso de que exista un $p$ tal que $p^{k + 1} \mid n$. Si esto ocurre, entonces
+$$|\mu_k(n)| = 0$$
+\begin{lemma}
+    $d^{s} \mid p_1^{a_1}\dots p_t^{a_t}$ $\iff$ $d \mid p_1^{\left \lfloor{\frac{a_1}{s}}\right \rfloor }\dots p_t^{\left \lfloor{\frac{a_2}{s}} \right \rfloor}$, y probar esto no es muy dif\'icil.
+\end{lemma} 
+\noindent \\
+Ahora volviendo al problema, sabemos que el $ord_p(n) \geq k + 1$, entonces $\left \lfloor{\frac{ord_p(n)}{k + 1}}\right \rfloor \geq 1$. Y si aplicamos el lema $d^{k + 1} \mid n$ $\iff$ $d \mid m$ (donde solo nos van a importar el $ord_p$), adem\'as es f\'acil notar que $p \mid m$, por lo que $m > 1$.
+$$\sum_{d^{k + 1} \mid n}\mu(d) = \sum_{d \mid m} \mu(d) = 0 \hbox{ , ya que $m > 1$}$$ \\
+Con lo cual concluimos que 
+$$|\mu_k(n)| = 0 = \sum_{d^{k + 1} \mid n}\mu(d)$$ \\ \\
+- En caso de que no exista tal $p$, entonces $ord_q(n) \leq k$ para todo primo $q$. De aqu\'i es f\'acil notar que $\mu_k(n) \neq 0$, entonces $\mu_k(n) = \pm 1$ y por lo tanto 
+$$|\mu_k(n)| = 1$$ \\
+Si usamos el lema para la segunda parte
+$$\sum_{d^{k + 1} \mid n}\mu(d) = \sum_{d \mid 1} \mu(d) = 1 \hbox{ , ya que $ord_q{n} \leq k$ para todo primo $q$}$$ \\
+Tambi\'en llegamos que 
+$$|\mu_k(n)| = 1 = \sum_{d^{k + 1} \mid n}\mu(d)$$ \\ \\
+Finalmente llegamos a que 
+$$|\mu_k(n)| = \sum_{d^{k + 1} \mid n}\mu(d) \hbox{ , para todo $n$}$$
+
+\end{proof}
+
+\begin{statement}{40}
+Para cada primo $p$, la serie de Bell para $\mu_k$ est\'a dada por
+$$(\mu_k)_p(x) = \frac{1 - 2x^k + x^{k+1}}{1-x}$$
+\end{statement}
+\begin{proof}
+Aplicamos la definici\'on, adem\'as, sabemos que $\mu_k(p^m) = 0, m > k$
+\begin{align*}
+    (\mu_k)_p(x) &= \sum_{n = 0}^{\infty} \mu_k(p^n)x^n\\
+    &= \mu_k(1) + \mu_k(p)x + \dots + \mu_k(p^{k - 1})x^{k - 1} + \mu_k(p^k)x^k + 0\\
+    &= 1 + x + \dots + x^{k - 1} - x^k\\
+    &= \frac{1 - x^k}{1 - x} - x^k\\
+    &= \frac{1 - x^k - x^k + x^{k + 1}}{1 - x}\\
+    &= \frac{1 - 2x^k + x^{k + 1}}{1 - x}
+\end{align*}
+Finalmente, hemos probado lo pedido.
+\end{proof}
+\end{document}
