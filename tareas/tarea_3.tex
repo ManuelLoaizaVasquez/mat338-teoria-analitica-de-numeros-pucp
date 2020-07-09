@@ -84,37 +84,116 @@ Para todo n\'umero real $x$ tenemos
 $$\floor{x} = x + O(1).$$
 \end{lemma}
 
+\begin{proof}
+Sea $x = n + r$ un n\'umero real no negativo, con $n \in \BZ$ y $0 \leq r < 1$. De esta manera, por definici\'on de m\'aximo entero tenemos
+\begin{align*}
+\floor{x} &= n \\
+&= x - r \\
+&= x + O(1).
+\end{align*}
+Concluimos trivialmente que $\floor{x} = x + O(1)$.
+\end{proof}
+
+\begin{lemma}
+Para todo $x \geq 1$ tenemos
+$$\Psi(x) = O(x).$$
+\end{lemma}
+
+\begin{lemma}
+La funci\'on de Mangoldt se puede expresar como el siguiente producto de Dirichlet
+$$\Lambda = \mu * \ln.$$
+\end{lemma}
+
+\begin{proof}
+Sabemos que $\Lambda * 1 = \ln$ y aplicamos los propiedades del producto de Dirichlet
+\begin{align*}
+(\Lambda * 1) * \mu &= \ln * \mu \\
+\Lambda * (1 * \mu) &= \ln * \mu \\
+\Lambda * \mathbb{U} &= \ln * \mu \\
+\Lambda &= \ln * \mu \\
+\Lambda &= \mu * \ln.
+\end{align*}
+Concluimos que $\Lambda = \mu * \ln$.
+\end{proof}
+
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
 $$\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1).$$
 \end{lemma}
 
 \begin{proof}
-Sabemos que $\ln = \Lambda * 1$ y desarrollamos
+Sabemos que $\ln = \Lambda * 1$, por lo tanto, desarrollamos
 \begin{align*}
 \ln n &= \sum_{d \mid n} \Lambda(d) \\
 \sum_{n \leq x} \ln n &= \sum_{n \leq x} \sum_{d \mid n} \Lambda(d).
 \end{align*}
-Utilizando el Lema 3 obtenemos
+Del Lema 3 obtenemos
 \begin{align*}
 \sum_{n \leq x} \ln n &= \sum_{n \leq x} \Lambda(n) \floor{\frac{x}{n}}
 \end{align*}
-y utilizamos el Lema 4
+y utilizando el Lema 4 conseguimos
 \begin{align*}
 \sum_{n \leq x} \ln n &= \sum_{n \leq x} \Lambda(n) \left(\frac{x}{n} + O(1)\right) \\
 &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O\left(\sum_{n \leq x} \Lambda(x) \right) \\
-&= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(\Psi(x))
+&= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(\Psi(x)).
 \end{align*}
+La astucia de Chebyshev es la que permite mejorar el estimado que obtuvimos en clase de 
+$\Psi(x) = \vartheta(x) + O(\sqrt{x} \ln^2 x)$ con $\vartheta(x) = O(x \ln x)$ 
+por $\Psi(x) = O(x)$ gracias al Lema 5.
+Utilizando este poderoso teorema de Chebyshev y aplicando el Lema 2 en la suma acumulada de logaritmos conseguimos
+\begin{align*}
+x\ln x - x + O(\ln x) &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(x)
+\end{align*}
+y despejamos
+\begin{align*}
+\sum_{n \leq x} \frac{\Lambda(n)}{n} &= \frac{x \ln x}{x} - 1 + O\left(\frac{\ln x}{x}\right) + O(1) \\
+&= \ln x - 1 + O(1) + O\left(\frac{\ln x}{x}\right) \\
+&\leq \ln x - 1 + c_0 + O(1) \\
+&\leq \ln x + c_1 \\
+&= \ln x + O(1).
+\end{align*}
+Concluimos que $\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1)$.
 \end{proof}
 
 \begin{lemma}
 Para todo $f, g : [1, \infty) \to \BR$ con $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right) \ln x$ tenemos
-$$\sum_{n \leq x} \mu(n) g(\frac{x}{n}) = f(x) \ln(x) + \sum_{n \leq x} f\left(\frac{x}{n}\right) \Lambda(n).$$
+$$\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = f(x) \ln(x) + \sum_{n \leq x} f\left(\frac{x}{n}\right) \Lambda(n).$$
 \end{lemma}
 
+\begin{proof}
+Desarrollemos la sumatoria que queremos analizar
+\begin{align*}
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= \sum_{cd \leq x} \mu(c)g(d) \\
+&= \sum_{cd \leq x} \mu(c) \sum_{e \leq d} f\left(\frac{d}{e}\right) \ln(d) \\
+&= \sum_{cd \leq x} \mu(c) \ln\left(\frac{x}{c}\right) f \left(\frac{x}{cd}\right) \\
+&= \sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \ln\left(\frac{x}{n}\right) \\
+&= \sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \left[\ln \left(\frac{x}{n}\right) + \ln\left(\frac{n}{d}\right)\right] \\
+&= \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \ln\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d)\right]
++  \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \ln\left(\frac{n}{d}\right)\right].
+\end{align*}
+Asimismo, sabemos que $\mu * 1 = \mathbb{U}$ y
+sabemos que el \'unico valor de $\mathbb{U}$ distinto de cero se obtiene en uno.
+Por consiguiente, la igualdad se reduce a
+\begin{align*}
+\sum_{n \leq x} \mu(n)g\left(\frac{x}{n}\right) &= f(x)\ln x + \sum_{n \leq x} f\left(\frac{x}{n}\right) (\mu * \ln)(n).
+\end{align*}
+Finalmente, utilizamos el Lema $6$ para concluir que $\sum_{n \leq x} \mu(n)g\left(\frac{x}{n}\right) = f(x)\ln x + \sum_{n \leq x} f\left(\frac{x}{n}\right)\Lambda(n)$.
+\end{proof}
+
 \begin{lemma}
-Para todo $x > 1$ tenemos
+Para todo $x \geq 1$ tenemos
 $$\ln^2 x = O(\sqrt{x}).$$
 \end{lemma}
+
+\begin{proof}
+Sabemos que para todo $x \geq 1$ se cumple que $x > \ln x$ analizando simplemente la derivada de $x - \ln x$.
+\begin{align*}
+\ln^2 x &= \ln^2 ((x ^ {\frac{1}{4}}) ^ 4) \\
+&= 16 \ln^2 (x ^ {\frac{1}{4}}) \\
+&< 16 (x ^ {\frac{1}{4}}) ^ 2 \\
+&= 16 \sqrt{x}.
+\end{align*}
+Por lo tanto, concluimos que $\ln^2 x = O(\sqrt{x})$.
+\end{proof}
 
 \end{document}
