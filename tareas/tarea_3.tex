@@ -61,7 +61,60 @@
 
 \begin{statement}{1}
 Para todo n\'umero real $x$ mayor o igual a $1$ se cumple la f\'ormula de Selberg
-$$\sum_{p \leq x} \ln^2(p) + \sum_{pq <= x} \ln(p) \ln(q) = 2x\ln(x) + O(x).$$
+$$\sum_{p \leq x} \ln^2(p) + \sum_{pq \leq x} \ln(p) \ln(q) = 2x\ln(x) + O(x).$$
 \end{statement}
+ 
+\begin{lemma}
+Para todo $x \geq 1$ tenemos
+$$\sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right).$$
+\end{lemma}
+
+\begin{lemma}
+Para todo $x \geq 1$ tenemos
+$$\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x).$$
+\end{lemma}
+
+\begin{lemma}
+Para toda funci\'on aritm\'etia $f$ se cumple
+$$\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f(n) \floor{\frac{x}{n}}.$$
+\end{lemma}
+
+\begin{lemma}
+Para todo n\'umero real $x$ tenemos
+$$\floor{x} = x + O(1).$$
+\end{lemma}
+
+\begin{lemma}
+Para todo $x \geq 1$ tenemos
+$$\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1).$$
+\end{lemma}
+
+\begin{proof}
+Sabemos que $\ln = \Lambda * 1$ y desarrollamos
+\begin{align*}
+\ln n &= \sum_{d \mid n} \Lambda(d) \\
+\sum_{n \leq x} \ln n &= \sum_{n \leq x} \sum_{d \mid n} \Lambda(d).
+\end{align*}
+Utilizando el Lema 3 obtenemos
+\begin{align*}
+\sum_{n \leq x} \ln n &= \sum_{n \leq x} \Lambda(n) \floor{\frac{x}{n}}
+\end{align*}
+y utilizamos el Lema 4
+\begin{align*}
+\sum_{n \leq x} \ln n &= \sum_{n \leq x} \Lambda(n) \left(\frac{x}{n} + O(1)\right) \\
+&= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O\left(\sum_{n \leq x} \Lambda(x) \right) \\
+&= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(\Psi(x))
+\end{align*}
+\end{proof}
+
+\begin{lemma}
+Para todo $f, g : [1, \infty) \to \BR$ con $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right) \ln x$ tenemos
+$$\sum_{n \leq x} \mu(n) g(\frac{x}{n}) = f(x) \ln(x) + \sum_{n \leq x} f\left(\frac{x}{n}\right) \Lambda(n).$$
+\end{lemma}
+
+\begin{lemma}
+Para todo $x > 1$ tenemos
+$$\ln^2 x = O(\sqrt{x}).$$
+\end{lemma}
 
 \end{document}
