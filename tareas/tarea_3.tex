@@ -270,6 +270,23 @@ para el caso particular cuando $\sigma = \frac{1}{2}$.
 &= O(x).
 \end{align*}
 Ahora desarrollar\'e la parte de la derecha de la igualdad inicial
+$$(\Psi(x) - x + \gamma + 1) \ln x + \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \Lambda(n)$$
+\begin{align*}
+&= \Psi(x)\ln x + (-x + \gamma + 1) \ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1) \sum_{n \leq x} \Lambda(n) \\
+&= \Psi(x)\ln x + (-x + \gamma + 1) \ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1) \Psi(x) \\
+&= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1)\Psi(x)
+\end{align*}
+y utilizando el Lema 5 y el Lema 7 reducimos la expresi\'on
+\begin{align*}
+&= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x(\ln x + O(1)) + O(x) \\
+&= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x).
+\end{align*}
+Finalmente, igualamos los resultados de ambas partes
+\begin{align*}
+\Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x) &= O(x)\\
+\Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) &= 2x \ln x + O(x)
+\end{align*}
+concluyendo con la prueba del lema.
 \end{proof}
 
 \begin{lemma}
