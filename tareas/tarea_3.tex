@@ -99,6 +99,19 @@ Para todo $x \geq 1$ tenemos
 $$\Psi(x) = O(x).$$
 \end{lemma}
 
+\begin{proof}
+Utilizar\'e teorema de Chebyshev obtenido en la clase en la cual desarrollamos el paper \textit{Elementary methods in the study of the distribution of prime numbers} de Harold Diamond
+$$A \leq \liminf \frac{\Psi(x)}{x} \leq \limsup \frac{\Psi(x)}{x} \leq \frac{6A}{5}$$
+con $A = -\frac{\ln 1}{1} + \frac{\ln 2}{2} + \frac{\ln 3}{3} + \frac{\ln 5}{5} - \frac{\ln 30}{30} \approx 0.92129202293409078091340844996160...$
+Para analizar el comportamiento asint\'otico nos centraremos en la parte derecha de la desigualdad reescribi\'endola con valor absoluto ya que es una funci\'on positiva
+$$\limsup \frac{|\Psi(x)|}{x} \leq \frac{6A}{5}.$$
+Por definici\'on, sabemos que existe un $n_0$ a partir del cual
+$$\frac{|\Psi(x)|}{x} \leq \frac{6A}{5}$$
+para todo $x > n_0$. Pasamos a multiplicar la funci\'on lineal y obtenemos
+$$|\Psi(x)| \leq \left(\frac{6A}{5}\right) x$$
+con $\frac{6A}{5} > 0$, lo cual denotamos con $\Psi(x) = O(x)$.
+\end{proof}
+
 \begin{lemma}
 La funci\'on de Mangoldt se puede expresar como el siguiente producto de Dirichlet
 $$\Lambda = \mu * \ln.$$
@@ -194,6 +207,85 @@ Sabemos que para todo $x \geq 1$ se cumple que $x > \ln x$ analizando simplement
 &= 16 \sqrt{x}.
 \end{align*}
 Por lo tanto, concluimos que $\ln^2 x = O(\sqrt{x})$.
+\end{proof}
+
+\begin{lemma}
+Para todo $x \geq 1$ tenemos
+$$\Psi(x) \ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) = 2x\ln x + O(x).$$
+\end{lemma}
+
+\begin{proof}
+Para poder utilizar el Lema 8, debemos definir convenientemente la funci\'on $f : [1, \infty) \to \BR$ como
+$$f(x) = \Psi(x) - x + \gamma + 1.$$
+Antes de aplicar el Lema 8 le daremos forma a la funci\'on $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x$
+\begin{align*}
+\sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x &= \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \ln x \\
+&= \sum_{n \leq x} \Psi\left(\frac{x}{n}\right) \ln x - x \ln x \sum_{n \leq x} \frac{1}{n} + (\gamma + 1) \ln x \sum_{n \leq x} 1.
+\end{align*}
+Analicemos por separado a cada sumatoria. Primero $\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)$
+\begin{align*}
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right) &= \sum_{n \leq x} \sum_{d \leq \frac{x}{n}} \Lambda(d) \\
+&= \sum_{n \leq x} \sum_{d \mid n} \Lambda(d) \\
+&= \sum_{n \leq x} (\Lambda * 1)(n) \\
+&= \sum_{n \leq x} \ln n
+\end{align*}
+el cual es igual a $x\ln x - x + O(\ln x)$ por el Lema 2 y multiplic\'andole el logaritmo obtenemos
+$$\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\ln x = x \ln^2 x - x \ln x + O(\ln^2 x).$$
+Ahora analicemos la segunda sumatoria utilizando el Lema 1
+\begin{align*}
+-x \ln x \sum_{n \leq x} \frac{1}{n} &= -x \ln x \left(\ln x + \gamma + O\left(\frac{1}{x}\right)\right) \\
+&= -x \ln^2 x - \gamma x \ln x + O(\ln x).
+\end{align*}
+Finalmente, analicemos la tercera sumatorio utilizando el Lema 4
+\begin{align*}
+(\gamma + 1) \ln x \sum_{n \leq x} 1 &= (\gamma + 1) \ln x \floor{x} \\
+&= (\gamma + 1) \ln x (x + O(1)) \\
+&= (\gamma + 1) x \ln x + O(\ln x).
+\end{align*}
+Juntando los tres resultados obtenemos
+\begin{align*}
+g(x) &= x \ln^2 x - x \ln x + O(\ln^2 x) - x \ln^2 x - \gamma x \ln x + O(\ln x) + (\gamma + 1) x \ln x + O(\ln x) \\
+&= O(\ln^2 x) + O(\ln x) \\
+&= O(\ln^2 x)
+\end{align*}
+Utilizando el Lema 8 obtenemos la igualdad
+$$\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = (\Psi(x) - x + \gamma + 1) \ln x + \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \Lambda(n)$$
+y analizaremos ambos lados de la desigualdad por separado.
+Utilizando la desigualdad triangular en la secci\'on de la izquierda y luego el hecho de que $g(x) = O(\ln^2 x)$ obtenemos
+\begin{align*}
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &\leq \sum_{n \leq x} g\left(\frac{x}{n}\right) \\
+&= O\left(\sum_{n \leq x} g\left(\frac{x}{n}\right)\right) \\
+&= O\left(\sum_{n \leq x} \ln^2 \left(\frac{x}{n}\right)\right).
+\end{align*}
+Utilizamos el Lema 9 para conseguir
+\begin{align*}
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= O\left(\sum_{n \leq x} \sqrt{\frac{x}{n}}\right) \\
+&= O\left(\sqrt{x} \sum_{n \leq x} \frac{1}{\sqrt{n}}\right).
+\end{align*}
+Ahora utilizar\'e otro teorema que probamos en la secci\'on en la cual estudiamos a la funci\'on $\zeta$ de Riemann
+$$\sum_{n \leq x} \frac{1}{n^\sigma} = \frac{x^{1 - \sigma}}{1 - \sigma} + O(1) = O(x ^ {1 - \sigma}), 0 < \sigma < 1$$
+para el caso particular cuando $\sigma = \frac{1}{2}$.
+\begin{align*}
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= O(\sqrt{x}\sqrt{x}) \\
+&= O(x).
+\end{align*}
+Ahora desarrollar\'e la parte de la derecha de la igualdad inicial
+\end{proof}
+
+\begin{lemma}
+Para todo $x \geq 1$ y $p$ un n\'umero primo tenemos
+$$\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x).$$
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{theorem}[F\'ormula Asint\'otica de Selberg]
+Para todo $x \geq 1$ y $p$, $q$ n\'umeros primos distintos tenemos
+$$\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x).$$
+\end{theorem}
+
+\begin{proof}
 \end{proof}
 
 \end{document}
