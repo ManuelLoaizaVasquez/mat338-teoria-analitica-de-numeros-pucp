@@ -75,7 +75,7 @@ $$\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x).$$
 \end{lemma}
 
 \begin{lemma}
-Para toda funci\'on aritm\'etia $f$ se cumple
+Para toda funci\'on aritm\'etica $f$ se cumple
 $$\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f(n) \floor{\frac{x}{n}}.$$
 \end{lemma}
 
@@ -140,6 +140,7 @@ Sabemos que $\ln = \Lambda * 1$, por lo tanto, desarrollamos
 \ln n &= \sum_{d \mid n} \Lambda(d) \\
 \sum_{n \leq x} \ln n &= \sum_{n \leq x} \sum_{d \mid n} \Lambda(d).
 \end{align*}
+
 Del Lema 3 obtenemos
 \begin{align*}
 \sum_{n \leq x} \ln n &= \sum_{n \leq x} \Lambda(n) \floor{\frac{x}{n}}
@@ -150,6 +151,7 @@ y utilizando el Lema 4 conseguimos
 &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O\left(\sum_{n \leq x} \Lambda(x) \right) \\
 &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(\Psi(x)).
 \end{align*}
+
 La astucia de Chebyshev es la que permite mejorar el estimado que obtuvimos en clase de 
 $\Psi(x) = \vartheta(x) + O(\sqrt{x} \ln^2 x)$ con $\vartheta(x) = O(x \ln x)$ 
 por $\Psi(x) = O(x)$ gracias al Lema 5.
@@ -165,6 +167,7 @@ y despejamos
 &\leq \ln x + c_1 \\
 &= \ln x + O(1).
 \end{align*}
+
 Concluimos que $\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1)$.
 \end{proof}
 
@@ -184,12 +187,14 @@ Desarrollemos la sumatoria que queremos analizar
 &= \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \ln\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d)\right]
 +  \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \ln\left(\frac{n}{d}\right)\right].
 \end{align*}
+
 Asimismo, sabemos que $\mu * 1 = \mathbb{U}$ y
 sabemos que el \'unico valor de $\mathbb{U}$ distinto de cero se obtiene en uno.
 Por consiguiente, la igualdad se reduce a
 \begin{align*}
 \sum_{n \leq x} \mu(n)g\left(\frac{x}{n}\right) &= f(x)\ln x + \sum_{n \leq x} f\left(\frac{x}{n}\right) (\mu * \ln)(n).
 \end{align*}
+
 Finalmente, utilizamos el Lema $6$ para concluir que $\sum_{n \leq x} \mu(n)g\left(\frac{x}{n}\right) = f(x)\ln x + \sum_{n \leq x} f\left(\frac{x}{n}\right)\Lambda(n)$.
 \end{proof}
 
@@ -206,6 +211,7 @@ Sabemos que para todo $x \geq 1$ se cumple que $x > \ln x$ analizando simplement
 &< 16 (x ^ {\frac{1}{4}}) ^ 2 \\
 &= 16 \sqrt{x}.
 \end{align*}
+
 Por lo tanto, concluimos que $\ln^2 x = O(\sqrt{x})$.
 \end{proof}
 
@@ -217,11 +223,12 @@ $$\Psi(x) \ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) = 2x\ln
 \begin{proof}
 Para poder utilizar el Lema 8, debemos definir convenientemente la funci\'on $f : [1, \infty) \to \BR$ como
 $$f(x) = \Psi(x) - x + \gamma + 1.$$
-Antes de aplicar el Lema 8 le daremos forma a la funci\'on $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x$
+y antes de aplicar el Lema 8 le daremos forma a la funci\'on $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x$
 \begin{align*}
 \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x &= \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \ln x \\
 &= \sum_{n \leq x} \Psi\left(\frac{x}{n}\right) \ln x - x \ln x \sum_{n \leq x} \frac{1}{n} + (\gamma + 1) \ln x \sum_{n \leq x} 1.
 \end{align*}
+
 Analicemos por separado a cada sumatoria. Primero $\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)$
 \begin{align*}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right) &= \sum_{n \leq x} \sum_{d \leq \frac{x}{n}} \Lambda(d) \\
@@ -231,23 +238,27 @@ Analicemos por separado a cada sumatoria. Primero $\sum_{n \leq x} \Psi\left(\fr
 \end{align*}
 el cual es igual a $x\ln x - x + O(\ln x)$ por el Lema 2 y multiplic\'andole el logaritmo obtenemos
 $$\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\ln x = x \ln^2 x - x \ln x + O(\ln^2 x).$$
+
 Ahora analicemos la segunda sumatoria utilizando el Lema 1
 \begin{align*}
 -x \ln x \sum_{n \leq x} \frac{1}{n} &= -x \ln x \left(\ln x + \gamma + O\left(\frac{1}{x}\right)\right) \\
 &= -x \ln^2 x - \gamma x \ln x + O(\ln x).
 \end{align*}
+
 Finalmente, analicemos la tercera sumatorio utilizando el Lema 4
 \begin{align*}
 (\gamma + 1) \ln x \sum_{n \leq x} 1 &= (\gamma + 1) \ln x \floor{x} \\
 &= (\gamma + 1) \ln x (x + O(1)) \\
 &= (\gamma + 1) x \ln x + O(\ln x).
 \end{align*}
+
 Juntando los tres resultados obtenemos
 \begin{align*}
 g(x) &= x \ln^2 x - x \ln x + O(\ln^2 x) - x \ln^2 x - \gamma x \ln x + O(\ln x) + (\gamma + 1) x \ln x + O(\ln x) \\
 &= O(\ln^2 x) + O(\ln x) \\
 &= O(\ln^2 x)
 \end{align*}
+
 Utilizando el Lema 8 obtenemos la igualdad
 $$\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = (\Psi(x) - x + \gamma + 1) \ln x + \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \Lambda(n)$$
 y analizaremos ambos lados de la desigualdad por separado.
@@ -257,18 +268,21 @@ Utilizando la desigualdad triangular en la secci\'on de la izquierda y luego el 
 &= O\left(\sum_{n \leq x} g\left(\frac{x}{n}\right)\right) \\
 &= O\left(\sum_{n \leq x} \ln^2 \left(\frac{x}{n}\right)\right).
 \end{align*}
+
 Utilizamos el Lema 9 para conseguir
 \begin{align*}
 \sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= O\left(\sum_{n \leq x} \sqrt{\frac{x}{n}}\right) \\
 &= O\left(\sqrt{x} \sum_{n \leq x} \frac{1}{\sqrt{n}}\right).
 \end{align*}
+
 Ahora utilizar\'e otro teorema que probamos en la secci\'on en la cual estudiamos a la funci\'on $\zeta$ de Riemann
-$$\sum_{n \leq x} \frac{1}{n^\sigma} = \frac{x^{1 - \sigma}}{1 - \sigma} + O(1) = O(x ^ {1 - \sigma}), 0 < \sigma < 1$$
+$$\sum_{n \leq x} \frac{1}{n^\sigma} = \frac{x^{1 - \sigma}}{1 - \sigma} + O(1) = O(x ^ {1 - \sigma}), \, 0 < \sigma < 1$$
 para el caso particular cuando $\sigma = \frac{1}{2}$.
 \begin{align*}
 \sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= O(\sqrt{x}\sqrt{x}) \\
 &= O(x).
 \end{align*}
+
 Ahora desarrollar\'e la parte de la derecha de la igualdad inicial
 $$(\Psi(x) - x + \gamma + 1) \ln x + \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \Lambda(n)$$
 \begin{align*}
@@ -281,6 +295,7 @@ y utilizando el Lema 5 y el Lema 7 reducimos la expresi\'on
 &= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x(\ln x + O(1)) + O(x) \\
 &= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x).
 \end{align*}
+
 Finalmente, igualamos los resultados de ambas partes
 \begin{align*}
 \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x) &= O(x)\\
@@ -290,11 +305,112 @@ concluyendo con la prueba del lema.
 \end{proof}
 
 \begin{lemma}
+Para todo $x \geq 1$ tenemos
+$$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln x).$$
+\end{lemma}
+
+\begin{proof}
+Sabemos que
+$$\Psi(x) = \sum_{n = 1}^\infty \vartheta(x^\frac{1}{n})$$
+y al mismo tiempo esa sumatoria tiene una cantidad finita de elementos puesto que la funci\'on $\vartheta$ 
+solo tiene sentido cuando es evaluada en valores mayores o iguales a $2$. Hallamos ese momento $m$
+\begin{align*}
+x^\frac{1}{m} &\geq 2 \\
+x^\frac{2}{m} &\geq 4 \\
+x^\frac{2}{m} &> e \\
+\frac{2}{m}\ln x &> \ln e \\
+\frac{2}{m}\ln x &> 1 \\
+m &< 2 \ln x
+\end{align*}
+y notamos que para valores mayores $m = \floor{2 \ln x}$ los elementos de la suma son iguales a cero.
+Ahora podemos escribir a $\Psi$ de la siguiente forma
+$$\Psi(x) = \vartheta(x) + \vartheta(x^\frac{1}{2}) + \cdots + \vartheta(x^\frac{1}{m}).$$
+\end{proof}
+
+\begin{lemma}
+Sea $p$ un n\'umero primo, la serie
+$$\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}$$
+converge.
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{lemma}
 Para todo $x \geq 1$ y $p$ un n\'umero primo tenemos
 $$\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x).$$
 \end{lemma}
 
 \begin{proof}
+Analicemos la diferencia de sumatorias utilizando sus definiciones
+\begin{align*}
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+&= \sum_{n \leq x} \sum_{m \leq \frac{x}{n}} \Lambda(m)\Lambda(n) - \sum_{p \leq x} \sum_{q \leq \frac{x}{p}} \ln q \ln p \\
+&= \sum_{nm \leq x} \Lambda(n)\Lambda(m) - \sum_{pq \leq x} \ln p \ln q.
+\end{align*}
+
+Analicemos que ocurre cuando restamos, la funci\'on de Mangoldt solo actuar\'a sobre las potencias de los primos,
+en particular, todas las combinaciones de primos con potencias iguales a uno son exactamente la sumatoria que estamos restando a la derecha.
+De esta manera, solo nos queda analizar cuando al menos uno de los exponentes es mayor o igual a dos, y debido a que son primos distintos,
+podemos fijar este exponente en el primer n\'umero primo y que el exponente del segundo n\'umero primo tome cualquier valor
+\begin{align*}
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+&= O\left(\sum_{\substack{p^n q^m \leq x \\ n \geq 2, m \geq 1}} \ln p \ln q\right) \\
+&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \sum_{\substack{q^m \leq \frac{x}{p^n} \\ m \geq 1}} \ln q\right) \\
+&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \Psi\left(\frac{x}{n^p}\right)\right).
+\end{align*}
+
+Utilizamos el Lema 5 en la \'ultima igualdad
+\begin{align*}
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \frac{x}{p^n}\right) \\
+&= O\left(x\sum_{\substack{p^n \leq x \\ n \geq 2}} \frac{\ln p}{p^n}\right).
+\end{align*}
+
+Para poder desdoblar la sumatoria, tenemos que notar que para que las potencias mayores o iguales a dos de los n\'umeros primos sean menores o iguales a $x$,
+como m\'aximo los n\'umeros son menores o iguales que la ra\'iz de $x$, pues de no serlo, estos primos al cuadrado exceder\'ian $x$. Asimismo, reemplazo
+los t\'erminos de la sumatoria derecha por una serie geom\'etrica puesto que cada una de ellas converge y acota a la sumatoria finita
+\begin{align*}
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+&= O\left(x \sum_{p \leq \sqrt{x}} \ln p \sum_{n \geq 2} \frac{1}{p^n}\right).
+\end{align*}
+
+Ahora realizar\'e el cambio de variable $m = n - 2$ en la sumatoria
+\begin{align*}
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+&= O\left(x \sum_{p \leq \sqrt{x}} \ln p \sum_{m \geq 0} \frac{1}{p^{m + 2}}\right) \\
+&= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p^2} \sum_{m \geq 0} \frac{1}{p^m}\right) \\
+&= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p^2} \left(\frac{1}{1 - \frac{1}{p}}\right)\right) \\
+&= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p^2} \left(\frac{p}{p - 1}\right)\right) \\
+&= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p (p - 1)}\right).
+\end{align*}
+
+Del Lema 12, no solo sabemos que $\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}$ coverge sino que est\'a acotada por un n\'umero real positivo.
+Debido a esto, podemos reducir la expresi\'on
+\begin{align*}
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+&= O\left(x \sum_{p = 2}^\infty \frac{\ln p}{p (p - 1)}\right) \\
+&= O(cx) \\
+&= O(x).
+\end{align*}
+
+Utilicemos el Lema 10 en la sumatoria que involucra $\Psi$ y $\Lambda$
+\begin{align*}
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+&= O(x) \\
+2x\ln x + O(x) - \Psi(x)\ln x - - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= O(x) \\
+\Psi(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x).
+\end{align*}
+
+Finalmente, utilizamos el Lema 11 en $\Psi$ y el Lema 9 en $\ln^2 x$
+\begin{align*}
+(\vartheta(x) + O(\sqrt{x}\ln x))\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
+\vartheta(x)\ln x + O(\sqrt{x}\ln^2 x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
+\vartheta(x)\ln x + O(\sqrt{x}\sqrt{x}) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
+\vartheta(x)\ln x + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
+\end{align*}
+
+Concluimos que se cumple $\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x)$ para todo $x \geq 1$.
 \end{proof}
 
 \begin{theorem}[F\'ormula Asint\'otica de Selberg]
