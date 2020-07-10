@@ -456,13 +456,110 @@ Finalmente, utilizamos el Lema 11 en $\Psi$ y el Lema 9 en $\ln^2 x$
 Concluimos que se cumple $\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x)$ para todo $x \geq 1$.
 \end{proof}
 
+\begin{lemma}
+Para todo $x \geq 1$ tenemos
+$$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln^2 x).$$
+\end{lemma}
+
+\begin{proof}
+\end{proof}
+
+\begin{lemma}
+La serie
+$$\sum_{n = 1}^\infty \frac{1}{n ^ 2}$$
+converge.
+\end{lemma}
+
+\begin{proof}
+Analicemos las sumas parciales telesc\'opicamente para $k \geq 2$
+\begin{align*}
+\sum_{n = 1}^k \frac{1}{n^2} &= 1 + \sum_{n = 2}^k \frac{1}{n^2} \\
+&\leq 1 + \sum_{n = 2}^k \frac{1}{n (n - 1)} \\
+&= 1 + \sum_{n = 2}^k \left(\frac{1}{n - 1} - \frac{1}{n}\right) \\
+&= 1 + \left(\frac{1}{2 - 1} - \frac{1}{k}\right) \\
+&= 2 - \frac{1}{k}.
+\end{align*}
+
+Sabemos que $\lim_{k \to \infty} \frac{1}{k} = 0$,
+por lo tanto $\sum_{n = 1}^\infty \frac{1}{n ^ 2} < 2$.
+Al ser esta una serie creciente, positiva y acotada, esta serie es covergente.
+\end{proof}
+
 \begin{theorem}[F\'ormula Asint\'otica de Selberg]
 Para todo $x \geq 1$ y $p$, $q$ n\'umeros primos distintos tenemos
 $$\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x).$$
 \end{theorem}
 
 \begin{proof}
+Analicemos la siguiente diferencia
+\begin{align*}
+\vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{p \leq x} \ln p \ln x - \sum_{p \leq x} \ln p \ln p \\
+&= \sum_{p \leq x} \ln p (\ln x - \ln p) \\
+&= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right)
+\end{align*}
 
+Tratemos de realizar una mejora al Lema 1. Sabemos que
+$$\sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right)$$
+y para todo $x \geq 1$, tenemos que $\frac{1}{x} \leq 1$, por lo cual
+$$c\frac{1}{x} \leq c \cdot 1$$
+obteniendo que $\frac{1}{x} = O(1)$. As\'i, la suma arm\'onica
+\begin{align*}
+\sum_{n \leq x} \frac{1}{n} &= \ln x + \gamma + O\left(\frac{1}{x}\right) \\
+&= \ln x + (\gamma + c_0) \\
+&= \ln x + c_1 \\
+&= \ln x + O(1) \\
+\ln x &= \sum_{n \leq x} \frac{1}{n} + O(1)
+\end{align*}
+la expresamos de esta manera, mejorando el estimado y ahora podremos utilizarlo a nuestro favor.
+
+Reeplazamos este nuevo estimado en lo anterior
+\begin{align*}
+\vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right) \\
+&= \sum_{p \leq x} \ln p \left(\sum_{n \leq \frac{x}{p}} \frac{1}{n} + O(1)\right) \\
+&= \sum_{p \leq x} \ln p \sum_{n \leq \frac{x}{p}} \frac{1}{n} + O\left(\sum_{p \leq x} \ln p\right) \\
+&= \sum_{p \leq x} \sum_{n \leq \frac{x}{p}} \frac{\ln p}{n} + O\left(\sum_{p \leq x} \ln p\right) \\
+&= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O\left(\sum_{p \leq x} \ln p\right) \\
+&= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O(\vartheta(x)).
+\end{align*}
+
+Del Lema 14 tenemos
+$$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln^2 x),$$
+del Lema 9 podemos cambiar la cota de $\ln^2 x$
+\begin{align*}
+\Psi(x) &= \vartheta(x) + O(\sqrt{x}\sqrt{x}) \\
+&= \vartheta(x) + O(x)
+\end{align*}
+y del Lema 5 tenemos otra cota para $\Psi(x)$
+\begin{align*}
+\Psi(x) &= \vartheta(x) + O(x) \\
+O(x) &= \vartheta(x) + O(x) \\
+\vartheta(x) &= O(x).
+\end{align*}
+
+Ahora, utilizamos esta cota en la igualdad previa
+\begin{align*}
+\vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O(x) \\
+&= \sum_{n \leq x} \frac{1}{n}\sum_{p \leq \frac{x}{n}} \ln p + O(x) \\
+&= \sum_{n \leq x} \frac{\vartheta\left(\frac{x}{n}\right)}{n} + O(x) \\
+&= \sum_{n \leq x} \frac{O\left(\frac{x}{n}\right)}{n} + O(x) \\
+&= O\left(x \sum_{n \leq x} \frac{1}{n^2}\right) + O(x).
+\end{align*}
+
+Gracias al Lema 15, la sumatoria de inversas al cuadrado est\'a acotada
+\begin{align*}
+\vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= O(2x) + O(x) \\
+&= O(x)\\
+\vartheta(x)\ln x &= \sum_{p \leq x} \ln^2 p + O(x).
+\end{align*}
+
+Finalmente, reemplacemos esto en el Lema 13
+\begin{align*}
+\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
+\sum_{p \leq x} \ln^2 p + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
+\sum_{p \leq x} \ln^2 p + O(x) + \sum_{p \leq x} \sum_{q \leq \frac{x}{p}} \ln q \ln p &= 2x\ln x + O(x) \\
+\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q &= 2x\ln x + O(x)
+\end{align*}
+concluyendo con la prueba de la f\'ormula de Selberg.
 \end{proof}
 
 Programa.
