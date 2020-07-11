@@ -377,6 +377,45 @@ converge.
 \end{lemma}
 
 \begin{proof}
+Primero hay que analizar el siguiente l\'imite
+$$\lim_{p \to \infty} \frac{\ln p}{p (p - 1)} p^\frac{3}{2}$$
+y antes de eso reescribiremos lo que queremos analizar de la siguiente manera
+$$\frac{\ln p}{p (p - 1)} p^\frac{3}{2} = \left(\frac{\ln p}{\sqrt{p}}\right)\left(\frac{p}{p - 1}\right).$$
+Si ambos l\'imites existen, tendr\'iamos que el l\'imite de nuestra expresi\'on es el producto.
+
+Analicemos el l\'imite de lo que est\'a dentro del primer par\'entesis
+$$\lim_{p \to \infty} \frac{\ln p}{\sqrt{p}} = \frac{\infty}{\infty},$$
+como este es de la forma $\frac{\infty}{\infty}$, aplicamos la regla de L'Hospital
+$$\lim_{p \to \infty} \frac{\ln p}{\sqrt{p}}
+= \lim_{p \to \infty}\frac{\frac{1}{p}}{\frac{1}{2\sqrt{p}}}
+= \lim_{p \to \infty} \frac{2}{\sqrt{p}} = 0.$$
+
+Ahora analicemos el l\'imite de lo que est\'a dentro del segundo par\'entesis
+$$\lim_{p \to \infty} \frac{p}{p - 1}
+= \lim_{p \to \infty} \frac{1}{1 - \frac{1}{p}}
+= \frac{1}{1 - 0} = 1.$$
+
+Como ambos l\'imites existen, por aritm\'etica de l\'imites obtenemos
+$$\lim_{p \to \infty} \frac{\ln p}{p (p - 1)} p^\frac{3}{2}
+= \left(\lim_{p \to \infty} \frac{\ln p}{\sqrt{p}}\right)\left(\lim_{p \to \infty} \frac{p}{p - 1}\right)
+= 0 \cdot 1 = 0.$$
+
+Por definici\'on, dado $\epsilon > 0$ fijo pero arbitrario, existe un $n_0$ a partir del cual
+$$\frac{\ln p}{p (p - 1)} p^\frac{3}{2} < \epsilon$$
+para todo $p > n_0$. Haciendo $n_1 = \floor{n_0} + 1$, sabemos que para todo $p \geq n_1$
+\begin{align*}
+\frac{\ln p}{p (p - 1)} &< \frac{\epsilon}{p^\frac{3}{2}} \\
+\sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} &< \sum_{p \geq n_1} \frac{\epsilon}{p^\frac{3}{2}}
+\end{align*}
+y como el menor primo es 2, tenemos que la integral impropia que parte desde 1 supera a la serie
+\begin{align*}
+\sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} &< \int_{1}^\infty \frac{\epsilon}{x^\frac{3}{2}} dx \\
+\sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} &< 2 \epsilon \\
+\sum_{p < n_1} \frac{\ln p}{p (p - 1)} + \sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} &< \sum_{p < n_1} \frac{\ln p}{p (p - 1)} + 2 \epsilon \\
+\sum_{p = 2}^\infty \frac{\ln p}{p (p - 1)} &< \sum_{p < n_1} \frac{\ln p}{p (p - 1)} + 2 \epsilon.
+\end{align*}
+
+Como se trata de una serie positiva, creciente y acotada, concluimos que es convergente.
 \end{proof}
 
 \begin{lemma}
@@ -400,7 +439,7 @@ podemos fijar este exponente en el primer n\'umero primo y que el exponente del 
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= O\left(\sum_{\substack{p^n q^m \leq x \\ n \geq 2, m \geq 1}} \ln p \ln q\right) \\
 &= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \sum_{\substack{q^m \leq \frac{x}{p^n} \\ m \geq 1}} \ln q\right) \\
-&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \Psi\left(\frac{x}{n^p}\right)\right).
+&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \Psi\left(\frac{x}{p^n}\right)\right).
 \end{align*}
 
 Utilizamos el Lema 5 en la \'ultima igualdad
@@ -441,7 +480,7 @@ Utilicemos el Lema 10 en la sumatoria que involucra $\Psi$ y $\Lambda$
 \begin{align*}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= O(x) \\
-2x\ln x + O(x) - \Psi(x)\ln x - - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= O(x) \\
+2x\ln x + O(x) - \Psi(x)\ln x - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= O(x) \\
 \Psi(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x).
 \end{align*}
 
