@@ -124,9 +124,17 @@ Primero, utilizar\'e la f\'ormula de sumaci\'on de Euler en el intervalo $[2, k]
 \sum_{n = 1}^k \frac{1}{n} &= \ln k + 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt \\
 \sum_{n = 1}^k \frac{1}{n} - \ln k &= 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt.
 \end{align*}
+
 Analicemos que pasa cuando $k \to \infty$
 $$\gamma = \lim_{k \to \infty} \left(\sum_{n = 1}^k \frac{1}{n} - \ln k\right) 
-= \lim_{k \to \infty} \left(1 - \int_1^k \frac{t - \floor{t}}{t^2}\right)$$
+= \lim_{k \to \infty} \left(1 - \int_1^k \frac{t - \floor{t}}{t^2}\right) dt.$$
+Este l\'imite existe, puesto que
+\begin{align*}
+\lim_{k \to \infty} \int_1^k \frac{t - \floor{t}}{t^2} dt &\leq \lim_{k \to \infty} \int_1^k \frac{1}{t^2} dt \\
+&= \lim_{k \to \infty} \left(-\frac{1}{t}\right)\Big|_1^k dt \\
+&= 1
+\end{align*}
+converge y por aritm\'etica de l\'imites, $\gamma = \lim_{k \to \infty} \left(1 - \int_1^k \frac{t - \floor{t}}{t^2}\right) dt$ converge.
 
 Finalmente, utilizar\'e la f\'ormula de sumaci\'on de Euler para $x$ un n\'umero real mayor o igual a 1
 \begin{align*}
@@ -171,6 +179,24 @@ Concluimos que $\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x)$.
 Para toda funci\'on aritm\'etica $f$ se cumple
 $$\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f(n) \floor{\frac{x}{n}}.$$
 \end{lemma}
+
+\begin{proof}
+Sea $f$ y $g$ dos funciones aritm\'eticas, $F$ y $G$ sus respectivas cumulativas;
+es decir, $F(x) = \sum_{n \leq x} f(x)$ y $G(x) = \sum_{n \leq x} g(x)$,
+analicemos la cumulativa del producto de Dirichlet de $f$ y $g$
+\begin{align*}
+\sum_{n \leq x} f * g (n) &= \sum_{n \leq x} \sum_{cd = n} f(c)g(d) \\
+&= \sum_{c \leq x} \sum_{d \leq \frac{x}{c}} f(c) g(d) \\
+&= \sum_{c \leq x} f(c) \sum_{d \leq \frac{x}{c}} g(d) \\
+&= \sum_{c \leq x} f(c) G\left(\frac{x}{c}\right).
+\end{align*}
+
+En particular, cuando $g = 1$, su cumulativa es
+$$\sum_{n \leq x} 1(n) = \sum_{n \leq x} 1 = \floor{x}$$
+y aplicamos lo anterior directamente expres\'ando lo que queremos probar como un producto de Dirichlet
+$$\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f * 1 (n) = \sum_{n \leq x} f(n) \floor{\frac{x}{n}}$$
+concluyendo con la demostraci\'on.
+\end{proof}
 
 \begin{lemma}
 Para todo n\'umero real $x$ tenemos
