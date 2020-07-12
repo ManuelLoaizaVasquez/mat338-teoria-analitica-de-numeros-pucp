@@ -112,10 +112,60 @@ Para todo $x \geq 1$ tenemos
 $$\sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right).$$
 \end{lemma}
 
+\begin{proof}
+Sea $f : [1, \infty) \to \BR$ con $f(x) = \frac{1}{x}$, sabemos que $f$ es continua y diferenciable en todo su dominio,
+en particular, en el intervalo $[1, x]$; por lo tanto, podemos aplicar la f\'ormula de sumaci\'on de Euler.
+
+Primero, utilizar\'e la f\'ormula de sumaci\'on de Euler en el intervalo $[2, k]$, con $k$ un n\'umero entero mayor o igual a 2
+\begin{align*}
+\sum_{n = 2}^k \frac{1}{n} &= \int_1^k \frac{dt}{t} + \int_{1}^k (t - \floor{t})\left(\frac{1}{-t^2}\right) dt \\
+&= (\ln t) \big|_1^k - \int_1^k \frac{t - \floor{t}}{t^2} dt \\
+1 + \sum_{n = 2}^k \frac{1}{n} &= 1 + \ln k - \int_1^k \frac{t - \floor{t}}{t^2} dt \\
+\sum_{n = 1}^k \frac{1}{n} &= \ln k + 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt \\
+\sum_{n = 1}^k \frac{1}{n} - \ln k &= 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt.
+\end{align*}
+Analicemos que pasa cuando $k \to \infty$
+$$\gamma = \lim_{k \to \infty} \left(\sum_{n = 1}^k \frac{1}{n} - \ln k\right) 
+= \lim_{k \to \infty} \left(1 - \int_1^k \frac{t - \floor{t}}{t^2}\right)$$
+
+Finalmente, utilizar\'e la f\'ormula de sumaci\'on de Euler para $x$ un n\'umero real mayor o igual a 1
+\begin{align*}
+\sum_{n \leq x} \frac{1}{n} &= \int_1^x \frac{1}{t} dt + \int_1^x (t - \floor{t})\left(\frac{1}{-t^2}\right) dt 
++ (1 - \floor{1}) - (x - \floor{x})\left(\frac{1}{x}\right) \\
+&= (\ln t) \big|_1^x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \frac{x - \floor{x}}{x} \\
+&= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \frac{x - \floor{x}}{x} \\
+&\leq \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt + 1 + \frac{x - \floor{x}}{x} \\
+\sum_{n \leq x} \frac{1}{n} &= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
+&= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \int_x^\infty \frac{t - \floor{t}}{t^2} dt 
++ \int_x^\infty \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
+&= \ln x - \int_1^\infty \frac{t - \floor{t}}{t^2} dt + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
+&= \ln x + \left(1 - \int_1^\infty \frac{t - \floor{t}}{t^2} dt\right) + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + O\left(\frac{1}{x}\right) \\
+&= \ln x + \gamma + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + O\left(\frac{1}{x}\right) \\
+&\leq \ln x + \gamma + \int_x^\infty \frac{dt}{t^2} + O\left(\frac{1}{x}\right) \\
+&= \ln x + \gamma + \lim_{b \to \infty} \left(-\frac{1}{t}\right) \Big|_x^b + O\left(\frac{1}{x}\right) \\
+&= \ln x + \gamma + \frac{1}{x} + O\left(\frac{1}{x}\right) \\
+&= \ln x + \gamma + O\left(\frac{1}{x}\right)
+\end{align*}
+\end{proof}
+
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
 $$\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x).$$
 \end{lemma}
+
+\begin{proof}
+Sea $f : [1, \infty) \to \BR$ con $f(x) = \ln x$, sabemos que $f$ es continua y diferenciable en todo su dominio, 
+en particular, en el intervalo $[1, x]$; por lo tanto, podemos aplicar la f\'ormula de sumaci\'on de Euler
+\begin{align*}
+\sum_{n \leq x} \ln x &= \int_1^x \ln t dt + \int_1^x (t - \floor{t})\left(\frac{1}{t}\right) dt + (\floor{x} - x) \ln x - (\floor{1} - 1) \ln 1 \\
+&= (t \ln t - t) \big|_1^x + \int_1^x \frac{(t - \floor{t})}{t} dt + (\floor{x} - x) \ln x \\
+&= x \ln x - x + 1 + \int_1^x \frac{t - \floor{t}}{t} dt + (\floor{x} - x) \ln x \\
+&\leq x \ln x - x + 1 + \int_1^x \frac{1}{t} dt + \ln x \\
+&= x \ln x - x + 1 + 2 \ln x.
+\end{align*}
+
+Concluimos que $\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x)$.
+\end{proof}
 
 \begin{lemma}
 Para toda funci\'on aritm\'etica $f$ se cumple
@@ -601,6 +651,5 @@ Finalmente, reemplacemos esto en el Lema 13
 concluyendo con la prueba de la f\'ormula de Selberg.
 \end{proof}
 
-Programa.
 \cppfile{formula_de_selberg.cpp}
 \end{document}
