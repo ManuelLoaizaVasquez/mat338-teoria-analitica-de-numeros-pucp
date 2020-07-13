@@ -9,6 +9,11 @@
     \hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
 \usepackage{listings}
 \usepackage[usenames,dvipsnames]{color}
+% Tablas
+\usepackage{siunitx,booktabs}
+\sisetup{group-digits=false}
+\usepackage{caption}
+\captionsetup[table]{name=Tabla}
 
 % Configuracion de Listings
 \definecolor{darkblue}{rgb}{0,0,0.4}
@@ -707,5 +712,64 @@ Finalmente, reemplacemos esto en el Lema 13
 concluyendo con la prueba de la f\'ormula de Selberg.
 \end{proof}
 
+\newpage
+Adicional a la prueba de la f\'ormula de Selberg, he dise\~nado un programa en C\texttt{++}
+que analizar\'a lo siguiente. Primero, realicemos ciertas manipulaciones a la f\'ormula demostrada
+\begin{gather*}
+\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x) \\
+\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x = O(x) \\
+\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x} = O(1).
+\end{gather*}
+
+Por definici\'on, esto significa que existe un momento $n_0 > 0$ a partir del cual
+$$\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right| \leq C$$
+para todo $x > n_0$ y con $C > 0$.
+
+Sea $t$ la cantidad de casos de prueba y $n$ el m\'aximo valor que puede tomar $x$ en la expresi\'on que analizaremos,
+el siguiente programa determina el valor de 
+$$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$$
+en $O(tn)$. En particular, usaremos $t = 25$ y $n = 10^6$. Como $t$ es muy peque\~no respecto al valor de $n$, podemos
+considerar que la complejidad en tiempo del programa es $O(n)$, el cual se ve reflejado en un tiempo de ejecuci\'on
+de tan solo $0.046$ s. Los an\'alisis de complejidad asint\'otica de cada algoritmo, entre los cuales tenemos una criba para
+hallar todos los n\'umeros primos en el rango $[1, n]$ en $O(n)$, una b\'usqueda binaria que aprovecha los arreglos precalculados de las sumatorias
+de logaritmos para no realizar un producto de todos contra todos en $O(\log n)$, entre otros, est\'an detallados en los comentarios del programa.
+
 \cppfile{formula_de_selberg.cpp}
+
+\begin{table}
+\centering
+\caption{Resultado del programa en cada uno de los 25 casos de prueba.}
+\begin{tabular}{@{} l *{5}{S[table-format=-1.7]} @{}} 
+\toprule
+{$x$} & 
+{$\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x$} & 
+{$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$}\\ % center-set header entries
+\midrule
+10 & -27.9993876558 & 2.7999387656\\
+100 & -408.1673001296 & 4.0816730013\\
+1000 & -4423.9669417977 & 4.4239669418\\
+10000 & -45811.3329580618 & 4.5811332958\\
+100000 & -463393.6869376157 & 4.6339368694\\
+150000 & -696213.1302282938 & 4.6414208682\\
+200000 & -928657.7687557172 & 4.6432888438\\
+250000 & -1161232.2495115789 & 4.6449289980\\
+300000 & -1394744.3248206710 & 4.6491477494\\
+350000 & -1626595.3447487611 & 4.6474152707\\
+400000 & -1859564.1153802183 & 4.6489102885\\
+450000 & -2092720.1265818379 & 4.6504891702\\
+500000 & -2324967.5685019286 & 4.6499351370\\
+550000 & -2558737.0606504624 & 4.6522492012\\
+600000 & -2791566.1484220262 & 4.6526102474\\
+650000 & -3023817.9219583882 & 4.6520275722\\
+700000 & -3257806.4672983113 & 4.6540092390\\
+750000 & -3490681.8060514131 & 4.6542424081\\
+800000 & -3722480.7679459565 & 4.6531009599\\
+850000 & -3956937.8696625743 & 4.6552210231\\
+900000 & -4189732.6944241758 & 4.6552585494\\
+950000 & -4421634.3206490320 & 4.6543519165\\
+1000000 & -4656435.6869096913 & 4.6564356869\\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \end{document}
