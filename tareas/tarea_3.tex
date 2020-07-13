@@ -443,7 +443,45 @@ m &< 2 \ln x
 \end{align*}
 y notamos que para valores mayores $m = \floor{2 \ln x}$ los elementos de la suma son iguales a cero.
 Ahora podemos escribir a $\Psi$ de la siguiente forma
-$$\Psi(x) = \vartheta(x) + \vartheta(x^\frac{1}{2}) + \cdots + \vartheta(x^\frac{1}{m}).$$
+\begin{align*}
+\Psi(x) &= \vartheta(x) + \vartheta(x^\frac{1}{2}) + \cdots + \vartheta(x^\frac{1}{m}) \\
+\Psi(x) &= \vartheta(x) + \sum_{n = 2}^m \vartheta(x^\frac{1}{n}).
+\end{align*}
+
+Analicemos a la sumatoria $\sum_{n = 2}^m \vartheta(x^\frac{1}{n})$
+$$\sum_{n = 2}^m \vartheta(x^\frac{1}{n}) = \sum_{n = 2}^m \sum_{p \leq x^\frac{1}{n}} \ln p$$
+y tratemos de darle forma para manipularla de una manera sencilla, es decir,
+cambiar la indexaci\'on para poder extraer el logaritmo en la sumatoria anidada.
+Observemos que si un n\'umero primo $p$ ser\'a incluido en la sumatoria, su logaritmo contribuir\'a a la sumatoria
+tantas veces como las ra\'ices de $x$ lo permitan
+\begin{align*}
+p \leq x^\frac{1}{2} &\implies p^2 \leq x \\
+p \leq x^\frac{1}{3} &\implies p^3 \leq x \\
+&\,\,\,\,\,\,\,\vdots \\
+p \leq x^\frac{1}{k} &\implies p^k \leq x.
+\end{align*}
+Esto quiere decir que quiero hallar el m\'aximo $k$ fijado un primo $p$, despejando obtenemos
+\begin{align*}
+p^k &\leq x \\
+k \ln p &\leq \ln x \\
+k &\leq \frac{\ln x}{\ln p} \\
+k &= \floor{\frac{\ln x}{\ln p}}.
+\end{align*}
+Asimismo, notamos que estos primos son menores iguales que la ra\'iz de $x$, el cual es un detalla importante del cual nos aprovecharemos.
+Ahora analicemos la forma equivalente de la doble sumatoria
+\begin{align*}
+\sum_{n = 2}^m \sum_{p \leq x^\frac{1}{n}} \ln p &= \sum_{p \leq \sqrt{x}} \sum_{2 \leq n \leq \floor{\frac{\ln x}{\ln p}}} \ln p \\
+&= \sum_{p \leq \sqrt{x}} \ln p \sum_{2 \leq n \leq \floor{\frac{\ln x}{\ln p}}} 1 \\
+&\leq \sum_{p \leq \sqrt{x}} \ln p \floor{\frac{\ln x}{\ln p}} \\
+&\leq \sum_{p \leq \sqrt{x}} \ln p \left(\frac{\ln x}{\ln p}\right) \\
+&= \sum_{p \leq \sqrt{x}} \ln x \\
+&= \ln x \sum_{p \leq \sqrt{x}} 1 \\
+&\leq \ln x \sum_{n \leq \sqrt{x}} 1 \\
+&\leq \ln x \sqrt{x} \\
+\sum_{n = 2}^m \vartheta(x^\frac{1}{n}) &= O(\sqrt{x} \ln x).
+\end{align*}
+
+Utilizamos esto para concluir que $\Psi(x) = \vartheta(x) + O(\sqrt{x} \ln x)$.
 \end{proof}
 
 \begin{lemma}
@@ -572,14 +610,6 @@ Concluimos que se cumple $\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\fr
 \end{proof}
 
 \begin{lemma}
-Para todo $x \geq 1$ tenemos
-$$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln^2 x).$$
-\end{lemma}
-
-\begin{proof}
-\end{proof}
-
-\begin{lemma}
 La serie
 $$\sum_{n = 1}^\infty \frac{1}{n ^ 2}$$
 converge.
@@ -637,8 +667,8 @@ Reeplazamos este nuevo estimado en lo anterior
 &= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O(\vartheta(x)).
 \end{align*}
 
-Del Lema 14 tenemos
-$$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln^2 x),$$
+Del Lema 11 tenemos
+$$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln x) = \vartheta(x) + O(\sqrt{x} \ln^2 x),$$
 del Lema 9 podemos cambiar la cota de $\ln^2 x$
 \begin{align*}
 \Psi(x) &= \vartheta(x) + O(\sqrt{x}\sqrt{x}) \\
@@ -660,7 +690,7 @@ Ahora, utilizamos esta cota en la igualdad previa
 &= O\left(x \sum_{n \leq x} \frac{1}{n^2}\right) + O(x).
 \end{align*}
 
-Gracias al Lema 15, la sumatoria de inversas al cuadrado est\'a acotada
+Gracias al Lema 14, la sumatoria de inversas al cuadrado est\'a acotada
 \begin{align*}
 \vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= O(2x) + O(x) \\
 &= O(x)\\
