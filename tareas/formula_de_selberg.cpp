@@ -12,8 +12,9 @@ const int MAX_N = 1e6;
 bool es_primo[MAX_N + 1];
 
 // vector de numeros enteros que guardara los numeros primos que hemos hallado
-// Complejidad en memoria: O(n / ln(n))
+// Complejidad en memoria: O(n / ln(n)) al estar lleno (teorema del numero primo)
 vector<Long> primos;
+Long cantidad_primos;
 
 // log_p[i] : ln i si i es primo, 0 en otro caso
 // Mi objetivo de crear este arreglo es facilitar los calculos de sumas y restas
@@ -29,61 +30,110 @@ Double suma_log_p[MAX_N + 1];
 // Complejidad en memoria: O(n)
 Double suma_cuadrados_log_p[MAX_N + 1];
 
-// suma_log_p_log_q[i] : suma de los productos ln(p)ln(q) 
-// para todo par de primos p, q distintos en el rango [1 ... i]
-// Complejidad en memoria: O(n)
-Double suma_log_p_log_q[MAX_N + 1];
-
 // Metodo que determina que numeros son primos o no en un rango [1 ... n]
-// Complejidad en tiempo: O(nln(ln(n)))
+// Complejidad en tiempo: O(n)
 void criba(int n) {
     // Primero asumimos que todos los numeros >= 2 son primos
-    for (int i = 2; i <= n; i++) es_primo[i] = true;
-    // Luego, hasta la raiz del maximo numero en el rango marcaremos
-    // como no primos a los multiplos de un numero primo
-    for (int i = 2; i * i <= n; i++) {
-        if (es_primo[i]) {
-            for (int j = i * i; j <= n; j += i) {
-                es_primo[j] = false;
-            }
+    for (Long i = 2; i <= n; i++) es_primo[i] = true;
+    // Sea m = p * k
+    // donde p es el menor numero primo que divide a m
+    // tenemos que k >= p
+    for (Long i = 2; i <= n; i++) {
+        if (es_primo[i]) primos.push_back(i);
+        // Estamos analizando cada numero compuesto una sola vez
+        // pues solo recorremos sobre los primos ya encontrados y dejamos de iterar
+        // en caso el actual es multiplo de este primo
+        for (Long j = 0; j < primos.size() and i * primos[j] <= n; j++) {
+            es_primo[i * primos[j]] = false;
+            if (i % primos[j] == 0) break;
         }
     }
 }
 
-// Funcion que retorna
-// Complejidad en tiempo: O(1)
-Double selberg(Long x) {
-    return suma_cuadrados_log_p[x] + suma_log_p_log_q[x] - 2.0 * ((Double) x) * log((Double) x);
+// Funcion que retorna la posicion del ultimo primo q >= p tal que pq <= x
+// En caso no exista, retorno -1
+// Complejidad en tiempo: O(lg(n / lgn)) = O(lg(n))
+int buscar_ultima_posicion(int pos_p, Long x) {
+    Long p, left, right;
+    left = pos_p;
+    right = cantidad_primos - 1;
+    p = primos[pos_p];
+    // TTTTT : si todos cumplen, devuelvo la ultima posicion
+    if (p * primos[right] <= x) return right;
+    // FFFFF : si ninguno cumple, retorno -1
+    if (p * p > x) return -1;
+    // TTTFF : se que al menos uno cumple, buscare a ese elemento
+    while (right - left > 1) {
+        Long mid = (left + right) / 2;
+        if (p * primos[mid] <= x) left = mid;
+        else right = mid;
+    }
+    // Ahora nos hemos quedado con un intervalo de longitud 1 o 2
+    // TT : si la derecha cumple, ahi se encuentra la ultima posicion
+    if (p * primos[right] >= x) return right;
+    // TF : en otro caso, necesariamente es la izquierda
+    return left;
 }
 
+// Funcion que retorna \sum_{pq \leq x} \ln p \ln q
+// Complejidad en tiempo: O((n / ln(n)) lg(n)) = O(n)
+Double calcular_suma_log_p_log_q(Long x) {
+    Double suma = 0.0;
+    for (int pos_p = 0; pos_p < cantidad_primos; pos_p++) {
+        // Encuentro el ultimo primo q tal que multiplicado por el actual pq <= x
+        int pos_q = buscar_ultima_posicion(pos_p, x);
+        // Si cualquier primo >= p excede x, no acumulamos
+        if (pos_q == -1) continue;
+        // En caso contrario
+        // suma += log p * (log p_{i + 1} + ... + log q)
+        // suma += log p * (suma acumulad de log hasta q - suma acumulada de log hasta p)
+        Long p = primos[pos_p];
+        Long q = primos[pos_q];
+        Long dp = (Double) p;
+        suma += log(dp) * (suma_log_p[q] - suma_log_p[p]);
+    }
+    return suma;
+}
+
+// Funcion que retorna \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x
+// Complejidad en tiempo: O(1 + n + 1) = O(n)
+Double selberg(Long x) {
+    Double dx = (Double) x;
+    Double suma_log_p_log_q = calcular_suma_log_p_log_q(x);
+    return suma_cuadrados_log_p[x] + 2.0 * suma_log_p_log_q - 2.0 * dx * log(dx);
+}
+
+// Complejidad en tiempo: T(main) = T(inicializar) + T(criba) + T(precalcular logaritmos y acumulados) + T(analizar casos)
+// T(main) = O(n) + O(n) + O(n) + O(casos * T(selberg))
+// T(main) = O(n) + O(n) + O(n) + O(casos * O(n / ln n * T(buscar ultima posicion))
+// T(main) = O(n) + O(n) + O(n) + O(casos * O(n / ln n * lg n)
+// T(main) = O(n) + O(n) + O(n) + O(casos * O(n))
+// T(main) = O(casos * n)
+// Como la cantidad de casos << n, se puede tomar como una constante, por lo cual
+// T(main) = O(n)
 int main() {
     // Analizaremos los numeros en el intervalo [1 ... n]
     int n = 1e6;
     // Inicializamos nuestros arreglos
     // Complejidad en tiempo: O(n)
     for (int i = 0; i <= n; i++) {
-        log_p[i] = suma_log_p[i] = suma_cuadrados_log_p[i] = suma_log_p_log_q[i] = 0.0;
+        log_p[i] = suma_log_p[i] = suma_cuadrados_log_p[i] = 0.0;
         es_primo[i] = false;
     }
-    // Invoco a nuestro metodo que determina que numeros son primos
-    // Complejidad en tiempo: O(nln(ln(n)))
-    criba(n);
 
-    // Luego de realizar el precalculo, guardo los numeros primos en un vector
+    // Invoco a nuestro metodo que determina que numeros son primos
+    // y dentro de ese metodo tambien guardo los primos encontrados en el vector primos
     // Complejidad en tiempo: O(n)
-    for (Long p = 0; p <= n; p++) {
-        if (es_primo[p]) {
-            primos.push_back(p);
-        }
-    }
+    criba(n);
 
     // Guardo la cantidad de primos hallados en el intervalo [1 ... n]
     // mientras que los valores que no modifico estan por defecto en cero
     // Complejidad en tiempo: O(n / ln(n)) por el teorema del numero primo
-    int cantidad_primos = primos.size();
+    cantidad_primos = primos.size();
     for (int i = 0; i < cantidad_primos; i++) {
         Long p = primos[i];
-        log_p[p] = log((Double) p);
+        Long dp = (Double) p;
+        log_p[p] = log(dp);
     }
 
     // Realizaremos los precalculos necesarios
@@ -93,19 +143,22 @@ int main() {
         // Complejidad en tiempo: O(1)
         suma_log_p[i] = suma_log_p[i - 1] + log_p[i];
         suma_cuadrados_log_p[i] = suma_cuadrados_log_p[i - 1] + log_p[i] * log_p[i];
-        suma_log_p_log_q[i] = (suma_log_p[i] * suma_log_p[i] - suma_cuadrados_log_p[i]) / 2.0;
     }
 
+    // Finalmente, creare los siguientes 25 casos
+    // Complejidad en tiempo: O(1)
     vector<Long> casos_de_prueba = {10, 100, 1000, 10000};
     for (Long i = 0; i < 21; i++) {
         casos_de_prueba.push_back(100000 + i * 50000);
     }
+    // En cada caso, realizar
+    // Complejidad en tiempo: O(casos * T(selberg)) = O(O(1)O(n)) = O(n)
     int cantidad_casos = casos_de_prueba.size();
     for (int i = 0; i < cantidad_casos; i++) {
-        //Double constante = fabs(selberg(casos_de_prueba[i])) / ((Double) casos_de_prueba[i]);
-        //cout << casos_de_prueba[i] << ": " << fixed << setprecision(10) << constante << endl;
-        Double O_x = selberg(casos_de_prueba[i]);
-        cout << "x = " << casos_de_prueba[i] << ", O(x) = " << fixed << setprecision(10) << O_x << endl;
+        Double selberg_x = selberg(casos_de_prueba[i]);
+        Double x = (Double) casos_de_prueba[i];
+        Double constante = fabs(selberg_x) / x;
+        cout << "x = " << casos_de_prueba[i] << ", constante = " << fixed << setprecision(10) << constante << endl;
     }
     return 0;
 }
