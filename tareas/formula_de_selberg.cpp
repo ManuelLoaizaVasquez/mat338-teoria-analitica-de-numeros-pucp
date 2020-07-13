@@ -158,7 +158,8 @@ int main() {
         Double selberg_x = selberg(casos_de_prueba[i]);
         Double x = (Double) casos_de_prueba[i];
         Double constante = fabs(selberg_x) / x;
-        cout << "x = " << casos_de_prueba[i] << ", constante = " << fixed << setprecision(10) << constante << endl;
+        // Imprimo el resultado en formato LaTeX para utilizarlo directamente en la tabla
+        cout << casos_de_prueba[i] << " & " <<  fixed << setprecision(10) << selberg_x << " & " << constante << '\\' << '\\' << endl;
     }
     return 0;
 }
