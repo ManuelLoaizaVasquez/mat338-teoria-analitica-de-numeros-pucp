@@ -32,7 +32,7 @@ Double suma_cuadrados_log_p[MAX_N + 1];
 
 // Metodo que determina que numeros son primos o no en un rango [1 ... n]
 // Complejidad en tiempo: O(n)
-void criba(int n) {
+void Criba(int n) {
     // Primero asumimos que todos los numeros >= 2 son primos
     for (Long i = 2; i <= n; i++) es_primo[i] = true;
     // Sea m = p * k
@@ -89,8 +89,7 @@ Double calcular_suma_log_p_log_q(Long x) {
         // suma += log p * (suma acumulad de log hasta q - suma acumulada de log hasta p)
         Long p = primos[pos_p];
         Long q = primos[pos_q];
-        Long dp = (Double) p;
-        suma += log(dp) * (suma_log_p[q] - suma_log_p[p]);
+        suma += log(p) * (suma_log_p[q] - suma_log_p[p]);
     }
     return suma;
 }
@@ -98,9 +97,8 @@ Double calcular_suma_log_p_log_q(Long x) {
 // Funcion que retorna \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x
 // Complejidad en tiempo: O(1 + n + 1) = O(n)
 Double selberg(Long x) {
-    Double dx = (Double) x;
     Double suma_log_p_log_q = calcular_suma_log_p_log_q(x);
-    return suma_cuadrados_log_p[x] + 2.0 * suma_log_p_log_q - 2.0 * dx * log(dx);
+    return suma_cuadrados_log_p[x] +  suma_log_p_log_q - 2.0 * x * log(x);
 }
 
 // Complejidad en tiempo: T(main) = T(inicializar) + T(criba) + T(precalcular logaritmos y acumulados) + T(analizar casos)
@@ -124,16 +122,15 @@ int main() {
     // Invoco a nuestro metodo que determina que numeros son primos
     // y dentro de ese metodo tambien guardo los primos encontrados en el vector primos
     // Complejidad en tiempo: O(n)
-    criba(n);
+    Criba(n);
+    cantidad_primos = primos.size();
 
     // Guardo la cantidad de primos hallados en el intervalo [1 ... n]
     // mientras que los valores que no modifico estan por defecto en cero
     // Complejidad en tiempo: O(n / ln(n)) por el teorema del numero primo
-    cantidad_primos = primos.size();
     for (int i = 0; i < cantidad_primos; i++) {
         Long p = primos[i];
-        Long dp = (Double) p;
-        log_p[p] = log(dp);
+        log_p[p] = log(p);
     }
 
     // Realizaremos los precalculos necesarios
@@ -148,7 +145,7 @@ int main() {
     // Finalmente, creare los siguientes 25 casos
     // Complejidad en tiempo: O(1)
     vector<Long> casos_de_prueba = {10, 100, 1000, 10000};
-    for (Long i = 0; i < 21; i++) {
+    for (Long i = 0; i < 19; i++) {
         casos_de_prueba.push_back(100000 + i * 50000);
     }
     // En cada caso, realizar
