@@ -46,7 +46,7 @@ void Test(int x) {
 
 int main(void) {
   Criba();
-  vector<int> test = {10, 100, 1000, 10000, 100000};
+  vector<int> test = {10, 100, 1000, 10000, 100000, 1000000};
   for (int x : test) Test(x);
   return 0;
 }
