@@ -715,45 +715,69 @@ concluyendo con la prueba de la f\'ormula de Selberg.
 
 \newpage
 
-Adicional a la prueba de la f\'ormula de Selberg, he dise\~nado un programa en C\texttt{++}
-que analizar\'a lo siguiente. Primero, realicemos ciertas manipulaciones a la f\'ormula demostrada
+Adicional a la prueba del Teorema 15, he dise\~nado unos algoritmos para poder obtener estimados
+con la f\'ormula asint\'otica de Selberg. Primero, realicemos ciertas manipulaciones a la f\'ormula demostrada
 \begin{gather*}
 \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x) \\
 \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x = O(x) \\
 \frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x} = O(1).
 \end{gather*}
 
-Por definici\'on, esto significa que existe un momento $n_0 > 0$ a partir del cual
+Por definici\'on, esto significa que existe un momento $n_0 > 0$ y una constante $C > 0$ a partir del cual
 $$\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right| \leq C$$
-para todo $x > n_0$ y $C > 0$.
+para todo $x \geq n_0$.
 
-Sea $t$ la cantidad de casos de prueba y $n$ el m\'aximo valor que puede tomar $x$ en la expresi\'on que analizaremos,
-el siguiente programa determina el valor de 
-$$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$$
-en $O(tn)$. En particular, usaremos $t = 28$ y $n = 3 \cdot 10^7$. Como $t$ es muy peque\~no respecto al valor de $n$, podemos
-considerar que la complejidad en tiempo del programa es $O(n)$, el cual se ve reflejado en un tiempo de ejecuci\'on
-de tan solo $0.046$ s. Los an\'alisis de complejidad asint\'otica de cada algoritmo, entre los cuales tenemos una criba para
-hallar todos los n\'umeros primos en el rango $[1, n]$ en $O(n)$, una b\'usqueda binaria que aprovecha los arreglos precalculados de las sumatorias
-de logaritmos para no realizar un producto de todos contra todos en $O(\log n)$, entre otros, est\'an detallados en los comentarios del programa.
+Asumamos que tenemos un n\'umero $x$ y queremos calcular
+$$\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right|.$$
+
+La estrategia que utilizar\'e consiste en el siguiente m\'etodo:
+Primero precalcularemos los n\'umeros primos en el rango $[1 \dots x]$.
+Como solamente manipularemos logaritmos de n\'umeros primos, aprovechar\'e de esto para poder precalcular
+las sumatorias y hallar sumas en rangos en $O(1)$ como diferencia de sumas.
+El contenedor $\log$ almacenar\'a lo siguiente
+\[
+\log[p] =
+\begin{cases}
+\ln p &\quad\text{si }$p$\text{ es primo}\\
+0 &\quad\text{ en otro caso.}
+\end{cases}
+\]
+
+As\'i, $\sum_{i = l}^r \log[i]$ solo tendr\'a la sumatoria de
+los logaritmos naturales de los n\'umeros primos en el intervalo $[l, r]$.
+
+El contenedor $es\_primo$ almacenar\'a lo siguiente
+\[
+es\_primo[p] =
+\begin{cases}
+\text{verdadero} &\quad\text{si }$p$\text{ es primo}\\
+\text{falso} &\quad\text{ en otro caso.}
+\end{cases}
+\]
+
+Los contenedores $suma\_log$ y $suma\_log^2$ almacenar\'an
+$$suma\_log[x] = \sum_{i = 0}^x \log[i]$$
+y
+$$suma\_log^2[x] = \sum_{i = 0}^x \log^2[i].$$
 
 \begin{algorithm}[H]
 \SetAlgoLined
 \DontPrintSemicolon
-\KwData{$P, primos, n$.}
+\KwData{$es\_primo, primos, n$.}
 \KwResult{N\'umeros primos en el rango $[1 \dots n]$ guardados en $primos$.}
 \Begin{
-    $P[0] \leftarrow$ falso\;
-    $P[1] \leftarrow$ falso\;
+    $es\_primo[0] \leftarrow$ falso\;
+    $es\_primo[1] \leftarrow$ falso\;
     \For{$i \leftarrow 2$ \KwTo $n$} {
-        $P[i] \leftarrow$ verdadero\;
+        $es\_primo[i] \leftarrow$ verdadero\;
     }
     $primos \leftarrow \emptyset$\;
     \For{$i \leftarrow 2$ \KwTo $n$} {
-        \If{$P[i] = $ verdadero} {
+        \If{$es\_primo[i]$} {
             $primos \leftarrow primos \cup \{i\}$\;
         }
-        \For{$p \in primos$ \textbf{and} $i * p < n$}{
-            $P[i * p] \leftarrow$ falso\;
+        \For{$p \in primos$ \textbf{and} $i \cdot p \leq n$}{
+            $es\_primo[i \cdot p] \leftarrow$ falso\;
             \If{$i \equiv 0 \mod{p}$}{
                 \textbf{break}\;
             }
@@ -765,7 +789,7 @@ de logaritmos para no realizar un producto de todos contra todos en $O(\log n)$,
 
 \begin{lemma}
 Sea $n$ el n\'umero que representa el extremo derecho del intervalo $[1 \dots n]$
-en el cual queremos hallar todos los n\'umeros primos mediante la ejecuci\'on de \textbf{CribaLineal}. Luego el tiempo de ejecuci\'on es $O(n)$.
+en el cual queremos hallar todos los n\'umeros primos mediante la ejecuci\'on de CribaLineal. Luego el tiempo de ejecuci\'on es $O(n)$.
 \end{lemma}
 
 \begin{proof}
@@ -781,7 +805,7 @@ En caso no exista, se retornar\'a $-1$.}
     $p \leftarrow primos[i]$\;
     $l \leftarrow i$\;
     $r \leftarrow |primos| - 1$\;
-    \If{$p * primos[r] \leq x$}{
+    \If{$p \cdot primos[r] \leq x$}{
         \textbf{return} r\;
     }
     \If{$p^2 > x$}{
@@ -789,7 +813,7 @@ En caso no exista, se retornar\'a $-1$.}
     }
     \While{$r - l > 1$}{
         $m \leftarrow \floor*{\frac{l + r}{2}}$\;
-        \eIf{$p * primos[m] \leq x$} {
+        \eIf{$p \cdot primos[m] \leq x$} {
             $l \leftarrow m$\;
         } {
             $r \leftarrow m$\;
@@ -806,7 +830,7 @@ y $p$ este $i$-\'esimo n\'umero primo.
 Sea $x$ el n\'umero que representa la cota superior para el producto de $p$ con otro n\'umero primo $q$ tal que $pq \leq x$ y $q \geq p$.
 Obtendremos la posici\'on del mayor n\'umero primo $q$ que cumpla con lo anterior o
 $-1$ en caso este n\'umero primo no exista
-mediante la ejecuci\'on de \textbf{Buscar\'UltimaPosici\'on}.
+mediante la ejecuci\'on de Buscar\'UltimaPosici\'on.
 Luego el tiempo de ejecuci\'on es $O(\log_2 n)$.
 \end{lemma}
 
@@ -816,7 +840,7 @@ Luego el tiempo de ejecuci\'on es $O(\log_2 n)$.
 \begin{algorithm}[H]
 \SetAlgoLined
 \DontPrintSemicolon
-\KwData{$primos, dp, x$.}
+\KwData{$primos, suma\_log, x$.}
 \KwResult{$\sum_{pq \leq x} \ln p \ln q$.}
 \Begin{
     $suma \leftarrow 0$\;
@@ -827,7 +851,7 @@ Luego el tiempo de ejecuci\'on es $O(\log_2 n)$.
         }
         $p \leftarrow primos[pos_p]$\;
         $q \leftarrow primos[pos_q]$\;
-        $suma \leftarrow suma + \ln p * (dp[q] - dp[p - 1])$\;
+        $suma \leftarrow suma + \ln p \cdot (suma\_log[q] - suma\_log[p - 1])$\;
     }
     \textbf{return} $suma$\;
 }
@@ -837,7 +861,7 @@ Luego el tiempo de ejecuci\'on es $O(\log_2 n)$.
 \begin{lemma}
 Sea $x$ el n\'umero que representa la cota superior para el producto de dos n\'umeros primos
 $p$ y $q$ en $\sum_{pq \leq x} \ln p \ln q$.
-Obtendremos el valor de esta sumatoria mediante la ejecuci\'on de \textbf{CalcularSuma}.
+Obtendremos el valor de esta sumatoria mediante la ejecuci\'on de CalcularSuma.
 Luego el tiempo de ejecuci\'on es $O(x)$.
 \end{lemma}
 
@@ -847,22 +871,69 @@ entonces $|primos| = \pi(x)$.
 Inicializar la suma en la l\'inea $2$ toma $O(1)$ en tiempo.
 El bucle en las l\'ineas $3-11$ ser\'a ejecutado $O(\pi(x))$ veces.
 La funci\'on Buscar\'UltimaPosici\'on en la l\'inea $4$ es llamada exactamente una vez para cada primo $p \in primos$ y
-toma $O(\log_2 x)$ en tiempo del Lema 17, mientras que las dem\'as operaciones dentro del bucle
+toma $O(\log_2 x)$ en tiempo de acuerdo al Lema 17, mientras que las dem\'as operaciones dentro del bucle
 toman $O(1)$ en tiempo.
 De esta manera, el tiempo de ejecuci\'on del algoritmo es $O(\pi(x)\log_2 x)$.
 Asimismo, Rosser y Barkley probaron lo siguiente \cite[Teorema 2, Corolario 1]{Chebyshev}
-$$\pi(x) \leq 1.25506\;\frac{x}{\ln x},\;x > 1$$.
+$$\pi(x) \leq 1.25506\;\frac{x}{\ln x},\;x > 1.$$
 Utilizamos esto para tener un mejor estimado
 \begin{align*}
-    \pi(x)\log_2 x &\leq \frac{x}{\ln x} \log_2 x\\
-    &= \log_2 e \frac{x}{\log_2 e \cdot \log_e x} \log_2 x\\
-    &= \log_2 e \frac{x}{\log_2 x} \log_2 x\\
-    &= (\log_2 e) x\\
+    \pi(x)\log_2 x &\leq 1.25506\;\frac{x}{\ln x} \log_2 x\\
+    &= 1.25506\;\log_2 e \frac{x}{\log_2 e \cdot \log_e x} \log_2 x\\
+    &= 1.25506\;\log_2 e \frac{x}{\log_2 x} \log_2 x\\
+    &= (1.25506\;\log_2 e) x\\
 \end{align*}
 y concluimos que el tiempo de ejecuci\'on del algoritmo es $O(x)$.
 \end{proof}
 
+\begin{algorithm}[H]
+\SetAlgoLined
+\DontPrintSemicolon
+\KwData{$x.$}
+\KwResult{$\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right|.$}
+\Begin{
+    CribaLineal($x$)\;
+    \For{$i \leftarrow 1$ \KwTo $x$}{
+        $suma\_log[i] \leftarrow 0$\;
+        $suma\_log^2[i] \leftarrow 0$\;
+        \eIf{$es\_primo[i]$}{
+            $\log[i] \leftarrow \ln i$\;
+        }{
+            $\log[i] \leftarrow 0$\;
+        }
+    }
+    \For{$i \leftarrow 2$ \KwTo $x$}{
+        $suma\_log[i] \leftarrow suma\_log[i - 1] + \log[i]$\;
+        $suma\_log^2[i] \leftarrow suma\_log^2[i - 1] + (\log[i])^2$\;
+    }
+    \textbf{return} $\frac{|suma\_log^2[x] + \text{CalcularSuma}(x) - 2x\ln x|}{x}$\;
+}
+\caption{Soluci\'on}
+\end{algorithm}
 
+\begin{theorem}
+Sea $x$ el n\'umero natural para el cual se quiere determinar
+$$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$$
+mediante la ejecuci\'on de Soluci\'on.
+Luego el tiempo de ejecuci\'on es $O(x)$.
+\end{theorem}
+
+\begin{proof}
+\end{proof}
+
+Sea $t$ la cantidad de casos de prueba y $n$ el m\'aximo valor que puede tomar $x$ en la expresi\'on que analizaremos,
+el siguiente programa en C++ determina el valor de 
+$$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$$
+para cada caso de prueba.
+En particular, usaremos $t = 28$ y $n = 3 \cdot 10^7$.
+La complejidad asint\'otica en tiempo del programa es $O(tn)$, la cual se ve reflejada en un tiempo de ejecuci\'on
+de tan solo tres segundos.
+
+\begin{center}
+    \texttt{real	0m3,123s}\\
+    \texttt{user	0m2,675s}\\
+    \texttt{sys	0m0,436s}.
+\end{center}
 
 \cppfile{formula_selberg.cpp}
 
