@@ -3,7 +3,7 @@
 \usepackage{amsfonts,latexsym,amsthm,amssymb,amsmath,amscd,euscript}
 \usepackage{mathtools}
 \usepackage{framed}
-\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
 % Descomentar fullpage cuando se quiera utilizar menos margen horizontal
 %\usepackage{fullpage}
 \usepackage{hyperref}
@@ -225,7 +225,7 @@ $$\Psi(x) = O(x).$$
 \end{lemma}
 
 \begin{proof}
-Utilizar\'e teorema de Chebyshev obtenido en la clase en la cual desarrollamos el paper \textit{Elementary methods in the study of the distribution of prime numbers} de Harold Diamond
+Usaremos el desarrollo del teorema de Chebyshev por Diamond \cite{Diamond}
 $$A \leq \liminf \frac{\Psi(x)}{x} \leq \limsup \frac{\Psi(x)}{x} \leq \frac{6A}{5}$$
 con $A = -\frac{\ln 1}{1} + \frac{\ln 2}{2} + \frac{\ln 3}{3} + \frac{\ln 5}{5} - \frac{\ln 30}{30} \approx 0.92129202293409078091340844996160...$
 Para analizar el comportamiento asint\'otico nos centraremos en la parte derecha de la desigualdad reescribi\'endola con valor absoluto ya que es una funci\'on positiva
@@ -471,14 +471,14 @@ Esto quiere decir que quiero hallar el m\'aximo $k$ fijado un primo $p$, despeja
 p^k &\leq x \\
 k \ln p &\leq \ln x \\
 k &\leq \frac{\ln x}{\ln p} \\
-k &= \floor{\frac{\ln x}{\ln p}}.
+k &= \floor*{\frac{\ln x}{\ln p}}.
 \end{align*}
 Asimismo, notamos que estos primos son menores iguales que la ra\'iz de $x$, el cual es un detalla importante del cual nos aprovecharemos.
 Ahora analicemos la forma equivalente de la doble sumatoria
 \begin{align*}
-\sum_{n = 2}^m \sum_{p \leq x^\frac{1}{n}} \ln p &= \sum_{p \leq \sqrt{x}} \sum_{2 \leq n \leq \floor{\frac{\ln x}{\ln p}}} \ln p \\
-&= \sum_{p \leq \sqrt{x}} \ln p \sum_{2 \leq n \leq \floor{\frac{\ln x}{\ln p}}} 1 \\
-&\leq \sum_{p \leq \sqrt{x}} \ln p \floor{\frac{\ln x}{\ln p}} \\
+\sum_{n = 2}^m \sum_{p \leq x^\frac{1}{n}} \ln p &= \sum_{p \leq \sqrt{x}} \sum_{2 \leq n \leq \floor*{\frac{\ln x}{\ln p}}} \ln p \\
+&= \sum_{p \leq \sqrt{x}} \ln p \sum_{2 \leq n \leq \floor*{\frac{\ln x}{\ln p}}} 1 \\
+&\leq \sum_{p \leq \sqrt{x}} \ln p \floor*{\frac{\ln x}{\ln p}} \\
 &\leq \sum_{p \leq \sqrt{x}} \ln p \left(\frac{\ln x}{\ln p}\right) \\
 &= \sum_{p \leq \sqrt{x}} \ln x \\
 &= \ln x \sum_{p \leq \sqrt{x}} 1 \\
@@ -714,6 +714,7 @@ concluyendo con la prueba de la f\'ormula de Selberg.
 \end{proof}
 
 \newpage
+
 Adicional a la prueba de la f\'ormula de Selberg, he dise\~nado un programa en C\texttt{++}
 que analizar\'a lo siguiente. Primero, realicemos ciertas manipulaciones a la f\'ormula demostrada
 \begin{gather*}
@@ -724,12 +725,12 @@ que analizar\'a lo siguiente. Primero, realicemos ciertas manipulaciones a la f\
 
 Por definici\'on, esto significa que existe un momento $n_0 > 0$ a partir del cual
 $$\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right| \leq C$$
-para todo $x > n_0$ y con $C > 0$.
+para todo $x > n_0$ y $C > 0$.
 
 Sea $t$ la cantidad de casos de prueba y $n$ el m\'aximo valor que puede tomar $x$ en la expresi\'on que analizaremos,
 el siguiente programa determina el valor de 
 $$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$$
-en $O(tn)$. En particular, usaremos $t = 25$ y $n = 10^6$. Como $t$ es muy peque\~no respecto al valor de $n$, podemos
+en $O(tn)$. En particular, usaremos $t = 28$ y $n = 3 \cdot 10^7$. Como $t$ es muy peque\~no respecto al valor de $n$, podemos
 considerar que la complejidad en tiempo del programa es $O(n)$, el cual se ve reflejado en un tiempo de ejecuci\'on
 de tan solo $0.046$ s. Los an\'alisis de complejidad asint\'otica de cada algoritmo, entre los cuales tenemos una criba para
 hallar todos los n\'umeros primos en el rango $[1, n]$ en $O(n)$, una b\'usqueda binaria que aprovecha los arreglos precalculados de las sumatorias
@@ -747,7 +748,7 @@ de logaritmos para no realizar un producto de todos contra todos en $O(\log n)$,
         $P[i] \leftarrow$ verdadero\;
     }
     $primos \leftarrow \emptyset$\;
-    \For{$i \leftarrow 2$ \KwTo $n - 1$} {
+    \For{$i \leftarrow 2$ \KwTo $n$} {
         \If{$P[i] = $ verdadero} {
             $primos \leftarrow primos \cup \{i\}$\;
         }
@@ -806,7 +807,7 @@ Sea $x$ el n\'umero que representa la cota superior para el producto de $p$ con 
 Obtendremos la posici\'on del mayor n\'umero primo $q$ que cumpla con lo anterior o
 $-1$ en caso este n\'umero primo no exista
 mediante la ejecuci\'on de \textbf{Buscar\'UltimaPosici\'on}.
-Luego el tiempo de ejecuci\'on es $O(\lg n)$.
+Luego el tiempo de ejecuci\'on es $O(\log_2 n)$.
 \end{lemma}
 
 \begin{proof}
@@ -835,11 +836,33 @@ Luego el tiempo de ejecuci\'on es $O(\lg n)$.
 
 \begin{lemma}
 Sea $x$ el n\'umero que representa la cota superior para el producto de dos n\'umeros primos
-$p$ y $q$ 
+$p$ y $q$ en $\sum_{pq \leq x} \ln p \ln q$.
+Obtendremos el valor de esta sumatoria mediante la ejecuci\'on de \textbf{CalcularSuma}.
+Luego el tiempo de ejecuci\'on es $O(x)$.
 \end{lemma}
 
 \begin{proof}
+Tenemos los n\'umeros primos en el rango $[1 \dots x]$ en el contenedor ordenado $primos$,
+entonces $|primos| = \pi(x)$.
+Inicializar la suma en la l\'inea $2$ toma $O(1)$ en tiempo.
+El bucle en las l\'ineas $3-11$ ser\'a ejecutado $O(\pi(x))$ veces.
+La funci\'on Buscar\'UltimaPosici\'on en la l\'inea $4$ es llamada exactamente una vez para cada primo $p \in primos$ y
+toma $O(\log_2 x)$ en tiempo del Lema 17, mientras que las dem\'as operaciones dentro del bucle
+toman $O(1)$ en tiempo.
+De esta manera, el tiempo de ejecuci\'on del algoritmo es $O(\pi(x)\log_2 x)$.
+Asimismo, Rosser y Barkley probaron lo siguiente \cite[Teorema 2, Corolario 1]{Chebyshev}
+$$\pi(x) \leq 1.25506\;\frac{x}{\ln x},\;x > 1$$.
+Utilizamos esto para tener un mejor estimado
+\begin{align*}
+    \pi(x)\log_2 x &\leq \frac{x}{\ln x} \log_2 x\\
+    &= \log_2 e \frac{x}{\log_2 e \cdot \log_e x} \log_2 x\\
+    &= \log_2 e \frac{x}{\log_2 x} \log_2 x\\
+    &= (\log_2 e) x\\
+\end{align*}
+y concluimos que el tiempo de ejecuci\'on del algoritmo es $O(x)$.
 \end{proof}
+
+
 
 \cppfile{formula_selberg.cpp}
 
