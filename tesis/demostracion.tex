@@ -82,7 +82,7 @@
 \newtheorem*{notation}{Notaci\'on}
 \newtheorem*{note}{Nota}
 
-% Define tus comandos para hacer la vida m·s f·cil.
+% Define tus comandos para hacer la vida m√°s f√°cil.
 \newcommand{\BR}{\mathbb R}
 \newcommand{\BC}{\mathbb C}
 \newcommand{\BF}{\mathbb F}
@@ -738,21 +738,21 @@ de logaritmos para no realizar un producto de todos contra todos en $O(\log n)$,
 \begin{algorithm}[H]
 \SetAlgoLined
 \DontPrintSemicolon
-\KwData{$P, primos, n$}
-\KwResult{TODO}
+\KwData{$P, primos, n$.}
+\KwResult{N\'umeros primos en el rango $[1 \dots n]$ guardados en $primos$.}
 \Begin{
-    $P[0] \leftarrow$ false\;
-    $P[1] \leftarrow$ false\;
+    $P[0] \leftarrow$ falso\;
+    $P[1] \leftarrow$ falso\;
     \For{$i \leftarrow 2$ \KwTo $n$} {
-        $P[i] \leftarrow$ true\;
+        $P[i] \leftarrow$ verdadero\;
     }
     $primos \leftarrow \emptyset$\;
     \For{$i \leftarrow 2$ \KwTo $n - 1$} {
-        \If{$P[i] = $ true} {
+        \If{$P[i] = $ verdadero} {
             $primos \leftarrow primos \cup \{i\}$\;
         }
         \For{$p \in primos$ \textbf{and} $i * p < n$}{
-            $P[i * p] \leftarrow$ false\;
+            $P[i * p] \leftarrow$ falso\;
             \If{$i \equiv 0 \mod{p}$}{
                 \textbf{break}\;
             }
@@ -813,56 +813,110 @@ Luego el tiempo de ejecuci\'on es $O(\lg n)$.
 \end{proof}
 
 \begin{algorithm}[H]
+\SetAlgoLined
 \DontPrintSemicolon
-\KwData{}
-\KwResult{}
+\KwData{$primos, dp, x$.}
+\KwResult{$\sum_{pq \leq x} \ln p \ln q$.}
 \Begin{
+    $suma \leftarrow 0$\;
+    \For{$pos_p \leftarrow 0$ \KwTo $|primos| - 1$}{
+        $pos_q \leftarrow$ Buscar\'UltimaPosici\'on($pos_p$, $x$)\;
+        \If{$pos_q = -1$}{
+            \textbf{break}\;
+        }
+        $p \leftarrow primos[pos_p]$\;
+        $q \leftarrow primos[pos_q]$\;
+        $suma \leftarrow suma + \ln p * (dp[q] - dp[p - 1])$\;
+    }
+    \textbf{return} $suma$\;
 }
 \caption{CalcularSuma\label{CS}}
 \end{algorithm}
 
 \begin{lemma}
+Sea $x$ el n\'umero que representa la cota superior para el producto de dos n\'umeros primos
+$p$ y $q$ 
 \end{lemma}
 
 \begin{proof}
 \end{proof}
 
-\cppfile{formula_de_selberg.cpp}
+\cppfile{formula_selberg.cpp}
 
 \begin{table}
 \centering
-\caption{Resultado del programa en cada uno de los 25 casos de prueba.}
+\caption{Resultado del programa en cada uno de los 28 casos de prueba.}
 \begin{tabular}{@{} l *{5}{S[table-format=-1.7]} @{}} 
 \toprule
 {$x$} & 
 {$\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x$} & 
 {$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$}\\ % center-set header entries
 \midrule
-10 & -27.9993876558 & 2.7999387656\\
-100 & -408.1673001296 & 4.0816730013\\
-1000 & -4423.9669417977 & 4.4239669418\\
-10000 & -45811.3329580618 & 4.5811332958\\
-100000 & -463393.6869376157 & 4.6339368694\\
-150000 & -696213.1302282938 & 4.6414208682\\
-200000 & -928657.7687557172 & 4.6432888438\\
-250000 & -1161232.2495115789 & 4.6449289980\\
-300000 & -1394744.3248206710 & 4.6491477494\\
-350000 & -1626595.3447487611 & 4.6474152707\\
-400000 & -1859564.1153802183 & 4.6489102885\\
-450000 & -2092720.1265818379 & 4.6504891702\\
-500000 & -2324967.5685019286 & 4.6499351370\\
-550000 & -2558737.0606504624 & 4.6522492012\\
-600000 & -2791566.1484220262 & 4.6526102474\\
-650000 & -3023817.9219583882 & 4.6520275722\\
-700000 & -3257806.4672983113 & 4.6540092390\\
-750000 & -3490681.8060514131 & 4.6542424081\\
-800000 & -3722480.7679459565 & 4.6531009599\\
-850000 & -3956937.8696625743 & 4.6552210231\\
-900000 & -4189732.6944241758 & 4.6552585494\\
-950000 & -4421634.3206490320 & 4.6543519165\\
-1000000 & -4656435.6869096913 & 4.6564356869\\
+10 & -34.4229638465 & 3.4422963847\\
+100 & -519.2686545658 & 5.1926865457\\
+1000 & -6317.3110617078 & 6.3173110617\\
+10000 & -74463.8721010727 & 7.4463872101\\
+100000 & -859318.2559356594 & 8.5931825594\\
+1000000 & -9747133.5703212193 & 9.7471335703\\
+1500000 & -14918429.3651946987 & 9.9456195768\\
+2000000 & -20177763.7803012519 & 10.0888818902\\
+2500000 & -25505439.7770474999 & 10.2021759108\\
+3000000 & -30875441.5873458827 & 10.2918138624\\
+3500000 & -36291518.9878187147 & 10.3690054251\\
+4000000 & -41746678.7374733434 & 10.4366696844\\
+4500000 & -47221448.8244719136 & 10.4936552943\\
+5000000 & -52725446.2863963772 & 10.5450892573\\
+5500000 & -58263339.7575164592 & 10.5933345014\\
+6000000 & -63830467.8915757891 & 10.6384113153\\
+6500000 & -69414402.9962517989 & 10.6791389225\\
+7000000 & -74998328.6200477667 & 10.7140469457\\
+7500000 & -80619769.8168214446 & 10.7493026422\\
+8000000 & -86252298.0080809856 & 10.7815372510\\
+8500000 & -91907189.6865512790 & 10.8126105514\\
+9000000 & -97554179.0078311940 & 10.8393532231\\
+9500000 & -103244044.9516971762 & 10.8677942054\\
+10000000 & -108942869.8283277971 & 10.8942869828\\
+15000000 & -166436611.9307800680 & 11.0957741287\\
+20000000 & -224778414.1259130784 & 11.2389207063\\
+25000000 & -283766370.6499844969 & 11.3506548260\\
+30000000 & -343248619.2823745428 & 11.4416206427\\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\newpage
+
+\begin{thebibliography}{6}
+\bibitem{Apostol}
+Apostol, T. M. (1976).
+\textit{Introduction to Analytic Number Theory.}
+New York, United States of America: Springer-Verlag New York.
+
+\bibitem{CLRS}
+Cormen, T. H., Leiserson, C. E., Rivest, R. L. \& Stein C. (2009).
+\textit{Introduction to Algorithms} (3rd ed.).
+Cambridge, Massachussets: The MIT Press.
+
+\bibitem{LinearSieve}
+Gries, D. \& Misra, J. (1978).
+A linear sieve algorithm for finding prime numbers.
+\textit{Commun. ACM, 21(12),} 999‚Äì1003.\\
+DOI: https://doi.org/10.1145/359657.359660
+
+\bibitem{Diamond}
+Diamond, H. G. (1982).
+Elementary methods in the study of the distribution of prime numbers. \textit{Bull. Amer. Math. Soc. (N.S.), 7(3),} 553-589.\\
+Recuperado de https://projecteuclid.org/euclid.bams/1183549769
+
+\bibitem{Koenig}
+Koenig, J. (2013).
+An elementary proof of the prime number theorem. [No publicado].
+Department of Mathematics. University of Chicago.\\
+Recuperado de http://math.uchicago.edu/$\sim$may/REU2013/REUPapers/Koenig.pdf
+
+\bibitem{Chebyshev}
+Rosser, J. \& Schoenfeld, L. (1962). Approximate formulas for some functions of prime numbers. \textit{Illinois J. Math}, 6(1), 64--94.\\
+Recuperado de https://projecteuclid.org/euclid.ijm/1255631807
+\end{thebibliography}
 
 \end{document}
