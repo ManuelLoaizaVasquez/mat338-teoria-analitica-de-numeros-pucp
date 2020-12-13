@@ -7,7 +7,7 @@
 \usepackage{authblk}
 % Descomentar fullpage cuando se quiera utilizar menos margen horizontal
 %\usepackage{fullpage}
-%\usepackage{hyperref}
+\usepackage{hyperref}
 %    \hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
 \usepackage{listings}
 \usepackage[usenames,dvipsnames]{color}
@@ -372,17 +372,19 @@ lo buscado.
 
 \begin{lemma}
 Para todo n\'umero real $x$ tenemos
-$$\floor{x} = x + O(1).$$
+\[
+\floor{x} = x + O(1).
+\]
 \end{lemma}
 
 \begin{proof}
 Sea $x = n + r$ un n\'umero real no negativo, con $n \in \BZ$ y $0 \leq r < 1$. 
 De esta manera, por definici\'on de m\'aximo entero tenemos
-\begin{align*}
+\begin{align}
 \floor{x} &= n \\
 &= x - r \\
 &= x + O(1).
-\end{align*}
+\end{align}
 Concluimos trivialmente la propiedad $\floor{x} = x + O(1)$.
 \end{proof}
 
