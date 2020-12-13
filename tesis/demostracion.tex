@@ -328,16 +328,14 @@ Para todo $x \geq 1$ tenemos
 \end{lemma}
 
 \begin{proof}
-Esta vez utilizamos la f\'ormula de sumaci\'on de Euler con $f(x) = \ln x$, continua y diferenciable en toda la recta real positiva:  
-$$
-\begin{aligned}
+Esta vez utilizamos la f\'ormula de sumaci\'on de Euler en $f : [1, \infty) \to \BR$ con $f(x) = \ln x$, continua y diferenciable en toda la recta real positiva:  
+\begin{align}
 \sum_{n \leq x} \ln x &= \int_1^x \ln t \, dt + \int_1^x  \frac{t - \floor{t}}{t} dt + (\floor{x} - x) \ln x  \\
 &= (t \ln t - t) \big|_1^x + \int_1^x \frac{(t - \floor{t})}{t} \, dt + (\floor{x} - x) \ln x \\
 &= x \ln x - x + 1 + \int_1^x \frac{t - \floor{t}}{t} dt + (\floor{x} - x) \ln x \\
 &\leq x \ln x - x + 1 + \int_1^x \frac{1}{t} \,dt + \ln x \\
 &= x \ln x - x + 1 + 2 \ln x.
-\end{aligned}
-$$
+\end{align}
 Como $1$ est\'a dominado por $\ln x$,  
 se cumple $\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x)$, 
 lo anunciado. 
