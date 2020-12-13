@@ -254,10 +254,12 @@ Para todo $x > 0$ definimos la funci\'on $\boldsymbol{\vartheta}$ \textbf{de Che
 
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
-$$\sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right),
-$$
+\[
+\sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right),
+\]
 aqu\'i $\gamma \approx 0.52$ es una constante conocida como {\bf la constante de Euler}. 
 \end{lemma}
+
 \begin{proof}
 La funci\'on $f : [1, \infty) \to \BR$ con $f(x)=1/x$ es continua y diferenciable en toda la recta  
 conque podemos aplicar la f\'ormula de sumaci\'on de Euler en cualquier intervalo $[2, k]$ 
@@ -279,26 +281,25 @@ Para analizar qu\'e ocurre cuando $k \to \infty$ escribimos
 = 1- \lim_{k \to \infty}  \left(\int_1^k \frac{t - \floor{t}}{t^2}\right) dt 
 =  1- \int_1^\infty \frac{t - \floor{t}}{t^2} dt,
 \end{align}
+
 l\'imite que existe, pues al tenerse 
-$$
+\begin{align}
 \int_1^k \frac{t - \floor{t}}{t^2} dt  \le \int_1^k \frac{1}{t^2} dt 
 = 1 -\frac{1}{k}   \le 1
-$$
+\end{align}
 la convergencia queda garantizada por monoticidad. 
 Al reemplazar $\gamma$ en la f\'ormula desplegada en el p\'arrafo anterior, llegamos a 
-$$
+\begin{align}
 \sum_{n = 1}^k \frac{1}{n} - \ln k = \gamma + \int_1^\infty \frac{t - \floor{t}}{t^2} dt - \int_1^\infty \frac{t - \floor{t}}{t^2} dt = 
  \gamma  +  \int_k^\infty \frac{t - \floor{t}}{t^2} dt.
-$$
+\end{align}
 
 Finalmente, para establecer la f\'ormula anunciada ponemos $k=\floor{x}$ y estimamos 
-$$
-\begin{aligned}
-\left|\sum_{n \le x} \frac{1}{n} - \ln x  - \gamma \right| &= \left|\sum_{n \le k} \frac{1}{k}  -\ln k -\gamma \right| + |\ln x -\ln k |  \cr 
-& \le \left|   \int_k^\infty \frac{t - \floor{t}}{t^2} dt \right| + \left| \int_k^x  \frac{1}{t}\,dt  \right| \cr 
+\begin{align}
+\left|\sum_{n \le x} \frac{1}{n} - \ln x  - \gamma \right| &= \left|\sum_{n \le k} \frac{1}{k}  -\ln k -\gamma \right| + |\ln x -\ln k |  \\
+& \le \left|   \int_k^\infty \frac{t - \floor{t}}{t^2} dt \right| + \left| \int_k^x  \frac{1}{t}\,dt  \right| \\
 & \le \frac{1}{k} + \frac{1}{k} = O\left(\frac{1}{x}\right). 
-\end{aligned}
-$$
+\end{align}
 %utilizar\'e la f\'ormula de sumaci\'on de Euler para $x$ un n\'umero real mayor o igual a 1
 %\begin{align*}
 %\sum_{n \leq x} \frac{1}{n} &= \int_1^x \frac{1}{t} dt + \int_1^x (t - \floor{t})\left(\frac{1}{-t^2}\right) dt 
@@ -321,10 +322,11 @@ $$
 
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
-$$
+\[
 \sum_{n \leq x} \ln n = x\ln x - x + O(\ln x).
-$$
+\]
 \end{lemma}
+
 \begin{proof}
 Esta vez utilizamos la f\'ormula de sumaci\'on de Euler con $f(x) = \ln x$, continua y diferenciable en toda la recta real positiva:  
 $$
