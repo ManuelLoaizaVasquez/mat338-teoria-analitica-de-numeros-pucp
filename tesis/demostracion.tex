@@ -136,10 +136,10 @@ En todo lo que sigue los s\'imbolos $p,q$ se referir\'an a n\'umeros primos posi
 \bigskip
 
 \noindent {\bf Teorema (La identidad de Selberg)} 
-{\it Para todo n\'umero real $x$ mayor o igual a $1$ se cumple la f\'ormula de Selberg
-$$
+{\it Para todo n\'umero real $x$ mayor o igual a $1$ se cumple la f\'ormula de Selberg}
+\[
 \sum_{p \leq x} \ln^2(p) + \sum_{pq \leq x} \ln(p) \ln(q) = 2x\ln(x) + O(x).
-$$}
+\]
 
 \subsection{Nuestras t\'ecnicas}
 Para obtener nuestros resultados, hemos utilizado herramientas b\'asicas del
@@ -179,73 +179,73 @@ En ruta a la identidad de Selberg, tendremos que recordar algunas definiciones y
 
 \begin{defn}
 Dada una funci\'on $g$ denotamos $O(g(x))$ al conjunto de funciones
-$$
-O(g(x)) = \{f : \text{existe una constante positiva } c \text{ y un momento } x_0 \text{ tal que}
-$$
-$$
+\[
+\begin{gathered}
+O(g(x)) = \{f : \text{existe una constante positiva } c \text{ y un momento } x_0 \text{ tal que}\\
 0 \leq f(x) \leq cg(x) \text{ para todo } x \geq x_0\}.
-$$
+\end{gathered}
+\]
 \end{defn}
 
 \begin{theorem}[F\'ormula de sumaci\'on de Euler]
 Si $f$ tiene una derivada continua $f'$ en el intervalo $[a, b]$ con $0 < a < b$, 
 entonces se satisface 
-$$
+\[
 \sum_{a < n \leq x} f(n) = \int_a^b f(t) dt + \int_a^b (t - \floor{t}) f'(t) dt
 + f(a)(\floor{a} - a) - f(b)(\floor{b} - b).
-$$
+\]
 \end{theorem}
 
 \begin{defn}
 Sea $f$ y $g$ dos funciones aritm\'eticas, 
 definimos su {\bf producto de Dirichlet} como la funci\'on aritm\'etica $h$ definida puntualmente por 
-$$
+\[
 h(n) = \sum_{d \mid n} f(d) g\left(\frac{n}{d}\right).
-$$
+\]
 \end{defn}
 
 \begin{defn}
 La funci\'on $\boldsymbol{\mu}$ \textbf{de M\"{o}bius} es definida como sigue. 
 Primero definimos 
-$$
+\[
 \mu(1) = 1.
-$$
+\]
 Si $n > 1$, expresamos $n = p_1^{\alpha_1} \cdots p_k^{\alpha_k}$ y 
 definimos 
-$$
+\[
 \mu(n) = 
 \begin{cases}
 (-1)^k &\text{si } \alpha_1 = \cdots = \alpha_k = 1, \\
 0 &\text{en otro caso}. 
 \end{cases}
-$$
+\]
 \end{defn}
 
 \begin{defn}
 Para $n$ entero positivo definimos la funci\'on $\boldsymbol{\Lambda}$ \textbf{de Mangoldt} v\'ia 
-$$
+\[
 \Lambda(n) =
 \begin{cases}
 \ln p &\text{si } n = p^m \text{ para alg\'un } m \geq 1,\\
 0 &\text{en otro caso.}
 \end{cases}
-$$
+\]
 \end{defn}
 
 \begin{defn}
 Para $x > 0$ definimos la funci\'on $\boldsymbol{\Psi}$ \textbf{de Chebyshev} con la f\'ormula
-$$
+\[
 \Psi(x) = \sum_{n \leq x} \Lambda(n) 
 = \sum_{\substack{m = 1\\p^m \leq x}}^\infty \sum_p \Lambda(p^m)
 = \sum_{m = 1}^\infty \sum_{p \leq x^{\frac{1}{m}}} \ln p.
-$$
+\]
 \end{defn}
 
 \begin{defn}
 Para todo $x > 0$ definimos la funci\'on $\boldsymbol{\vartheta}$ \textbf{de Chebyshev} mediante la ecuaci\'on
-$$
+\[
 \vartheta(x) = \sum_{p \leq x} \ln p.
-$$
+\]
 \end{defn}
 
 \section{Resultados}
@@ -262,23 +262,23 @@ aqu\'i $\gamma \approx 0.52$ es una constante conocida como {\bf la constante de
 La funci\'on $f : [1, \infty) \to \BR$ con $f(x)=1/x$ es continua y diferenciable en toda la recta  
 conque podemos aplicar la f\'ormula de sumaci\'on de Euler en cualquier intervalo $[2, k]$ 
 y as\'i obtener 
-$$
-\begin{aligned}
+
+\begin{align}
 \sum_{n = 2}^k \frac{1}{n} &= \int_1^k \frac{dt}{t} + \int_{1}^k (t - \floor{t})\left(\frac{1}{-t^2}\right) dt \\
-&= \ln k - \int_1^k \frac{t - \floor{t}}{t^2} dt, \\
-\end{aligned} 
-$$
+&= \ln k - \int_1^k \frac{t - \floor{t}}{t^2} dt,
+\end{align} 
+
 lo cual conduce de inmediato a 
-$$
+\begin{align}
 \sum_{n = 1}^k \frac{1}{n} - \ln k = 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt.
-$$
+\end{align}
 
 Para analizar qu\'e ocurre cuando $k \to \infty$ escribimos
-$$
+\begin{align}
 \gamma = \lim_{k \to \infty} \left(\sum_{n = 1}^k \frac{1}{n} - \ln k\right) 
 = 1- \lim_{k \to \infty}  \left(\int_1^k \frac{t - \floor{t}}{t^2}\right) dt 
 =  1- \int_1^\infty \frac{t - \floor{t}}{t^2} dt,
-$$
+\end{align}
 l\'imite que existe, pues al tenerse 
 $$
 \int_1^k \frac{t - \floor{t}}{t^2} dt  \le \int_1^k \frac{1}{t^2} dt 
