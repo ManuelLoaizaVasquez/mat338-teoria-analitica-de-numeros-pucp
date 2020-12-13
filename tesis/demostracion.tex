@@ -390,24 +390,30 @@ Concluimos trivialmente la propiedad $\floor{x} = x + O(1)$.
 
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
-$$\Psi(x) = O(x).$$
+\[
+\Psi(x) = O(x).
+\]
 \end{lemma}
 
 \begin{proof}
 Usaremos el desarrollo del teorema de Chebyshev por Diamond \cite{Diamond} (ver tambi\'en \cite{Apostol}) 
-$$A \leq \liminf \frac{\Psi(x)}{x} \leq \limsup \frac{\Psi(x)}{x} \leq \frac{6A}{5}$$
+\begin{align}
+A \leq \liminf \frac{\Psi(x)}{x} \leq \limsup \frac{\Psi(x)}{x} \leq \frac{6A}{5}
+\end{align}
 con $A = -\frac{\ln 1}{1} + \frac{\ln 2}{2} + \frac{\ln 3}{3} + \frac{\ln 5}{5} - \frac{\ln 30}{30} \approx 0.92129202293409078091340844996160...$
 Reescribimos la parte derecha de la desigualdad con valor absoluto ya que es una funci\'on positiva cual
-$$
+\begin{align}
 \limsup \frac{|\Psi(x)|}{x} \leq \frac{6A}{5}.
-$$
+\end{align}
 Por definici\'on existe $n_0$ a partir del cual se tiene 
-$$\frac{|\Psi(x)|}{x} \leq \frac{6A}{5},$$
+\begin{align}
+\frac{|\Psi(x)|}{x} \leq \frac{6A}{5},
+\end{align}
 es decir, para todo $x > n_0$.
 Como ello equivale a
-$$
+\begin{align}
 |\Psi(x)| \leq \left(\frac{6A}{5}\right) x,
-$$
+\end{align}
 se consigue $\Psi(x) = O(x)$.
 \end{proof}
 
