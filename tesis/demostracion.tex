@@ -7,8 +7,8 @@
 \usepackage{authblk}
 % Descomentar fullpage cuando se quiera utilizar menos margen horizontal
 %\usepackage{fullpage}
-\usepackage{hyperref}
-    \hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
+%\usepackage{hyperref}
+%    \hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
 \usepackage{listings}
 \usepackage[usenames,dvipsnames]{color}
 
@@ -272,7 +272,7 @@ y as\'i obtener
 
 lo cual conduce de inmediato a 
 \begin{align}
-\sum_{n = 1}^k \frac{1}{n} - \ln k = 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt.
+\sum_{n = 1}^k \frac{1}{n} - \ln k = 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt.\label{eq01}
 \end{align}
 
 Para analizar qu\'e ocurre cuando $k \to \infty$ escribimos
@@ -288,9 +288,9 @@ l\'imite que existe, pues al tenerse
 = 1 -\frac{1}{k}   \le 1
 \end{align}
 la convergencia queda garantizada por monoticidad. 
-Al reemplazar $\gamma$ en la f\'ormula desplegada en el p\'arrafo anterior, llegamos a 
+Al reemplazar $\gamma$ en la f\'ormula desplegada en la Ecuaci\'on \ref{eq01}, llegamos a 
 \begin{align}
-\sum_{n = 1}^k \frac{1}{n} - \ln k = \gamma + \int_1^\infty \frac{t - \floor{t}}{t^2} dt - \int_1^\infty \frac{t - \floor{t}}{t^2} dt = 
+\sum_{n = 1}^k \frac{1}{n} - \ln k = \gamma + \int_1^\infty \frac{t - \floor{t}}{t^2} dt - \int_1^k \frac{t - \floor{t}}{t^2} dt = 
  \gamma  +  \int_k^\infty \frac{t - \floor{t}}{t^2} dt.
 \end{align}
 
@@ -343,28 +343,30 @@ lo anunciado.
 
 \begin{lemma}
 Para toda funci\'on aritm\'etica $f$ se cumple
-$$\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f(n) \floor*{\frac{x}{n}}.$$
+\[
+\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f(n) \floor*{\frac{x}{n}}.
+\]
 \end{lemma}
 
 \begin{proof}
 Sea $f$ y $g$ dos funciones aritm\'eticas, $F$ y $G$ sus respectivas cumulativas;
 es decir, $F(x) = \sum_{n \leq x} f(x)$ y $G(x) = \sum_{n \leq x} g(x)$. 
 La cumulativa del producto de Dirichlet de $f$ y $g$ est\'a dada por 
-$$
-\begin{aligned}
-\sum_{n \leq x} f * g (n) &= \sum_{n \leq x} \sum_{cd = n} f(c)g(d) \\
-&= \sum_{c \leq x} \sum_{d \leq \frac{x}{c}} f(c) g(d) \\
-&= \sum_{c \leq x} f(c) \sum_{d \leq \frac{x}{c}} g(d) \\
-&= \sum_{c \leq x} f(c) G\left(\frac{x}{c}\right).
-\end{aligned}
-$$
+\begin{align}
+\sum_{n \leq x} f * g (n) &= \sum_{n \leq x} \sum_{cd = n} f(c)g(d)\\
+&= \sum_{c \leq x} \sum_{d \leq \frac{x}{c}} f(c) g(d)\\
+&= \sum_{c \leq x} f(c) \sum_{d \leq \frac{x}{c}} g(d)\\
+&= \sum_{c \leq x} f(c) G\left(\frac{x}{c}\right).\label{eq02}
+\end{align}
 
-En particular, cuando $g = 1$, su cumulativa es
-$$\sum_{n \leq x} 1(n) = \sum_{n \leq x} 1 = \floor{x}.$$
-De este modo, al introducir $G(x)=\floor{x}$ en la expresi\'on del p\'arrafo anterior se logra 
-$$
-\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f * 1 (n) = \sum_{n \leq x} f(n) \floor*{\frac{x}{n}}, 
-$$
+En particular, cuando $g = \mathbf{1}$, su cumulativa es
+\begin{align}
+\sum_{n \leq x} \mathbf{1}(n) = \sum_{n \leq x} 1 = \floor{x}.
+\end{align}
+De este modo, al introducir $G(x)=\floor{x}$ en la Ecuaci\'on \ref{eq02} se logra 
+\begin{align}
+\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f * \mathbf{1} (n) = \sum_{n \leq x} f(n) \floor*{\frac{x}{n}}, 
+\end{align}
 lo buscado. 
 \end{proof}
 
