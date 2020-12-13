@@ -1,15 +1,27 @@
-\documentclass{article}
+\documentclass[10pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsfonts,latexsym,amsthm,amssymb,amsmath,amscd,euscript}
 \usepackage{mathtools}
 \usepackage{framed}
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage{authblk}
 % Descomentar fullpage cuando se quiera utilizar menos margen horizontal
 %\usepackage{fullpage}
 \usepackage{hyperref}
     \hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
 \usepackage{listings}
 \usepackage[usenames,dvipsnames]{color}
+
+% Keywords command
+\providecommand{\keywords}[1]
+{
+  \bigskip
+  \textbf{Keywords} #1
+}
+
+% Bibliografía
+\renewcommand{\refname}{Bibliografía}
+
 % Tablas
 \usepackage{siunitx,booktabs}
 \sisetup{group-digits=false}
@@ -90,118 +102,270 @@
 \newcommand{\BZ}{\mathbb Z}
 \newcommand{\BN}{\mathbb N}
 
-\title{MAT338 Teor\'ia Anal\'itica de N\'umeros}
-\author{Manuel Loaiza Vasquez}
-\date{Ciclo 2020-1}
+\title{An\'alisis, Algoritmos y Estimados de la Identidad de Selberg}
+\author[1]{Manuel Loaiza Vasquez}
+\author[2]{Alfredo Poirier}
+\affil[1, 2]{Departamento de Matem\'aticas,  
+Pontificia Universidad Cat\'olica del Per\'u, Lima, Per\'u}
+\date{Diciembre 2020}
 
 \begin{document}
 
 \maketitle
 
-\vspace*{-0.25in}
-\centerline{Pontificia Universidad Cat\'olica del Per\'u}
-\centerline{Lima, Per\'u}
-\centerline{\href{mailto:manuel.loaiza@pucp.edu.pe}{{\tt manuel.loaiza@pucp.edu.pe}}}
-\vspace*{0.15in}
+\begin{abstract}
 
-\begin{framed}
-\'Ultima tarea del curso de T\'opicos de An\'alisis de la Especialidad de Matem\'aticas dictado en la Facultad de Ciencias e Ingenier\'ia en la Pontificia Universidad Cat\'olica del Per\'u (PUCP) por Alfredo Poirier Schmitz en el ciclo 2020-1.
-\end{framed}
+In this work, we proof Selberg's Identity using elementary techniques,
+develop an algorithm in worst-case $O(x)$ time and
+implement it in C++ to estimate numeric results.
+\end{abstract}
+\keywords{Algorithmic Number Theory, Analytic Number Theory, Linear Sieve, Prime Number Theorem, Selberg's Identity}
 
-\begin{statement}{1}
-Para todo n\'umero real $x$ mayor o igual a $1$ se cumple la f\'ormula de Selberg
-$$\sum_{p \leq x} \ln^2(p) + \sum_{pq \leq x} \ln(p) \ln(q) = 2x\ln(x) + O(x).$$
-\end{statement}
+\section{Introducci\'on}
+Cuando despert\'o, el dinosaurio todav\'ia estaba all\'i.
  
+\subsection{Nuestros resultados}
+El prop\'osito de este trabajo es doble: 
+en primer lugar probaremos la f\'ormula de Selberg en todo rigor (ver enunciado a continuaci\'on); 
+luego diseñar\'emos y analizaremos la eficiencia de estos algoritmos e
+implementaremos un programa para su verificaci\'on n\'umerica.
+\bigskip
+
+Empezamos enunciado la f\'ormula asint\'otica de Selberg. 
+En todo lo que sigue los s\'imbolos $p,q$ se referir\'an a n\'umeros primos positivos.
+\bigskip
+
+\noindent {\bf Teorema (La identidad de Selberg)} 
+{\it Para todo n\'umero real $x$ mayor o igual a $1$ se cumple la f\'ormula de Selberg
+$$
+\sum_{p \leq x} \ln^2(p) + \sum_{pq \leq x} \ln(p) \ln(q) = 2x\ln(x) + O(x).
+$$}
+
+\subsection{Nuestras t\'ecnicas}
+Para obtener nuestros resultados, hemos utilizado herramientas b\'asicas del
+an\'alisis real, ejemplos de los cuales tenemos series, sucesiones, continuidad,
+l\'imites, derivadas e integrales. 
+Asimismo, haremos uso de funciones aritm\'eticas
+y estimados de estas, las cuales ser\'an controladas en uso de la notaci\'on {\it big $O$}.
+Para el an\'alisis de complejidad asint\'otico de los algoritmos,
+haremos uso de la notaci\'on {\it big $O$}, recursividad e invariantes.
+El algoritmo principal depender\'a de otros algoritmos que realizar\'an
+b\'usquedas binarias y una criba lineal para deteminar los n\'umeros primos en un rango de modo eficiente.
+Finalmente, los estimados computacionales ser\'an obtenidos tras realizar una
+implementaci\'on de los algoritmos propuestos en el lenguaje GNU C++ 17.
+
+\subsection{Notaci\'on}
+Emplearemos $f(x) = O(g(x))$ en vez de $f \in O(g)$
+a pesar de que no se trate de una igualdad de conjuntos sino
+pertenencia de una funci\'on a una clase de funciones; 
+de la misma manera
+trataremos la aritm\'etica entre familias de funciones con notaci\'on {\it big $O$}.
+Los s\'imbolos $p$ y $q$, en caso de no especificarse,
+har\'an referencia a n\'umeros primos positivos.
+
+\subsection{Organizaci\'on}
+En la secci\'on 2 presentaremos los teoremas y definiciones que no probaremos pero 
+son lugar com\'un en \'area, utilizaremos como referencia \cite{Apostol} y \cite{CLRS}.
+En la secci\'on 3 realizaremos la demostraci\'on de la identidad de Selberg tras la prueba de ciertos lemas intermedios.
+En la secci\'on 4 propondremos los algoritmos CribaLineal, Buscar\'UltimaPosici\'on y CalcularSuma 
+para poder cumplir con el objetivo de realizar estimados con el algoritmo EstimarConstante, el mismo que emplea los tres algoritmos anteriores. 
+Todos los algoritmos tendr\'an su respectivo an\'alisis de complejidad asint\'otico.
+En la secci\'on 5 implementaremos los algoritmos de la secci\'on anterior en el lenguaje de programaci\'on C++ y
+presentaremos tablas con los estimados.
+
+\section{Preliminares matem\'aticos}
+
+En ruta a la identidad de Selberg, tendremos que recordar algunas definiciones y estimados bastante conocidos.
+
+\begin{defn}
+Dada una funci\'on $g$ denotamos $O(g(x))$ al conjunto de funciones
+$$
+O(g(x)) = \{f : \text{existe una constante positiva } c \text{ y un momento } x_0 \text{ tal que}
+$$
+$$
+0 \leq f(x) \leq cg(x) \text{ para todo } x \geq x_0\}.
+$$
+\end{defn}
+
+\begin{theorem}[F\'ormula de sumaci\'on de Euler]
+Si $f$ tiene una derivada continua $f'$ en el intervalo $[a, b]$ con $0 < a < b$, 
+entonces se satisface 
+$$
+\sum_{a < n \leq x} f(n) = \int_a^b f(t) dt + \int_a^b (t - \floor{t}) f'(t) dt
++ f(a)(\floor{a} - a) - f(b)(\floor{b} - b).
+$$
+\end{theorem}
+
+\begin{defn}
+Sea $f$ y $g$ dos funciones aritm\'eticas, 
+definimos su {\bf producto de Dirichlet} como la funci\'on aritm\'etica $h$ definida puntualmente por 
+$$
+h(n) = \sum_{d \mid n} f(d) g\left(\frac{n}{d}\right).
+$$
+\end{defn}
+
+\begin{defn}
+La funci\'on $\boldsymbol{\mu}$ \textbf{de M\"{o}bius} es definida como sigue. 
+Primero definimos 
+$$
+\mu(1) = 1.
+$$
+Si $n > 1$, expresamos $n = p_1^{\alpha_1} \cdots p_k^{\alpha_k}$ y 
+definimos 
+$$
+\mu(n) = 
+\begin{cases}
+(-1)^k &\text{si } \alpha_1 = \cdots = \alpha_k = 1, \\
+0 &\text{en otro caso}. 
+\end{cases}
+$$
+\end{defn}
+
+\begin{defn}
+Para $n$ entero positivo definimos la funci\'on $\boldsymbol{\Lambda}$ \textbf{de Mangoldt} v\'ia 
+$$
+\Lambda(n) =
+\begin{cases}
+\ln p &\text{si } n = p^m \text{ para alg\'un } m \geq 1,\\
+0 &\text{en otro caso.}
+\end{cases}
+$$
+\end{defn}
+
+\begin{defn}
+Para $x > 0$ definimos la funci\'on $\boldsymbol{\Psi}$ \textbf{de Chebyshev} con la f\'ormula
+$$
+\Psi(x) = \sum_{n \leq x} \Lambda(n) 
+= \sum_{\substack{m = 1\\p^m \leq x}}^\infty \sum_p \Lambda(p^m)
+= \sum_{m = 1}^\infty \sum_{p \leq x^{\frac{1}{m}}} \ln p.
+$$
+\end{defn}
+
+\begin{defn}
+Para todo $x > 0$ definimos la funci\'on $\boldsymbol{\vartheta}$ \textbf{de Chebyshev} mediante la ecuaci\'on
+$$
+\vartheta(x) = \sum_{p \leq x} \ln p.
+$$
+\end{defn}
+
+\section{Resultados}
+
+\subsection{La Identidad de Selberg}
+
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
-$$\sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right).$$
+$$\sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right),
+$$
+aqu\'i $\gamma \approx 0.52$ es una constante conocida como {\bf la constante de Euler}. 
 \end{lemma}
-
 \begin{proof}
-Sea $f : [1, \infty) \to \BR$ con $f(x) = \frac{1}{x}$, sabemos que $f$ es continua y diferenciable en todo su dominio,
-en particular, en el intervalo $[1, x]$; por lo tanto, podemos aplicar la f\'ormula de sumaci\'on de Euler.
-
-Primero, utilizar\'e la f\'ormula de sumaci\'on de Euler en el intervalo $[2, k]$, con $k$ un n\'umero entero mayor o igual a 2
-\begin{align*}
+La funci\'on $f : [1, \infty) \to \BR$ con $f(x)=1/x$ es continua y diferenciable en toda la recta  
+conque podemos aplicar la f\'ormula de sumaci\'on de Euler en cualquier intervalo $[2, k]$ 
+y as\'i obtener 
+$$
+\begin{aligned}
 \sum_{n = 2}^k \frac{1}{n} &= \int_1^k \frac{dt}{t} + \int_{1}^k (t - \floor{t})\left(\frac{1}{-t^2}\right) dt \\
-&= (\ln t) \big|_1^k - \int_1^k \frac{t - \floor{t}}{t^2} dt \\
-1 + \sum_{n = 2}^k \frac{1}{n} &= 1 + \ln k - \int_1^k \frac{t - \floor{t}}{t^2} dt \\
-\sum_{n = 1}^k \frac{1}{n} &= \ln k + 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt \\
-\sum_{n = 1}^k \frac{1}{n} - \ln k &= 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt.
-\end{align*}
+&= \ln k - \int_1^k \frac{t - \floor{t}}{t^2} dt, \\
+\end{aligned} 
+$$
+lo cual conduce de inmediato a 
+$$
+\sum_{n = 1}^k \frac{1}{n} - \ln k = 1 - \int_1^k \frac{t - \floor{t}}{t^2} dt.
+$$
 
-Analicemos que pasa cuando $k \to \infty$
-$$\gamma = \lim_{k \to \infty} \left(\sum_{n = 1}^k \frac{1}{n} - \ln k\right) 
-= \lim_{k \to \infty} \left(1 - \int_1^k \frac{t - \floor{t}}{t^2}\right) dt.$$
-Este l\'imite existe, puesto que
-\begin{align*}
-\lim_{k \to \infty} \int_1^k \frac{t - \floor{t}}{t^2} dt &\leq \lim_{k \to \infty} \int_1^k \frac{1}{t^2} dt \\
-&= \lim_{k \to \infty} \left(-\frac{1}{t}\right)\Big|_1^k dt \\
-&= 1
-\end{align*}
-converge y por aritm\'etica de l\'imites, $\gamma = \lim_{k \to \infty} \left(1 - \int_1^k \frac{t - \floor{t}}{t^2}\right) dt$ converge.
+Para analizar qu\'e ocurre cuando $k \to \infty$ escribimos
+$$
+\gamma = \lim_{k \to \infty} \left(\sum_{n = 1}^k \frac{1}{n} - \ln k\right) 
+= 1- \lim_{k \to \infty}  \left(\int_1^k \frac{t - \floor{t}}{t^2}\right) dt 
+=  1- \int_1^\infty \frac{t - \floor{t}}{t^2} dt,
+$$
+l\'imite que existe, pues al tenerse 
+$$
+\int_1^k \frac{t - \floor{t}}{t^2} dt  \le \int_1^k \frac{1}{t^2} dt 
+= 1 -\frac{1}{k}   \le 1
+$$
+la convergencia queda garantizada por monoticidad. 
+Al reemplazar $\gamma$ en la f\'ormula desplegada en el p\'arrafo anterior, llegamos a 
+$$
+\sum_{n = 1}^k \frac{1}{n} - \ln k = \gamma + \int_1^\infty \frac{t - \floor{t}}{t^2} dt - \int_1^\infty \frac{t - \floor{t}}{t^2} dt = 
+ \gamma  +  \int_k^\infty \frac{t - \floor{t}}{t^2} dt.
+$$
 
-Finalmente, utilizar\'e la f\'ormula de sumaci\'on de Euler para $x$ un n\'umero real mayor o igual a 1
-\begin{align*}
-\sum_{n \leq x} \frac{1}{n} &= \int_1^x \frac{1}{t} dt + \int_1^x (t - \floor{t})\left(\frac{1}{-t^2}\right) dt 
-+ (1 - \floor{1}) - (x - \floor{x})\left(\frac{1}{x}\right) \\
-&= (\ln t) \big|_1^x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \frac{x - \floor{x}}{x} \\
-&= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \frac{x - \floor{x}}{x} \\
-&\leq \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt + 1 + \frac{x - \floor{x}}{x} \\
-\sum_{n \leq x} \frac{1}{n} &= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
-&= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \int_x^\infty \frac{t - \floor{t}}{t^2} dt 
-+ \int_x^\infty \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
-&= \ln x - \int_1^\infty \frac{t - \floor{t}}{t^2} dt + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
-&= \ln x + \left(1 - \int_1^\infty \frac{t - \floor{t}}{t^2} dt\right) + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + O\left(\frac{1}{x}\right) \\
-&= \ln x + \gamma + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + O\left(\frac{1}{x}\right) \\
-&\leq \ln x + \gamma + \int_x^\infty \frac{dt}{t^2} + O\left(\frac{1}{x}\right) \\
-&= \ln x + \gamma + \lim_{b \to \infty} \left(-\frac{1}{t}\right) \Big|_x^b + O\left(\frac{1}{x}\right) \\
-&= \ln x + \gamma + \frac{1}{x} + O\left(\frac{1}{x}\right) \\
-&= \ln x + \gamma + O\left(\frac{1}{x}\right)
-\end{align*}
+Finalmente, para establecer la f\'ormula anunciada ponemos $k=\floor{x}$ y estimamos 
+$$
+\begin{aligned}
+\left|\sum_{n \le x} \frac{1}{n} - \ln x  - \gamma \right| &= \left|\sum_{n \le k} \frac{1}{k}  -\ln k -\gamma \right| + |\ln x -\ln k |  \cr 
+& \le \left|   \int_k^\infty \frac{t - \floor{t}}{t^2} dt \right| + \left| \int_k^x  \frac{1}{t}\,dt  \right| \cr 
+& \le \frac{1}{k} + \frac{1}{k} = O\left(\frac{1}{x}\right). 
+\end{aligned}
+$$
+%utilizar\'e la f\'ormula de sumaci\'on de Euler para $x$ un n\'umero real mayor o igual a 1
+%\begin{align*}
+%\sum_{n \leq x} \frac{1}{n} &= \int_1^x \frac{1}{t} dt + \int_1^x (t - \floor{t})\left(\frac{1}{-t^2}\right) dt 
+%+ (1 - \floor{1}) - (x - \floor{x})\left(\frac{1}{x}\right) \\
+%&= (\ln t) \big|_1^x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \frac{x - \floor{x}}{x} \\
+%&= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \frac{x - \floor{x}}{x} \\
+%&\leq \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt + 1 + \frac{x - \floor{x}}{x} \\
+%\sum_{n \leq x} \frac{1}{n} &= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
+%&= \ln x - \int_1^x \frac{t - \floor{t}}{t^2} dt - \int_x^\infty \frac{t - \floor{t}}{t^2} dt 
+%+ \int_x^\infty \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
+%&= \ln x - \int_1^\infty \frac{t - \floor{t}}{t^2} dt + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + 1 + O\left(\frac{1}{x}\right) \\
+%&= \ln x + \left(1 - \int_1^\infty \frac{t - \floor{t}}{t^2} dt\right) + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + O\left(\frac{1}{x}\right) \\
+%&= \ln x + \gamma + \int_x^\infty \frac{t - \floor{t}}{t^2} dt + O\left(\frac{1}{x}\right) \\
+%&\leq \ln x + \gamma + \int_x^\infty \frac{dt}{t^2} + O\left(\frac{1}{x}\right) \\
+%&= \ln x + \gamma + \lim_{b \to \infty} \left(-\frac{1}{t}\right) \Big|_x^b + O\left(\frac{1}{x}\right) \\
+%&= \ln x + \gamma + \frac{1}{x} + O\left(\frac{1}{x}\right) \\
+%&= \ln x + \gamma + O\left(\frac{1}{x}\right)
+%\end{align*}
 \end{proof}
 
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
-$$\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x).$$
+$$
+\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x).
+$$
 \end{lemma}
-
 \begin{proof}
-Sea $f : [1, \infty) \to \BR$ con $f(x) = \ln x$, sabemos que $f$ es continua y diferenciable en todo su dominio, 
-en particular, en el intervalo $[1, x]$; por lo tanto, podemos aplicar la f\'ormula de sumaci\'on de Euler
-\begin{align*}
-\sum_{n \leq x} \ln x &= \int_1^x \ln t dt + \int_1^x (t - \floor{t})\left(\frac{1}{t}\right) dt + (\floor{x} - x) \ln x - (\floor{1} - 1) \ln 1 \\
-&= (t \ln t - t) \big|_1^x + \int_1^x \frac{(t - \floor{t})}{t} dt + (\floor{x} - x) \ln x \\
+Esta vez utilizamos la f\'ormula de sumaci\'on de Euler con $f(x) = \ln x$, continua y diferenciable en toda la recta real positiva:  
+$$
+\begin{aligned}
+\sum_{n \leq x} \ln x &= \int_1^x \ln t \, dt + \int_1^x  \frac{t - \floor{t}}{t} dt + (\floor{x} - x) \ln x  \\
+&= (t \ln t - t) \big|_1^x + \int_1^x \frac{(t - \floor{t})}{t} \, dt + (\floor{x} - x) \ln x \\
 &= x \ln x - x + 1 + \int_1^x \frac{t - \floor{t}}{t} dt + (\floor{x} - x) \ln x \\
-&\leq x \ln x - x + 1 + \int_1^x \frac{1}{t} dt + \ln x \\
+&\leq x \ln x - x + 1 + \int_1^x \frac{1}{t} \,dt + \ln x \\
 &= x \ln x - x + 1 + 2 \ln x.
-\end{align*}
-
-Concluimos que $\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x)$.
+\end{aligned}
+$$
+Como $1$ est\'a dominado por $\ln x$,  
+se cumple $\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x)$, 
+lo anunciado. 
 \end{proof}
 
 \begin{lemma}
 Para toda funci\'on aritm\'etica $f$ se cumple
-$$\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f(n) \floor{\frac{x}{n}}.$$
+$$\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f(n) \floor*{\frac{x}{n}}.$$
 \end{lemma}
 
 \begin{proof}
 Sea $f$ y $g$ dos funciones aritm\'eticas, $F$ y $G$ sus respectivas cumulativas;
-es decir, $F(x) = \sum_{n \leq x} f(x)$ y $G(x) = \sum_{n \leq x} g(x)$,
-analicemos la cumulativa del producto de Dirichlet de $f$ y $g$
-\begin{align*}
+es decir, $F(x) = \sum_{n \leq x} f(x)$ y $G(x) = \sum_{n \leq x} g(x)$. 
+La cumulativa del producto de Dirichlet de $f$ y $g$ est\'a dada por 
+$$
+\begin{aligned}
 \sum_{n \leq x} f * g (n) &= \sum_{n \leq x} \sum_{cd = n} f(c)g(d) \\
 &= \sum_{c \leq x} \sum_{d \leq \frac{x}{c}} f(c) g(d) \\
 &= \sum_{c \leq x} f(c) \sum_{d \leq \frac{x}{c}} g(d) \\
 &= \sum_{c \leq x} f(c) G\left(\frac{x}{c}\right).
-\end{align*}
+\end{aligned}
+$$
 
 En particular, cuando $g = 1$, su cumulativa es
-$$\sum_{n \leq x} 1(n) = \sum_{n \leq x} 1 = \floor{x}$$
-y aplicamos lo anterior directamente expres\'ando lo que queremos probar como un producto de Dirichlet
-$$\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f * 1 (n) = \sum_{n \leq x} f(n) \floor{\frac{x}{n}}$$
-concluyendo con la demostraci\'on.
+$$\sum_{n \leq x} 1(n) = \sum_{n \leq x} 1 = \floor{x}.$$
+De este modo, al introducir $G(x)=\floor{x}$ en la expresi\'on del p\'arrafo anterior se logra 
+$$
+\sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f * 1 (n) = \sum_{n \leq x} f(n) \floor*{\frac{x}{n}}, 
+$$
+lo buscado. 
 \end{proof}
 
 \begin{lemma}
@@ -210,13 +374,14 @@ $$\floor{x} = x + O(1).$$
 \end{lemma}
 
 \begin{proof}
-Sea $x = n + r$ un n\'umero real no negativo, con $n \in \BZ$ y $0 \leq r < 1$. De esta manera, por definici\'on de m\'aximo entero tenemos
+Sea $x = n + r$ un n\'umero real no negativo, con $n \in \BZ$ y $0 \leq r < 1$. 
+De esta manera, por definici\'on de m\'aximo entero tenemos
 \begin{align*}
 \floor{x} &= n \\
 &= x - r \\
 &= x + O(1).
 \end{align*}
-Concluimos trivialmente que $\floor{x} = x + O(1)$.
+Concluimos trivialmente la propiedad $\floor{x} = x + O(1)$.
 \end{proof}
 
 \begin{lemma}
@@ -225,119 +390,111 @@ $$\Psi(x) = O(x).$$
 \end{lemma}
 
 \begin{proof}
-Usaremos el desarrollo del teorema de Chebyshev por Diamond \cite{Diamond}
+Usaremos el desarrollo del teorema de Chebyshev por Diamond \cite{Diamond} (ver tambi\'en \cite{Apostol}) 
 $$A \leq \liminf \frac{\Psi(x)}{x} \leq \limsup \frac{\Psi(x)}{x} \leq \frac{6A}{5}$$
 con $A = -\frac{\ln 1}{1} + \frac{\ln 2}{2} + \frac{\ln 3}{3} + \frac{\ln 5}{5} - \frac{\ln 30}{30} \approx 0.92129202293409078091340844996160...$
-Para analizar el comportamiento asint\'otico nos centraremos en la parte derecha de la desigualdad reescribi\'endola con valor absoluto ya que es una funci\'on positiva
-$$\limsup \frac{|\Psi(x)|}{x} \leq \frac{6A}{5}.$$
-Por definici\'on, sabemos que existe un $n_0$ a partir del cual
-$$\frac{|\Psi(x)|}{x} \leq \frac{6A}{5}$$
-para todo $x > n_0$. Pasamos a multiplicar la funci\'on lineal y obtenemos
-$$|\Psi(x)| \leq \left(\frac{6A}{5}\right) x$$
-con $\frac{6A}{5} > 0$, lo cual denotamos con $\Psi(x) = O(x)$.
+Reescribimos la parte derecha de la desigualdad con valor absoluto ya que es una funci\'on positiva cual
+$$
+\limsup \frac{|\Psi(x)|}{x} \leq \frac{6A}{5}.
+$$
+Por definici\'on existe $n_0$ a partir del cual se tiene 
+$$\frac{|\Psi(x)|}{x} \leq \frac{6A}{5},$$
+es decir, para todo $x > n_0$.
+Como ello equivale a
+$$
+|\Psi(x)| \leq \left(\frac{6A}{5}\right) x,
+$$
+se consigue $\Psi(x) = O(x)$.
 \end{proof}
 
 \begin{lemma}
 La funci\'on de Mangoldt se puede expresar como el siguiente producto de Dirichlet
 $$\Lambda = \mu * \ln.$$
 \end{lemma}
-
 \begin{proof}
-Sabemos que $\Lambda * 1 = \ln$ y aplicamos los propiedades del producto de Dirichlet
-\begin{align*}
-(\Lambda * 1) * \mu &= \ln * \mu \\
-\Lambda * (1 * \mu) &= \ln * \mu \\
-\Lambda * \mathbb{U} &= \ln * \mu \\
-\Lambda &= \ln * \mu \\
-\Lambda &= \mu * \ln.
-\end{align*}
-Concluimos que $\Lambda = \mu * \ln$.
+Esta f\'ormula equivale a  $\Lambda * 1 = \ln$ v\'ia  inversi\'on de M\"obius.  
 \end{proof}
 
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
 $$\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1).$$
 \end{lemma}
-
 \begin{proof}
-Sabemos que $\ln = \Lambda * 1$, por lo tanto, desarrollamos
-\begin{align*}
-\ln n &= \sum_{d \mid n} \Lambda(d) \\
-\sum_{n \leq x} \ln n &= \sum_{n \leq x} \sum_{d \mid n} \Lambda(d).
-\end{align*}
-
-Del Lema 3 obtenemos
-\begin{align*}
-\sum_{n \leq x} \ln n &= \sum_{n \leq x} \Lambda(n) \floor{\frac{x}{n}}
-\end{align*}
-y utilizando el Lema 4 conseguimos
-\begin{align*}
+El desarrollo de  $\ln = \Lambda * 1$ cual 
+$\ln n = \sum_{d \mid n} \Lambda(d)$ 
+lleva a 
+$$
+\sum_{n \leq x} \ln n = \sum_{n \leq x} \sum_{d \mid n} \Lambda(d).
+$$
+Una aplicaci\'on directa del lema 3 deriva en 
+$$
+\sum_{n \leq x} \ln n = \sum_{n \leq x} \Lambda(n) \floor{\frac{x}{n}}. 
+$$
+De ac\'a, en uso del lema 4 conseguimos
+$$
+\begin{aligned}
 \sum_{n \leq x} \ln n &= \sum_{n \leq x} \Lambda(n) \left(\frac{x}{n} + O(1)\right) \\
 &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O\left(\sum_{n \leq x} \Lambda(x) \right) \\
-&= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(\Psi(x)).
-\end{align*}
-
-La astucia de Chebyshev es la que permite mejorar el estimado que obtuvimos en clase de 
-$\Psi(x) = \vartheta(x) + O(\sqrt{x} \ln^2 x)$ con $\vartheta(x) = O(x \ln x)$ 
-por $\Psi(x) = O(x)$ gracias al Lema 5.
-Utilizando este poderoso teorema de Chebyshev y aplicando el Lema 2 en la suma acumulada de logaritmos conseguimos
-\begin{align*}
-x\ln x - x + O(\ln x) &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(x)
-\end{align*}
-y despejamos
-\begin{align*}
+&= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(\Psi(x)) \\
+&= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(x)
+\end{aligned}
+$$
+dado que $\Psi(x) = O(x)$ claramente implica $O(\Psi(x))=O(x)$. 
+Si aplicamos el lema 2 al lado izquierdo desembocamos en
+$$
+x\ln x - x + O(\ln x) = x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(x). 
+$$ 
+Al despejar obtenemos 
+$$
+\begin{aligned}
 \sum_{n \leq x} \frac{\Lambda(n)}{n} &= \frac{x \ln x}{x} - 1 + O\left(\frac{\ln x}{x}\right) + O(1) \\
 &= \ln x - 1 + O(1) + O\left(\frac{\ln x}{x}\right) \\
-&\leq \ln x - 1 + c_0 + O(1) \\
-&\leq \ln x + c_1 \\
-&= \ln x + O(1).
-\end{align*}
-
-Concluimos que $\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1)$.
+%&\leq \ln x - 1 + c_0 + O(1) \\
+%&\leq \ln x + c_1 \\
+&= \ln x + O(1),
+\end{aligned}
+$$ 
+pues $-1 + O(1)+ O(\ln x/x)$ es acotado. 
 \end{proof}
 
 \begin{lemma}
-Para todo $f, g : [1, \infty) \to \BR$ con $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right) \ln x$ tenemos
-$$\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = f(x) \ln(x) + \sum_{n \leq x} f\left(\frac{x}{n}\right) \Lambda(n).$$
+Para $f, g : [1, \infty) \to \BR$ sujetos a  $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right) \ln x$ tenemos
+$$
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = f(x) \ln(x) + \sum_{n \leq x} f\left(\frac{x}{n}\right) \Lambda(n).
+$$
 \end{lemma}
-
 \begin{proof}
 Desarrollemos la sumatoria que queremos analizar
-\begin{align*}
-\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= \sum_{cd \leq x} \mu(c)g(d) \\
-&= \sum_{cd \leq x} \mu(c) \sum_{e \leq d} f\left(\frac{d}{e}\right) \ln(d) \\
-&= \sum_{cd \leq x} \mu(c) \ln\left(\frac{x}{c}\right) f \left(\frac{x}{cd}\right) \\
-&= \sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \ln\left(\frac{x}{n}\right) \\
+$$
+\begin{aligned}
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= \sum_{n \leq x} \mu(n) \sum_{m \leq x/n} f\left(\frac{x}{nm}\right) \ln \left(x/n  \right) \\
+&= \sum_{nm \leq x} \mu(n) \ln\left(\frac{x}{n}\right) f \left(\frac{x}{nm}\right) \\    
+&= \sum_{c \leq x} f\left(\frac{x}{c}\right) \sum_{d \mid c} \mu(d) \ln\left(\frac{x}{d}\right) \\
 &= \sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \left[\ln \left(\frac{x}{n}\right) + \ln\left(\frac{n}{d}\right)\right] \\
 &= \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \ln\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d)\right]
-+  \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \ln\left(\frac{n}{d}\right)\right].
-\end{align*}
-
-Asimismo, sabemos que $\mu * 1 = \mathbb{U}$ y
-sabemos que el \'unico valor de $\mathbb{U}$ distinto de cero se obtiene en uno.
-Por consiguiente, la igualdad se reduce a
-\begin{align*}
-\sum_{n \leq x} \mu(n)g\left(\frac{x}{n}\right) &= f(x)\ln x + \sum_{n \leq x} f\left(\frac{x}{n}\right) (\mu * \ln)(n).
-\end{align*}
-
-Finalmente, utilizamos el Lema $6$ para concluir que $\sum_{n \leq x} \mu(n)g\left(\frac{x}{n}\right) = f(x)\ln x + \sum_{n \leq x} f\left(\frac{x}{n}\right)\Lambda(n)$.
++  \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \ln\left(\frac{n}{d}\right)\right].\\
+&= f(x) +  \ln{x} +  \sum_{n \leq x} f\left(\frac{x}{n}\right) (\mu * \ln)(n). 
+\end{aligned}
+$$
+Con ello, finalmente, 
+utilizamos el lema 6 para concluir lo deseado. 
 \end{proof}
 
 \begin{lemma}
 Para todo $x \geq 1$ tenemos
 $$\ln^2 x = O(\sqrt{x}).$$
 \end{lemma}
-
 \begin{proof}
-Sabemos que para todo $x \geq 1$ se cumple que $x > \ln x$ analizando simplemente la derivada de $x - \ln x$.
-\begin{align*}
+Como sabemos que para todo $x \geq 1$ se cumple que $x > \ln x$ (v\'ia an\'alisis de la  derivada de $x - \ln x$), 
+se obtiene
+$$
+\begin{aligned}
 \ln^2 x &= \ln^2 ((x ^ {\frac{1}{4}}) ^ 4) \\
 &= 16 \ln^2 (x ^ {\frac{1}{4}}) \\
 &< 16 (x ^ {\frac{1}{4}}) ^ 2 \\
 &= 16 \sqrt{x}.
-\end{align*}
-
-Por lo tanto, concluimos que $\ln^2 x = O(\sqrt{x})$.
+\end{aligned}
+$$
 \end{proof}
 
 \begin{lemma}
@@ -346,87 +503,90 @@ $$\Psi(x) \ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) = 2x\ln
 \end{lemma}
 
 \begin{proof}
-Para poder utilizar el Lema 8, debemos definir convenientemente la funci\'on $f : [1, \infty) \to \BR$ como
-$$f(x) = \Psi(x) - x + \gamma + 1.$$
-y antes de aplicar el Lema 8 le daremos forma a la funci\'on $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x$
-\begin{align*}
-\sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x &= \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \ln x \\
+Para utilizar el lema 8, definimos convenientemente 
+$$
+f(x) = \Psi(x) - x + \gamma + 1.
+$$
+Antes de aplicar el lema 8, le brindaremos a $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x$ 
+una expansi\'on diferente cual es 
+$$
+\begin{aligned}
+g(x)= \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x &= \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \ln x \\
 &= \sum_{n \leq x} \Psi\left(\frac{x}{n}\right) \ln x - x \ln x \sum_{n \leq x} \frac{1}{n} + (\gamma + 1) \ln x \sum_{n \leq x} 1.
-\end{align*}
+\end{aligned}
+$$
+Analicemos por separado cada sumatoria. 
 
-Analicemos por separado a cada sumatoria. Primero $\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)$
-\begin{align*}
-\sum_{n \leq x} \Psi\left(\frac{x}{n}\right) &= \sum_{n \leq x} \sum_{d \leq \frac{x}{n}} \Lambda(d) \\
-&= \sum_{n \leq x} \sum_{d \mid n} \Lambda(d) \\
-&= \sum_{n \leq x} (\Lambda * 1)(n) \\
-&= \sum_{n \leq x} \ln n
-\end{align*}
-el cual es igual a $x\ln x - x + O(\ln x)$ por el Lema 2 y multiplic\'andole el logaritmo obtenemos
-$$\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\ln x = x \ln^2 x - x \ln x + O(\ln^2 x).$$
+La primera resulta ser 
+$$
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right) = \sum_{n \leq x} \sum_{d \leq \frac{x}{n}} \Lambda(d) = 
+ \sum_{n \leq x} \sum_{d \mid n} \Lambda(d) = 
+ \sum_{n \leq x} (\Lambda * 1)(n) = 
+\sum_{n \leq x} \ln n, 
+$$
+de tipo $x\ln x - x + O(\ln x)$ por el lema 2. 
+Al multiplicar el logaritmo obtenemos la expresi\'on
+$$
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\ln x = x \ln^2 x - x \ln x + O(\ln^2 x).
+$$
 
-Ahora analicemos la segunda sumatoria utilizando el Lema 1
+Para la segunda recurrimos al lema 1 y logramos 
 \begin{align*}
 -x \ln x \sum_{n \leq x} \frac{1}{n} &= -x \ln x \left(\ln x + \gamma + O\left(\frac{1}{x}\right)\right) \\
 &= -x \ln^2 x - \gamma x \ln x + O(\ln x).
 \end{align*}
 
-Finalmente, analicemos la tercera sumatorio utilizando el Lema 4
+Para la tercera necesitamos el lema 4: 
 \begin{align*}
 (\gamma + 1) \ln x \sum_{n \leq x} 1 &= (\gamma + 1) \ln x \floor{x} \\
 &= (\gamma + 1) \ln x (x + O(1)) \\
 &= (\gamma + 1) x \ln x + O(\ln x).
 \end{align*}
 
-Juntando los tres resultados obtenemos
-\begin{align*}
+Finalmente, juntamos los tres resultados y obtenemos
+$$
+\begin{aligned}
 g(x) &= x \ln^2 x - x \ln x + O(\ln^2 x) - x \ln^2 x - \gamma x \ln x + O(\ln x) + (\gamma + 1) x \ln x + O(\ln x) \\
 &= O(\ln^2 x) + O(\ln x) \\
-&= O(\ln^2 x)
-\end{align*}
+&= O(\ln^2 x). 
+\end{aligned}
+$$
 
-Utilizando el Lema 8 obtenemos la igualdad
-$$\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = (\Psi(x) - x + \gamma + 1) \ln x + \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \Lambda(n)$$
-y analizaremos ambos lados de la desigualdad por separado.
-Utilizando la desigualdad triangular en la secci\'on de la izquierda y luego el hecho de que $g(x) = O(\ln^2 x)$ obtenemos
-\begin{align*}
-\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &\leq \sum_{n \leq x} g\left(\frac{x}{n}\right) \\
-&= O\left(\sum_{n \leq x} g\left(\frac{x}{n}\right)\right) \\
-&= O\left(\sum_{n \leq x} \ln^2 \left(\frac{x}{n}\right)\right).
-\end{align*}
+Del lema 8 obtenemos entonces 
+$$
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = 
+(\Psi(x) - x + \gamma + 1) \ln x + \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \Lambda(n). 
+$$
+El remate consiste en analizar ambos miembros de la desigualdad por separado. 
 
-Utilizamos el Lema 9 para conseguir
-\begin{align*}
-\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= O\left(\sum_{n \leq x} \sqrt{\frac{x}{n}}\right) \\
-&= O\left(\sqrt{x} \sum_{n \leq x} \frac{1}{\sqrt{n}}\right).
-\end{align*}
+Utilizamos la desigualdad triangular el hecho de que se cumple $g(x) = O(\ln^2 x)$ para obtener a la izquierda 
+$$
+\left | \sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) \right|  \leq \sum_{n \leq x} \left| g\left(\frac{x}{n}\right) \right| 
+= O\left(\sum_{n \leq x} g\left(\frac{x}{n}\right)\right) 
+= O\left(\sum_{n \leq x} \ln^2 \left(\frac{x}{n}\right)\right).
+$$
+Con esta expresi\'on el lema 9 permite conseguir
+$$
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = O\left(\sum_{n \leq x} \sqrt{\frac{x}{n}}\right) 
+= O\left(\sqrt{x} \sum_{n \leq x} \frac{1}{\sqrt{n}}\right) = O\left( \sqrt{x}\cdot \sqrt{x}\right)=O(x). 
+$$
 
-Ahora utilizar\'e otro teorema que probamos en la secci\'on en la cual estudiamos a la funci\'on $\zeta$ de Riemann
-$$\sum_{n \leq x} \frac{1}{n^\sigma} = \frac{x^{1 - \sigma}}{1 - \sigma} + O(1) = O(x ^ {1 - \sigma}), \, 0 < \sigma < 1$$
-para el caso particular cuando $\sigma = \frac{1}{2}$.
-\begin{align*}
-\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= O(\sqrt{x}\sqrt{x}) \\
-&= O(x).
-\end{align*}
-
-Ahora desarrollar\'e la parte de la derecha de la igualdad inicial
-$$(\Psi(x) - x + \gamma + 1) \ln x + \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \Lambda(n)$$
-\begin{align*}
-&= \Psi(x)\ln x + (-x + \gamma + 1) \ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1) \sum_{n \leq x} \Lambda(n) \\
-&= \Psi(x)\ln x + (-x + \gamma + 1) \ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1) \Psi(x) \\
-&= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1)\Psi(x)
-\end{align*}
-y utilizando el Lema 5 y el Lema 7 reducimos la expresi\'on
-\begin{align*}
-&= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x(\ln x + O(1)) + O(x) \\
+El t\'ermino de la derecha lo reordenamos cual 
+$$
+ \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1)\Psi(x). 
+$$
+Merced a los lemas 5 y 7 reducimos la expresi\'on a 
+$$
+\begin{aligned}
+& \hskip -0.5in  \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x(\ln x + O(1)) + O(x)=  \\
 &= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x).
-\end{align*}
-
+\end{aligned}
+$$
 Finalmente, igualamos los resultados de ambas partes
-\begin{align*}
-\Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x) &= O(x)\\
-\Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) &= 2x \ln x + O(x)
-\end{align*}
-concluyendo con la prueba del lema.
+$$
+\Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x) = O(x), 
+$$
+equivalente a aseverado. 
 \end{proof}
 
 \begin{lemma}
@@ -435,10 +595,11 @@ $$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln x).$$
 \end{lemma}
 
 \begin{proof}
-Sabemos que
-$$\Psi(x) = \sum_{n = 1}^\infty \vartheta(x^\frac{1}{n})$$
-y al mismo tiempo esa sumatoria tiene una cantidad finita de elementos puesto que la funci\'on $\vartheta$ 
-solo tiene sentido cuando es evaluada en valores mayores o iguales a $2$. Hallamos ese momento $m$
+Directo de la definici\'on observamos que se cumple 
+$$\Psi(x) = \sum_{n = 1}^\infty \vartheta(x^\frac{1}{n}).$$ 
+Notemos que al mismo tiempo esta sumatoria tiene apenas una cantidad finita de t\'erminos efectivos puesto que la funci\'on $\vartheta$ 
+solo tiene sentido cuando es evaluada en valores mayores o iguales a $2$. 
+Para un $x$ espec\'ifico,  hallamos ese momento $m=m(x)$ mediante la cadena 
 \begin{align*}
 x^\frac{1}{m} &\geq 2 \\
 x^\frac{2}{m} &\geq 4 \\
@@ -447,182 +608,166 @@ x^\frac{2}{m} &> e \\
 \frac{2}{m}\ln x &> 1 \\
 m &< 2 \ln x
 \end{align*}
-y notamos que para valores mayores $m = \floor{2 \ln x}$ los elementos de la suma son iguales a cero.
-Ahora podemos escribir a $\Psi$ de la siguiente forma
+y notamos que para valores mayores $m = \floor{2 \ln x}$ los constituyentes de la suma son nulos.
+Ahora podemos escribir a $\Psi$ como 
 \begin{align*}
 \Psi(x) &= \vartheta(x) + \vartheta(x^\frac{1}{2}) + \cdots + \vartheta(x^\frac{1}{m}) \\
 \Psi(x) &= \vartheta(x) + \sum_{n = 2}^m \vartheta(x^\frac{1}{n}).
 \end{align*}
 
-Analicemos a la sumatoria $\sum_{n = 2}^m \vartheta(x^\frac{1}{n})$
-$$\sum_{n = 2}^m \vartheta(x^\frac{1}{n}) = \sum_{n = 2}^m \sum_{p \leq x^\frac{1}{n}} \ln p$$
-y tratemos de darle forma para manipularla de una manera sencilla, es decir,
-cambiar la indexaci\'on para poder extraer el logaritmo en la sumatoria anidada.
-Observemos que si un n\'umero primo $p$ ser\'a incluido en la sumatoria, su logaritmo contribuir\'a a la sumatoria
-tantas veces como las ra\'ices de $x$ lo permitan
-\begin{align*}
-p \leq x^\frac{1}{2} &\implies p^2 \leq x \\
-p \leq x^\frac{1}{3} &\implies p^3 \leq x \\
-&\,\,\,\,\,\,\,\vdots \\
-p \leq x^\frac{1}{k} &\implies p^k \leq x.
-\end{align*}
-Esto quiere decir que quiero hallar el m\'aximo $k$ fijado un primo $p$, despejando obtenemos
-\begin{align*}
-p^k &\leq x \\
-k \ln p &\leq \ln x \\
-k &\leq \frac{\ln x}{\ln p} \\
-k &= \floor*{\frac{\ln x}{\ln p}}.
-\end{align*}
-Asimismo, notamos que estos primos son menores iguales que la ra\'iz de $x$, el cual es un detalla importante del cual nos aprovecharemos.
+Para el an\'alisis de $\sum_{n = 2}^m \vartheta(x^\frac{1}{n})$ desdoblamos 
+$$
+\sum_{n = 2}^m \vartheta(x^\frac{1}{n}) = \sum_{n = 2}^m \sum_{p \leq x^\frac{1}{n}} \ln p. 
+$$
+Trataremos de darle forma manipulativa sencilla. 
+Si un n\'umero primo $p$ ser\'a inmiscuido en la sumatoria, 
+su logaritmo contribuir\'a a la sumatoria tantas veces como las ra\'ices de $x$ lo permitan: 
+entre $1$ y $k$, donde $k$ es el m\'aximo entero que obedece $p^k \le x$.  
+F\'acilmente hallamos que este m\'aximo est\'a dado por 
+$$
+k = \floor*{\frac{\ln x}{\ln p}}.
+$$
+
+Por su parte, para forzar por lo menos $p^2 \le x$, se necesita $p \le \sqrt{x}$
+detalle importante que aprovecharemos.
+
 Ahora analicemos la forma equivalente de la doble sumatoria
 \begin{align*}
-\sum_{n = 2}^m \sum_{p \leq x^\frac{1}{n}} \ln p &= \sum_{p \leq \sqrt{x}} \sum_{2 \leq n \leq \floor*{\frac{\ln x}{\ln p}}} \ln p \\
+\sum_{n = 2}^m \sum_{p^n \leq x} \ln p &= \sum_{p \leq \sqrt{x}} \, \, \sum_{2 \leq n \leq \floor*{\frac{\ln x}{\ln p}}} \ln p \\
 &= \sum_{p \leq \sqrt{x}} \ln p \sum_{2 \leq n \leq \floor*{\frac{\ln x}{\ln p}}} 1 \\
 &\leq \sum_{p \leq \sqrt{x}} \ln p \floor*{\frac{\ln x}{\ln p}} \\
 &\leq \sum_{p \leq \sqrt{x}} \ln p \left(\frac{\ln x}{\ln p}\right) \\
 &= \sum_{p \leq \sqrt{x}} \ln x \\
 &= \ln x \sum_{p \leq \sqrt{x}} 1 \\
 &\leq \ln x \sum_{n \leq \sqrt{x}} 1 \\
-&\leq \ln x \sqrt{x} \\
-\sum_{n = 2}^m \vartheta(x^\frac{1}{n}) &= O(\sqrt{x} \ln x).
+&\leq \ln x \sqrt{x}, 
 \end{align*}
+lo que permite concluir $\sum_{n = 2}^m \vartheta(x^\frac{1}{n}) = O(\sqrt{x} \ln x)$. 
 
-Utilizamos esto para concluir que $\Psi(x) = \vartheta(x) + O(\sqrt{x} \ln x)$.
+Con lo anterior queda establecida la relaci\'on $\Psi(x) = \vartheta(x) + O(\sqrt{x} \ln x)$.
 \end{proof}
 
 \begin{lemma}
-Sea $p$ un n\'umero primo, la serie
+La serie
 $$\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}$$
-converge.
+tomada sobre los primos converge.
 \end{lemma}
-
 \begin{proof}
-Primero hay que analizar el siguiente l\'imite
-$$\lim_{p \to \infty} \frac{\ln p}{p (p - 1)} p^\frac{3}{2}$$
-y antes de eso reescribiremos lo que queremos analizar de la siguiente manera
-$$\frac{\ln p}{p (p - 1)} p^\frac{3}{2} = \left(\frac{\ln p}{\sqrt{p}}\right)\left(\frac{p}{p - 1}\right).$$
-Si ambos l\'imites existen, tendr\'iamos que el l\'imite de nuestra expresi\'on es el producto.
+El primer paso es notar que el l\'imite
+$$\lim_{n \to \infty} \frac{\ln n}{n (n - 1)} n^\frac{3}{2}$$
+vale $0$ como se deduce al descomponer 
+$$\frac{\ln n}{n (n - 1)} n^\frac{3}{2} = \left(\frac{\ln n}{\sqrt{n}}\right)\left(\frac{n}{n - 1}\right).$$
+Por supuesto, lo mismo es v\'alido si crecemos a lo largo de primos, conque se tiene 
+$$
+\lim_{p \to \infty} \frac{\ln p}{p (p - 1)} p^\frac{3}{2}=0.
+$$
 
-Analicemos el l\'imite de lo que est\'a dentro del primer par\'entesis
-$$\lim_{p \to \infty} \frac{\ln p}{\sqrt{p}} = \frac{\infty}{\infty},$$
-como este es de la forma $\frac{\infty}{\infty}$, aplicamos la regla de L'Hospital
-$$\lim_{p \to \infty} \frac{\ln p}{\sqrt{p}}
-= \lim_{p \to \infty}\frac{\frac{1}{p}}{\frac{1}{2\sqrt{p}}}
-= \lim_{p \to \infty} \frac{2}{\sqrt{p}} = 0.$$
-
-Ahora analicemos el l\'imite de lo que est\'a dentro del segundo par\'entesis
-$$\lim_{p \to \infty} \frac{p}{p - 1}
-= \lim_{p \to \infty} \frac{1}{1 - \frac{1}{p}}
-= \frac{1}{1 - 0} = 1.$$
-
-Como ambos l\'imites existen, por aritm\'etica de l\'imites obtenemos
-$$\lim_{p \to \infty} \frac{\ln p}{p (p - 1)} p^\frac{3}{2}
-= \left(\lim_{p \to \infty} \frac{\ln p}{\sqrt{p}}\right)\left(\lim_{p \to \infty} \frac{p}{p - 1}\right)
-= 0 \cdot 1 = 0.$$
-
-Por definici\'on, dado $\epsilon > 0$ fijo pero arbitrario, existe un $n_0$ a partir del cual
+Por definici\'on entonces, dado $\epsilon > 0$, existe un $n_0$ 
+a partir del cual se tiene 
 $$\frac{\ln p}{p (p - 1)} p^\frac{3}{2} < \epsilon$$
-para todo $p > n_0$. Haciendo $n_1 = \floor{n_0} + 1$, sabemos que para todo $p \geq n_1$
-\begin{align*}
-\frac{\ln p}{p (p - 1)} &< \frac{\epsilon}{p^\frac{3}{2}} \\
-\sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} &< \sum_{p \geq n_1} \frac{\epsilon}{p^\frac{3}{2}}
-\end{align*}
-y como el menor primo es 2, tenemos que la integral impropia que parte desde 1 supera a la serie
-\begin{align*}
-\sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} &< \int_{1}^\infty \frac{\epsilon}{x^\frac{3}{2}} dx \\
-\sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} &< 2 \epsilon \\
-\sum_{p < n_1} \frac{\ln p}{p (p - 1)} + \sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} &< \sum_{p < n_1} \frac{\ln p}{p (p - 1)} + 2 \epsilon \\
-\sum_{p = 2}^\infty \frac{\ln p}{p (p - 1)} &< \sum_{p < n_1} \frac{\ln p}{p (p - 1)} + 2 \epsilon.
-\end{align*}
-
-Como se trata de una serie positiva, creciente y acotada, concluimos que es convergente.
+De este modo, al hacer $n_1 = \floor{n_0} + 1$, sabemos que para todo $p \geq n_1$ se tendr\'a 
+$$
+\sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} <  \sum_{p \geq n_1} \frac{\epsilon}{p^\frac{3}{2}}. 
+$$
+Como el menor primo es 2, logramos el estimado 
+$$
+\sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} <  \sum_{p \geq n_1} \frac{\epsilon}{p^\frac{3}{2}} \le \int_{1}^\infty \frac{\epsilon}{x^\frac{3}{2}} dx  < 2 \epsilon. 
+$$
+Esto, por supuesto, lleva a 
+$$
+\sum_{p = 2}^\infty \frac{\ln p}{p (p - 1)} < \sum_{p < n_1} \frac{\ln p}{p (p - 1)} + 2 \epsilon, 
+$$
+lo que equivale a la convergencia absoluta de la serie. 
 \end{proof}
 
 \begin{lemma}
-Para todo $x \geq 1$ y $p$ un n\'umero primo tenemos
+Para todo $x \geq 1$ tenemos
 $$\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x).$$
 \end{lemma}
-
 \begin{proof}
-Analicemos la diferencia de sumatorias utilizando sus definiciones
+El primer paso es comparar la sumatoria con otra m\'as a tono con nuestros intereses: 
 \begin{align*}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= \sum_{n \leq x} \sum_{m \leq \frac{x}{n}} \Lambda(m)\Lambda(n) - \sum_{p \leq x} \sum_{q \leq \frac{x}{p}} \ln q \ln p \\
 &= \sum_{nm \leq x} \Lambda(n)\Lambda(m) - \sum_{pq \leq x} \ln p \ln q.
 \end{align*}
-
-Analicemos que ocurre cuando restamos, la funci\'on de Mangoldt solo actuar\'a sobre las potencias de los primos,
-en particular, todas las combinaciones de primos con potencias iguales a uno son exactamente la sumatoria que estamos restando a la derecha.
-De esta manera, solo nos queda analizar cuando al menos uno de los exponentes es mayor o igual a dos, y debido a que son primos distintos,
-podemos fijar este exponente en el primer n\'umero primo y que el exponente del segundo n\'umero primo tome cualquier valor
+En el primero de los dos sumandos sobrevivientes, la funci\'on de Mangoldt solo act\'ua sobre las potencias de los primos. 
+En particular, todas las combinaciones de primos con potencias iguales a uno van de la mano con la sumatoria que estamos restando a la derecha.
+De esta manera, apenas sobreviven aquellos t\'erminos 
+con al menos uno de los exponentes mayor o igual a dos. 
+De este modo, se consigue 
 \begin{align*}
-\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
-&= O\left(\sum_{\substack{p^n q^m \leq x \\ n \geq 2, m \geq 1}} \ln p \ln q\right) \\
-&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \sum_{\substack{q^m \leq \frac{x}{p^n} \\ m \geq 1}} \ln q\right) \\
-&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \Psi\left(\frac{x}{p^n}\right)\right).
+\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p & \le 
+\sum_{\substack{p^n q^m \leq x \\ n \geq 2, m \geq 1}} \ln p \ln q  + 
+\sum_{\substack{p^n q^m \leq x \\ m \geq 2, n \geq 1}} \ln p \ln q \\
+& = 2 \sum_{\substack{p^n q^m \leq x \\ n \geq 2, m \geq 1}} \ln p \ln q \\
+& = 2 \sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \sum_{\substack{q^m \leq \frac{x}{p^n} \\ m \geq 1}} \ln q  \\
+& = O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \Psi\left(\frac{x}{p^n}\right)\right), 
 \end{align*}
-
-Utilizamos el Lema 5 en la \'ultima igualdad
+puesto que tras desigualdad contamos por partida doble aquellos pares con ambos exponentes al menos dos y ello contribuyen con valores positivos. 
+%Debido a que los primos deben tomarse por pares,
+%podemos asegurarnos de este exponente en el primer n\'umero primo y que el exponente del segundo n\'umero primo tome cualquier valor
+%\begin{align*}
+%\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+%&= O\left(\sum_{\substack{p^n q^m \leq x \\ n \geq 2, m \geq 1}} \ln p \ln q\right) \\
+%&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \sum_{\substack{q^m \leq \frac{x}{p^n} \\ m \geq 1}} \ln q\right) \\
+%&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \Psi\left(\frac{x}{p^n}\right)\right).
+%\end{align*}
+Para continuar, utilizamos el lema 5 en la \'ultima igualdad y logramos 
 \begin{align*}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \frac{x}{p^n}\right) \\
 &= O\left(x\sum_{\substack{p^n \leq x \\ n \geq 2}} \frac{\ln p}{p^n}\right).
 \end{align*}
 
-Para poder desdoblar la sumatoria, tenemos que notar que para que las potencias mayores o iguales a dos de los n\'umeros primos sean menores o iguales a $x$,
-como m\'aximo los n\'umeros son menores o iguales que la ra\'iz de $x$, pues de no serlo, estos primos al cuadrado exceder\'ian $x$. Asimismo, reemplazo
-los t\'erminos de la sumatoria derecha por una serie geom\'etrica puesto que cada una de ellas converge y acota a la sumatoria finita
+Llegado este punto, nuevamente notamos que la contribuci\'on en la cola es exclusiva de los primos sujetos a $p^2 \le x$. 
+Asimismo, los t\'erminos de la sumatoria est\'an dominados por una serie geom\'etrica, 
+por lo que conseguimos 
 \begin{align*}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
-&= O\left(x \sum_{p \leq \sqrt{x}} \ln p \sum_{n \geq 2} \frac{1}{p^n}\right).
-\end{align*}
-
-Ahora realizar\'e el cambio de variable $m = n - 2$ en la sumatoria
-\begin{align*}
-\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
+&= O\left(x \sum_{p \leq \sqrt{x}} \ln p \sum_{n \geq 2} \frac{1}{p^n}\right) \\
+%
+%\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= O\left(x \sum_{p \leq \sqrt{x}} \ln p \sum_{m \geq 0} \frac{1}{p^{m + 2}}\right) \\
 &= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p^2} \sum_{m \geq 0} \frac{1}{p^m}\right) \\
 &= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p^2} \left(\frac{1}{1 - \frac{1}{p}}\right)\right) \\
 &= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p^2} \left(\frac{p}{p - 1}\right)\right) \\
 &= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p (p - 1)}\right).
 \end{align*}
-
-Del Lema 12, no solo sabemos que $\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}$ coverge sino que est\'a acotada por un n\'umero real positivo.
-Debido a esto, podemos reducir la expresi\'on
+Como seg\'un el lema 19 la serie $\displaystyle{\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}}$ coverge, 
+las sumas parciales est\'an acotadas, y reducimos a 
 \begin{align*}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= O\left(x \sum_{p = 2}^\infty \frac{\ln p}{p (p - 1)}\right) \\
-&= O(cx) \\
 &= O(x).
 \end{align*}
 
-Utilicemos el Lema 10 en la sumatoria que involucra $\Psi$ y $\Lambda$
+Al inmiscuir al lema 17, esta relaci\'on se troca por 
+$$
+2x\ln x + O(x) - \Psi(x)\ln x - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = O(x), 
+$$
+o lo que es lo mismo por 
+$$
+\Psi(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x).
+$$
+De ac\'a, el uso consecutivo del lema 18 (para $\Psi$) y el lema 16 (para $\ln^2 x$) deviene en la secuencia
 \begin{align*}
-\sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
-&= O(x) \\
-2x\ln x + O(x) - \Psi(x)\ln x - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= O(x) \\
-\Psi(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x).
+(\vartheta(x) + O(\sqrt{x}\ln x))\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x), \\
+\vartheta(x)\ln x + O(\sqrt{x}\ln^2 x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x), \\
+\vartheta(x)\ln x + O(\sqrt{x}\sqrt{x}) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x), \\
+\vartheta(x)\ln x + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x). \\
 \end{align*}
-
-Finalmente, utilizamos el Lema 11 en $\Psi$ y el Lema 9 en $\ln^2 x$
-\begin{align*}
-(\vartheta(x) + O(\sqrt{x}\ln x))\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
-\vartheta(x)\ln x + O(\sqrt{x}\ln^2 x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
-\vartheta(x)\ln x + O(\sqrt{x}\sqrt{x}) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
-\vartheta(x)\ln x + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
-\end{align*}
-
-Concluimos que se cumple $\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x)$ para todo $x \geq 1$.
+%Concluimos que se cumple $\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x)$ para todo $x \geq 1$.
 \end{proof}
 
 \begin{lemma}
 La serie
 $$\sum_{n = 1}^\infty \frac{1}{n ^ 2}$$
-converge.
+converge a un n\'umero menor o igual a $2$. 
 \end{lemma}
 
 \begin{proof}
-Analicemos las sumas parciales telesc\'opicamente para $k \geq 2$
+Esto es sencillo si utilizamos sumas telesc\'opicas: 
 \begin{align*}
 \sum_{n = 1}^k \frac{1}{n^2} &= 1 + \sum_{n = 2}^k \frac{1}{n^2} \\
 &\leq 1 + \sum_{n = 2}^k \frac{1}{n (n - 1)} \\
@@ -630,40 +775,44 @@ Analicemos las sumas parciales telesc\'opicamente para $k \geq 2$
 &= 1 + \left(\frac{1}{2 - 1} - \frac{1}{k}\right) \\
 &= 2 - \frac{1}{k}.
 \end{align*}
-
-Sabemos que $\lim_{k \to \infty} \frac{1}{k} = 0$,
-por lo tanto $\sum_{n = 1}^\infty \frac{1}{n ^ 2} < 2$.
-Al ser esta una serie creciente, positiva y acotada, esta serie es covergente.
+El resultado se sigue de inmediato. 
 \end{proof}
 
-\begin{theorem}[F\'ormula Asint\'otica de Selberg]
-Para todo $x \geq 1$ y $p$, $q$ n\'umeros primos distintos tenemos
+Finalmente el resultado te\'orico m\'as importante de esta recopilaci\'on. 
+
+\begin{theorem}[F\'ormula asint\'otica de Selberg]
+Para todo $x \geq 1$ tenemos
 $$\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x).$$
 \end{theorem}
 
-\begin{proof}
-Analicemos la siguiente diferencia
+\begin{note}
+En la f\'ormula dada arriba es indistinto si toman $p,q$ distintos o si se permite que sean iguales. 
+En efecto, la diferencia entre una y otra alternativa es apenas  
+$$
+\sum_{p^2 \le x} (\ln p)^2 \le \sum_{p^2 \le x} (\ln x^{1/2})^2 \le \frac{\sqrt{x} \ln^2 x}{4}= O(x).  
+$$
+\end{note}
+
+\begin{proof}[Prueba de la f\'ormula de Selberg]
+Consolidemos la diferencia en una \'unica suma 
 \begin{align*}
 \vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{p \leq x} \ln p \ln x - \sum_{p \leq x} \ln p \ln p \\
 &= \sum_{p \leq x} \ln p (\ln x - \ln p) \\
-&= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right)
+&= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right). 
 \end{align*}
 
-Tratemos de realizar una mejora al Lema 1. Sabemos que
-$$\sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right)$$
-y para todo $x \geq 1$, tenemos que $\frac{1}{x} \leq 1$, por lo cual
-$$c\frac{1}{x} \leq c \cdot 1$$
-obteniendo que $\frac{1}{x} = O(1)$. As\'i, la suma arm\'onica
+A continuaci\'on recurrimos a una versi\'on gruesa del lema 8:  
+Al ser $1/x$ acotado para $x \ge 0$, obtenemos  para la serie arm\'onica 
 \begin{align*}
 \sum_{n \leq x} \frac{1}{n} &= \ln x + \gamma + O\left(\frac{1}{x}\right) \\
-&= \ln x + (\gamma + c_0) \\
-&= \ln x + c_1 \\
-&= \ln x + O(1) \\
-\ln x &= \sum_{n \leq x} \frac{1}{n} + O(1)
+&= \ln x + O(1),  
 \end{align*}
-la expresamos de esta manera, mejorando el estimado y ahora podremos utilizarlo a nuestro favor.
+o, lo que es lo mismo, 
+$$
+\ln x = \sum_{n \leq x} \frac{1}{n} + O(1). 
+$$
 
-Reeplazamos este nuevo estimado en lo anterior
+Reeplazamos este nuevo estimado en el obtenido p\'arrafos atr\'a para conseguir 
 \begin{align*}
 \vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right) \\
 &= \sum_{p \leq x} \ln p \left(\sum_{n \leq \frac{x}{p}} \frac{1}{n} + O(1)\right) \\
@@ -672,49 +821,35 @@ Reeplazamos este nuevo estimado en lo anterior
 &= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O\left(\sum_{p \leq x} \ln p\right) \\
 &= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O(\vartheta(x)).
 \end{align*}
-
-Del Lema 11 tenemos
-$$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln x) = \vartheta(x) + O(\sqrt{x} \ln^2 x),$$
-del Lema 9 podemos cambiar la cota de $\ln^2 x$
+Pero una combinaci\'on de los lemas 12 y 18 conduce a 
 \begin{align*}
-\Psi(x) &= \vartheta(x) + O(\sqrt{x}\sqrt{x}) \\
-&= \vartheta(x) + O(x)
+\Psi(x) &= O(x),  \\
+\vartheta(x) &= O(x),
 \end{align*}
-y del Lema 5 tenemos otra cota para $\Psi(x)$
-\begin{align*}
-\Psi(x) &= \vartheta(x) + O(x) \\
-O(x) &= \vartheta(x) + O(x) \\
-\vartheta(x) &= O(x).
-\end{align*}
+propiedad que utilizaremos en la forma $O(\vartheta(x))=O(x)$.
 
-Ahora, utilizamos esta cota en la igualdad previa
+A continuaci\'on desdoblamos uno de los sumandos para llegar a 
 \begin{align*}
 \vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O(x) \\
 &= \sum_{n \leq x} \frac{1}{n}\sum_{p \leq \frac{x}{n}} \ln p + O(x) \\
-&= \sum_{n \leq x} \frac{\vartheta\left(\frac{x}{n}\right)}{n} + O(x) \\
-&= \sum_{n \leq x} \frac{O\left(\frac{x}{n}\right)}{n} + O(x) \\
-&= O\left(x \sum_{n \leq x} \frac{1}{n^2}\right) + O(x).
+&= \sum_{n \leq x} \frac{1}{n}\cdot \vartheta\left(\frac{x}{n}\right) + O(x) \\
+%&= \sum_{n \leq x} \frac{O\left(\frac{x}{n}\right)}{n} + O(x) \\
+&= O\left(x \sum_{n \leq x} \frac{1}{n^2}\right) + O(x) \\
+&= O(2x)+O(x)=O(x), 
 \end{align*}
+pues la sumatoria de rec\'iprocos al cuadrado est\'a acotada por $2$. 
 
-Gracias al Lema 14, la sumatoria de inversas al cuadrado est\'a acotada
+Para el remate es cuesti\'on de reemplazar en el lema 20 y lograr  
 \begin{align*}
-\vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= O(2x) + O(x) \\
-&= O(x)\\
-\vartheta(x)\ln x &= \sum_{p \leq x} \ln^2 p + O(x).
+2x\ln x + O(x) &= \vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p  \\
+&= \sum_{p \leq x} \ln^2 p + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p  \\
+&= \sum_{p \leq x} \ln^2 p + \sum_{p \leq x} \sum_{q \leq \frac{x}{p}} \ln q \ln p  \\
+&= \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q, 
 \end{align*}
-
-Finalmente, reemplacemos esto en el Lema 13
-\begin{align*}
-\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
-\sum_{p \leq x} \ln^2 p + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x) \\
-\sum_{p \leq x} \ln^2 p + O(x) + \sum_{p \leq x} \sum_{q \leq \frac{x}{p}} \ln q \ln p &= 2x\ln x + O(x) \\
-\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q &= 2x\ln x + O(x)
-\end{align*}
-concluyendo con la prueba de la f\'ormula de Selberg.
+la f\'ormula de Selberg.
 \end{proof}
 
-\newpage
-
+\subsection{Algoritmo Principal}
 Adicional a la prueba del Teorema 15, he dise\~nado unos algoritmos para poder obtener estimados
 con la f\'ormula asint\'otica de Selberg. Primero, realicemos ciertas manipulaciones a la f\'ormula demostrada
 \begin{gather*}
@@ -730,7 +865,7 @@ para todo $x \geq n_0$.
 Asumamos que tenemos un n\'umero $x$ y queremos calcular
 $$\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right|.$$
 
-La estrategia que utilizar\'e consiste en el siguiente m\'etodo:
+La estrategia que utilizaremos consiste en lo siguiente:
 Primero precalcularemos los n\'umeros primos en el rango $[1 \dots x]$.
 Como solamente manipularemos logaritmos de n\'umeros primos, aprovechar\'e de esto para poder precalcular
 las sumatorias y hallar sumas en rangos en $O(1)$ como diferencia de sumas.
@@ -759,6 +894,9 @@ Los contenedores $suma\_log$ y $suma\_log^2$ almacenar\'an
 $$suma\_log[x] = \sum_{i = 0}^x \log[i]$$
 y
 $$suma\_log^2[x] = \sum_{i = 0}^x \log^2[i].$$
+
+El primer preprocesamiento que realizaremos ser\'a llamar al m\'etodo CribaLineal.
+Este m\'etodo reibir\'a como par\'ametro al n\'umero n. 
 
 \begin{algorithm}[H]
 \SetAlgoLined
@@ -835,6 +973,37 @@ Luego el tiempo de ejecuci\'on es $O(\log_2 n)$.
 \end{lemma}
 
 \begin{proof}
+Obtener el valor del $i$-\'esimo n\'umero primo e inicializar
+nuestros extremos de los intervalos para realizar la b\'usqueda binaria en las l\'ineas
+$2 - 4$ toma $O(1)$ en tiempo.
+Nuestro objetivo es encontrar la \'ultima posici\'on $j$ en la cual
+el $j$-\'esimo n\'umero primo multiplicado por $p$ sea menor o igual a $x$ con $i \leq j$. Antes de analizar la invariante, quit\'emonos de encima los casos borde.
+El primer caso borde es en el cual el menor elemento en nuestro rango no cumple la condici\'on,
+en este caso retornamos $-1$, pues para todo $q > p$ tenemos que $pq > p^2 > x$,
+por lo que no existir\'a par que satisfaga la condici\'on.
+El segundo caso borde es cuando el n\'umero de la \'ultima posici\'on cumple.
+En este caso retornamos de inmediato esta \'ultima posici\'on,
+pues para cualquier $q < p_r$ tenemos $pq < p \cdot p_r \leq x$,
+por lo cual todos los dem\'as primos en el rango tambi\'en cumplir\'ian.
+Analizar ambos casos nos tomar\'ia $O(1)$ en tiempo.
+Al entrar al bucle en las l\'ineas $11 - 18$ se satisface $i = l < r = \pi(x) - 1$ y adem\'as
+$p \cdot primos[l] \leq x$ y $p \cdot primos[r] > x$.
+Mientras que $l$ y $r$ disten al menos 2, computaremos $m = \floor*{\frac{l + r}{2}}$
+y podemos distinguir dos casos:
+el primer caso es cuando se cumple $p \cdot primos[m] \leq x$, $l$ cambiar\'ia
+su valor a $m$ y, debido a que la diferencia entre $l$ y $r$ era mayor a 1, entonces
+$l' = m < r$ y la condici\'on $p \cdot primos[l'] \leq x$ y $p \cdot primos[r] > x$ se sigue cumpliendo.
+En el segundo caso tenemos $p \cdot primos[m] > x$, aqu\'i $r' = m$ y cuando $r' > l$ la condici\'on se cumple de manera an\'aloga al caso anterior,
+pero cuando $r' = l$, tenemos que en la siguiente iteraci\'on del bucle, al ya no distar $2$, saldr\'iamos del bucle
+y necesariamente la respuesta se encuentra en nuestro extremo izquierdo $l$.
+Ahora que ya sabemos que siempre terminamos obteniendo el \'ultimo elemento que cumple la condici\'on, analicemos el
+orden de complejidad de este algoritmo. Sea $T: \BN \to \BN$ la funci\'on que cuenta la cantidad de operaciones
+que realiza el bucle con $T(n) = 4 + T(\ceil*{\frac{n}{2}})$,
+puesto que en el peor de los casos nos quedamos con la mitad m\'as grande;
+no obstante, esto lo podemos expresar como $T(n) = O(1) + T(\frac{n}{2})$ seg\'un \cite{CLRS}
+y utilizando inducci\'on sobre esta \'ultima conseguimos $T(n) = O(\log_2 n)$.
+En el peor de los casos, $n = \pi(x)$, por lo que la complejidad total del algoritmo ser\'ia
+$O(\log_2 \pi(x))$, el cual es a su vez $O(\log_2 x)$ por definici\'on.
 \end{proof}
 
 \begin{algorithm}[H]
@@ -861,22 +1030,23 @@ Luego el tiempo de ejecuci\'on es $O(\log_2 n)$.
 \begin{lemma}
 Sea $x$ el n\'umero que representa la cota superior para el producto de dos n\'umeros primos
 $p$ y $q$ en $\sum_{pq \leq x} \ln p \ln q$.
-Obtendremos el valor de esta sumatoria mediante la ejecuci\'on de CalcularSuma.
-Luego el tiempo de ejecuci\'on es $O(x)$.
+Si obtenemos el valor de esta sumatoria mediante la ejecuci\'on de CalcularSuma, 
+el tiempo de ejecuci\'on es $O(x)$.
 \end{lemma}
 
 \begin{proof}
 Tenemos los n\'umeros primos en el rango $[1 \dots x]$ en el contenedor ordenado $primos$,
-entonces $|primos| = \pi(x)$.
+entonces por definici\'on $\pi(x)=|primos| $.
 Inicializar la suma en la l\'inea $2$ toma $O(1)$ en tiempo.
 El bucle en las l\'ineas $3-11$ ser\'a ejecutado $O(\pi(x))$ veces.
 La funci\'on Buscar\'UltimaPosici\'on en la l\'inea $4$ es llamada exactamente una vez para cada primo $p \in primos$ y
-toma $O(\log_2 x)$ en tiempo de acuerdo al Lema 17, mientras que las dem\'as operaciones dentro del bucle
-toman $O(1)$ en tiempo.
+toma $O(\log_2 x)$ en tiempo de acuerdo con el lema 17, 
+las dem\'as operaciones dentro del bucle toman $O(1)$ en tiempo.
 De esta manera, el tiempo de ejecuci\'on del algoritmo es $O(\pi(x)\log_2 x)$.
-Asimismo, Rosser y Barkley probaron lo siguiente \cite[Teorema 2, Corolario 1]{Chebyshev}
-$$\pi(x) \leq 1.25506\;\frac{x}{\ln x},\;x > 1.$$
-Utilizamos esto para tener un mejor estimado
+Asimismo, Rosser y Barkley probaron que se tiene \cite[teorema 2 y corolario 1]{Chebyshev}
+$$\pi(x) \leq 1.25506\;\frac{x}{\ln x}. %%%%\;x > 1.
+$$
+Utilizamos esto para tener un mejor estimado cual 
 \begin{align*}
     \pi(x)\log_2 x &\leq 1.25506\;\frac{x}{\ln x} \log_2 x\\
     &= 1.25506\;\log_2 e \frac{x}{\log_2 e \cdot \log_e x} \log_2 x\\
@@ -908,21 +1078,23 @@ y concluimos que el tiempo de ejecuci\'on del algoritmo es $O(x)$.
     }
     \textbf{return} $\frac{|suma\_log^2[x] + \text{CalcularSuma}(x) - 2x\ln x|}{x}$\;
 }
-\caption{Soluci\'on}
+\caption{EstimarConstante}
 \end{algorithm}
 
 \begin{theorem}
-Sea $x$ el n\'umero natural para el cual se quiere determinar
+Con $x$ el n\'umero natural para el cual se quiere determinar
 $$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$$
-mediante la ejecuci\'on de Soluci\'on.
-Luego el tiempo de ejecuci\'on es $O(x)$.
+mediante la ejecuci\'on de EstimarConstante
+resulta que el tiempo de ejecuci\'on es $O(x)$.
 \end{theorem}
 
 \begin{proof}
 \end{proof}
 
-Sea $t$ la cantidad de casos de prueba y $n$ el m\'aximo valor que puede tomar $x$ en la expresi\'on que analizaremos,
-el siguiente programa en C++ determina el valor de 
+\subsection{Programa en C++ y estimados}
+
+Sea $t$ la cantidad de casos de prueba y $n$ el m\'aximo valor que puede tomar $x$ en la expresi\'on que analizaremos. 
+El siguiente programa en C++ determina el valor de 
 $$\frac{|\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x|}{x}$$
 para cada caso de prueba.
 En particular, usaremos $t = 28$ y $n = 3 \cdot 10^7$.
@@ -935,7 +1107,7 @@ de tan solo tres segundos.
     \texttt{sys	0m0,436s}.
 \end{center}
 
-\cppfile{formula_selberg.cpp}
+%\cppfile{formula_selberg.cpp}
 
 \begin{table}
 \centering
@@ -984,7 +1156,7 @@ de tan solo tres segundos.
 \bibitem{Apostol}
 Apostol, T. M. (1976).
 \textit{Introduction to Analytic Number Theory.}
-New York, United States of America: Springer-Verlag New York.
+Springer-Verlag, New York.
 
 \bibitem{CLRS}
 Cormen, T. H., Leiserson, C. E., Rivest, R. L. \& Stein C. (2009).
@@ -994,23 +1166,31 @@ Cambridge, Massachussets: The MIT Press.
 \bibitem{LinearSieve}
 Gries, D. \& Misra, J. (1978).
 A linear sieve algorithm for finding prime numbers.
-\textit{Commun. ACM, 21(12),} 999–1003.\\
-DOI: https://doi.org/10.1145/359657.359660
+\textit{Commun. ACM, 21(12),} 999–1003.%\\
+%DOI: https://doi.org/10.1145/359657.359660
 
 \bibitem{Diamond}
 Diamond, H. G. (1982).
-Elementary methods in the study of the distribution of prime numbers. \textit{Bull. Amer. Math. Soc. (N.S.), 7(3),} 553-589.\\
-Recuperado de https://projecteuclid.org/euclid.bams/1183549769
+Elementary methods in the study of the distribution of prime numbers. 
+\textit{Bull. Amer. Math. Soc. (N.S.), 7(3),} 553-589.%%\\
+%Recuperado de https://projecteuclid.org/euclid.bams/1183549769
 
 \bibitem{Koenig}
 Koenig, J. (2013).
 An elementary proof of the prime number theorem. [No publicado].
-Department of Mathematics. University of Chicago.\\
+Department of Mathematics. University of Chicago. 
 Recuperado de http://math.uchicago.edu/$\sim$may/REU2013/REUPapers/Koenig.pdf
 
+\bibitem{Levinson}
+Levinson, N. (1969).
+A Motivated Account of an Elementary Proof of the Prime Number Theorem.
+\textit{The American Mathematical Monthly, 76(3),} 225-245.
+%DOI: https://doi.org/10.2307/2316361
+
 \bibitem{Chebyshev}
-Rosser, J. \& Schoenfeld, L. (1962). Approximate formulas for some functions of prime numbers. \textit{Illinois J. Math}, 6(1), 64--94.\\
-Recuperado de https://projecteuclid.org/euclid.ijm/1255631807
+Rosser, J. \& Schoenfeld, L. (1962). 
+Approximate formulas for some functions of prime numbers. \textit{Illinois J. Math}, 6(1), 64--94.%%\\
+%Recuperado de https://projecteuclid.org/euclid.ijm/1255631807
 \end{thebibliography}
 
 \end{document}
