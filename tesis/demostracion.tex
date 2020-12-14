@@ -490,21 +490,22 @@ Con ello, finalmente,
 utilizamos el \cref{lem13} para concluir lo deseado. 
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem16}
 Para todo $x \geq 1$ tenemos
-$$\ln^2 x = O(\sqrt{x}).$$
+\[
+\ln^2 x = O(\sqrt{x}).
+\]
 \end{lemma}
+
 \begin{proof}
 Como sabemos que para todo $x \geq 1$ se cumple que $x > \ln x$ (v\'ia an\'alisis de la  derivada de $x - \ln x$), 
 se obtiene
-$$
-\begin{aligned}
+\begin{align}
 \ln^2 x &= \ln^2 ((x ^ {\frac{1}{4}}) ^ 4) \\
 &= 16 \ln^2 (x ^ {\frac{1}{4}}) \\
 &< 16 (x ^ {\frac{1}{4}}) ^ 2 \\
 &= 16 \sqrt{x}.
-\end{aligned}
-$$
+\end{align}
 \end{proof}
 
 \begin{lemma}
