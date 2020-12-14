@@ -255,7 +255,7 @@ Para todo $x > 0$ definimos la funci\'on $\boldsymbol{\vartheta}$ \textbf{de Che
 
 \subsection{La Identidad de Selberg}
 
-\begin{lemma}
+\begin{lemma}\label{lem08}
 Para todo $x \geq 1$ tenemos
 \[
 \sum_{n \leq x} \frac{1}{n} = \ln x + \gamma + O\left(\frac{1}{x}\right),
@@ -469,7 +469,7 @@ Al despejar obtenemos
 pues $-1 + O(1)+ O(\ln x/x)$ es acotado. 
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem15}
 Para $f, g : [1, \infty) \to \BR$ sujetos a  $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right) \ln x$ tenemos
 \[
 \sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = f(x) \ln(x) + \sum_{n \leq x} f\left(\frac{x}{n}\right) \Lambda(n).
@@ -508,96 +508,90 @@ se obtiene
 \end{align}
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem17}
 Para todo $x \geq 1$ tenemos
 $$\Psi(x) \ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) = 2x\ln x + O(x).$$
 \end{lemma}
 
 \begin{proof}
-Para utilizar el lema 8, definimos convenientemente 
-$$
+Para utilizar el \cref{lem15}, definimos convenientemente $f : [1, \infty) \to \BR$ con
+\begin{align}
 f(x) = \Psi(x) - x + \gamma + 1.
-$$
-Antes de aplicar el lema 8, le brindaremos a $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x$ 
+\end{align}
+Antes de aplicar el \cref{lem15}, le brindaremos a $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x$ 
 una expansi\'on diferente cual es 
-$$
-\begin{aligned}
+\begin{align}
 g(x)= \sum_{n \leq x} f\left(\frac{x}{n}\right)\ln x &= \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \ln x \\
-&= \sum_{n \leq x} \Psi\left(\frac{x}{n}\right) \ln x - x \ln x \sum_{n \leq x} \frac{1}{n} + (\gamma + 1) \ln x \sum_{n \leq x} 1.
-\end{aligned}
-$$
-Analicemos por separado cada sumatoria. 
+&= \sum_{n \leq x} \Psi\left(\frac{x}{n}\right) \ln x - x \ln x \sum_{n \leq x} \frac{1}{n} + (\gamma + 1) \ln x \sum_{n \leq x} 1.\label{eq50}
+\end{align}
+Analicemos por separado cada sumatoria de la Ecuaci\'on \ref{eq50}.
 
 La primera resulta ser 
-$$
+\begin{align}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right) = \sum_{n \leq x} \sum_{d \leq \frac{x}{n}} \Lambda(d) = 
  \sum_{n \leq x} \sum_{d \mid n} \Lambda(d) = 
  \sum_{n \leq x} (\Lambda * 1)(n) = 
 \sum_{n \leq x} \ln n, 
-$$
-de tipo $x\ln x - x + O(\ln x)$ por el lema 2. 
+\end{align}
+de tipo $x\ln x - x + O(\ln x)$ por el \cref{lem09}.
 Al multiplicar el logaritmo obtenemos la expresi\'on
-$$
+\begin{align}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\ln x = x \ln^2 x - x \ln x + O(\ln^2 x).
-$$
+\end{align}
 
-Para la segunda recurrimos al lema 1 y logramos 
-\begin{align*}
+Para la segunda recurrimos al \cref{lem08} y logramos 
+\begin{align}
 -x \ln x \sum_{n \leq x} \frac{1}{n} &= -x \ln x \left(\ln x + \gamma + O\left(\frac{1}{x}\right)\right) \\
 &= -x \ln^2 x - \gamma x \ln x + O(\ln x).
-\end{align*}
+\end{align}
 
-Para la tercera necesitamos el lema 4: 
-\begin{align*}
+Para la tercera necesitamos el \cref{lem11}: 
+\begin{align}
 (\gamma + 1) \ln x \sum_{n \leq x} 1 &= (\gamma + 1) \ln x \floor{x} \\
 &= (\gamma + 1) \ln x (x + O(1)) \\
 &= (\gamma + 1) x \ln x + O(\ln x).
-\end{align*}
+\end{align}
 
 Finalmente, juntamos los tres resultados y obtenemos
-$$
-\begin{aligned}
+\begin{align}
 g(x) &= x \ln^2 x - x \ln x + O(\ln^2 x) - x \ln^2 x - \gamma x \ln x + O(\ln x) + (\gamma + 1) x \ln x + O(\ln x) \\
 &= O(\ln^2 x) + O(\ln x) \\
 &= O(\ln^2 x). 
-\end{aligned}
-$$
+\end{align}
 
-Del lema 8 obtenemos entonces 
-$$
+Del \cref{lem15} obtenemos entonces 
+\begin{align}
 \sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = 
 (\Psi(x) - x + \gamma + 1) \ln x + \sum_{n \leq x} \left(\Psi\left(\frac{x}{n}\right) - \frac{x}{n} + \gamma + 1\right) \Lambda(n). 
-$$
+\end{align}
 El remate consiste en analizar ambos miembros de la desigualdad por separado. 
 
 Utilizamos la desigualdad triangular el hecho de que se cumple $g(x) = O(\ln^2 x)$ para obtener a la izquierda 
-$$
+\begin{align}
 \left | \sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) \right|  \leq \sum_{n \leq x} \left| g\left(\frac{x}{n}\right) \right| 
 = O\left(\sum_{n \leq x} g\left(\frac{x}{n}\right)\right) 
 = O\left(\sum_{n \leq x} \ln^2 \left(\frac{x}{n}\right)\right).
-$$
-Con esta expresi\'on el lema 9 permite conseguir
-$$
+\end{align}
+Con esta expresi\'on el \cref{lem16} permite conseguir
+\begin{align}
 \sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = O\left(\sum_{n \leq x} \sqrt{\frac{x}{n}}\right) 
 = O\left(\sqrt{x} \sum_{n \leq x} \frac{1}{\sqrt{n}}\right) = O\left( \sqrt{x}\cdot \sqrt{x}\right)=O(x). 
-$$
+\end{align}
 
 El t\'ermino de la derecha lo reordenamos cual 
-$$
- \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1)\Psi(x). 
-$$
-Merced a los lemas 5 y 7 reducimos la expresi\'on a 
-$$
-\begin{aligned}
-& \hskip -0.5in  \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x(\ln x + O(1)) + O(x)=  \\
+\begin{align}
+ \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x \sum_{n \leq x} \frac{\Lambda(n)}{n} + (\gamma + 1)\Psi(x).\label{eq64}
+\end{align}
+Merced a \cref{lem12} y \cref{lem14} reducimos la Expresi\'on \ref{eq64}
+\begin{align}
+& \hskip -0.5in  \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - x \ln x - x(\ln x + O(1)) + O(x)\\
 &= \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x).
-\end{aligned}
-$$
+\end{align}
 Finalmente, igualamos los resultados de ambas partes
-$$
+\begin{align}
 \Psi(x)\ln x + \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - 2x \ln x + O(x) = O(x), 
-$$
-equivalente a aseverado. 
+\end{align}
+equivalente a lo aseverado. 
 \end{proof}
 
 \begin{lemma}
