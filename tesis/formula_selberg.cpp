@@ -145,7 +145,7 @@ int main(void) {
     suma_cuadrados_log_p[i] = suma_cuadrados_log_p[i - 1] + log_p[i] * log_p[i];
   }
   
-  // Finalmente, creare los siguientes 24 casos
+  // Finalmente, creare los siguientes 28 casos
   // Complejidad en tiempo: O(1)
   vector<Long> casos_de_prueba = {10, 100, 1000, 10000, 100000};
   for (Long i = 0; i < 19; i++) {
@@ -167,3 +167,4 @@ int main(void) {
   }
   return 0;
 }
+
