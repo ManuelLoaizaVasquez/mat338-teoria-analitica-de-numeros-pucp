@@ -720,14 +720,14 @@ En particular, todas las combinaciones de primos con potencias iguales a uno van
 De esta manera, apenas sobreviven aquellos t\'erminos 
 con al menos uno de los exponentes mayor o igual a dos. 
 De este modo, se consigue 
-\begin{align*}
+\begin{align}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p & \le 
 \sum_{\substack{p^n q^m \leq x \\ n \geq 2, m \geq 1}} \ln p \ln q  + 
 \sum_{\substack{p^n q^m \leq x \\ m \geq 2, n \geq 1}} \ln p \ln q \\
 & = 2 \sum_{\substack{p^n q^m \leq x \\ n \geq 2, m \geq 1}} \ln p \ln q \\
 & = 2 \sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \sum_{\substack{q^m \leq \frac{x}{p^n} \\ m \geq 1}} \ln q  \\
 & = O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \Psi\left(\frac{x}{p^n}\right)\right), 
-\end{align*}
+\end{align}
 puesto que tras desigualdad contamos por partida doble aquellos pares con ambos exponentes al menos dos y ello contribuyen con valores positivos. 
 %Debido a que los primos deben tomarse por pares,
 %podemos asegurarnos de este exponente en el primer n\'umero primo y que el exponente del segundo n\'umero primo tome cualquier valor
@@ -737,17 +737,17 @@ puesto que tras desigualdad contamos por partida doble aquellos pares con ambos 
 %&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \sum_{\substack{q^m \leq \frac{x}{p^n} \\ m \geq 1}} \ln q\right) \\
 %&= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \Psi\left(\frac{x}{p^n}\right)\right).
 %\end{align*}
-Para continuar, utilizamos el lema 5 en la \'ultima igualdad y logramos 
-\begin{align*}
+Para continuar, utilizamos el \cref{lem12} en la \'ultima igualdad y logramos 
+\begin{align}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= O\left(\sum_{\substack{p^n \leq x \\ n \geq 2}} \ln p \, \frac{x}{p^n}\right) \\
 &= O\left(x\sum_{\substack{p^n \leq x \\ n \geq 2}} \frac{\ln p}{p^n}\right).
-\end{align*}
+\end{align}
 
 Llegado este punto, nuevamente notamos que la contribuci\'on en la cola es exclusiva de los primos sujetos a $p^2 \le x$. 
 Asimismo, los t\'erminos de la sumatoria est\'an dominados por una serie geom\'etrica, 
 por lo que conseguimos 
-\begin{align*}
+\begin{align}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= O\left(x \sum_{p \leq \sqrt{x}} \ln p \sum_{n \geq 2} \frac{1}{p^n}\right) \\
 %
@@ -757,30 +757,30 @@ por lo que conseguimos
 &= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p^2} \left(\frac{1}{1 - \frac{1}{p}}\right)\right) \\
 &= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p^2} \left(\frac{p}{p - 1}\right)\right) \\
 &= O\left(x \sum_{p \leq \sqrt{x}} \frac{\ln p}{p (p - 1)}\right).
-\end{align*}
-Como seg\'un el lema 19 la serie $\displaystyle{\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}}$ coverge, 
+\end{align}
+Como seg\'un el \cref{lem19} la serie $\displaystyle{\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}}$ coverge, 
 las sumas parciales est\'an acotadas, y reducimos a 
-\begin{align*}
+\begin{align}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= O\left(x \sum_{p = 2}^\infty \frac{\ln p}{p (p - 1)}\right) \\
 &= O(x).
-\end{align*}
+\end{align}
 
-Al inmiscuir al lema 17, esta relaci\'on se troca por 
-$$
+Al inmiscuir al \cref{lem17}, esta relaci\'on se troca por 
+\begin{align}
 2x\ln x + O(x) - \Psi(x)\ln x - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = O(x), 
-$$
+\end{align}
 o lo que es lo mismo por 
-$$
+\begin{align}
 \Psi(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x).
-$$
-De ac\'a, el uso consecutivo del lema 18 (para $\Psi$) y el lema 16 (para $\ln^2 x$) deviene en la secuencia
-\begin{align*}
+\end{align}
+De ac\'a, el uso consecutivo del \cref{lem18} (para $\Psi$) y el \cref{lem16} (para $\ln^2 x$) deviene en la secuencia
+\begin{align}
 (\vartheta(x) + O(\sqrt{x}\ln x))\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x), \\
 \vartheta(x)\ln x + O(\sqrt{x}\ln^2 x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x), \\
 \vartheta(x)\ln x + O(\sqrt{x}\sqrt{x}) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x), \\
-\vartheta(x)\ln x + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x). \\
-\end{align*}
+\vartheta(x)\ln x + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p &= 2x\ln x + O(x).
+\end{align}
 %Concluimos que se cumple $\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x)$ para todo $x \geq 1$.
 \end{proof}
 
@@ -808,35 +808,37 @@ Finalmente el resultado te\'orico m\'as importante de esta recopilaci\'on.
 
 \begin{theorem}[F\'ormula asint\'otica de Selberg]
 Para todo $x \geq 1$ tenemos
-$$\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x).$$
+\[
+\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x).
+\]
 \end{theorem}
 
 \begin{note}
 En la f\'ormula dada arriba es indistinto si toman $p,q$ distintos o si se permite que sean iguales. 
 En efecto, la diferencia entre una y otra alternativa es apenas  
-$$
+\[
 \sum_{p^2 \le x} (\ln p)^2 \le \sum_{p^2 \le x} (\ln x^{1/2})^2 \le \frac{\sqrt{x} \ln^2 x}{4}= O(x).  
-$$
+\]
 \end{note}
 
 \begin{proof}[Prueba de la f\'ormula de Selberg]
 Consolidemos la diferencia en una \'unica suma 
-\begin{align*}
+\begin{align}
 \vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{p \leq x} \ln p \ln x - \sum_{p \leq x} \ln p \ln p \\
 &= \sum_{p \leq x} \ln p (\ln x - \ln p) \\
 &= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right). 
-\end{align*}
+\end{align}
 
-A continuaci\'on recurrimos a una versi\'on gruesa del lema 8:  
-Al ser $1/x$ acotado para $x \ge 0$, obtenemos  para la serie arm\'onica 
-\begin{align*}
+A continuaci\'on recurrimos a una versi\'on gruesa del \cref{lem08}:
+Al ser $\dfrac{1}{x}$ acotado para $x \ge 0$, obtenemos  para la serie arm\'onica 
+\begin{align}
 \sum_{n \leq x} \frac{1}{n} &= \ln x + \gamma + O\left(\frac{1}{x}\right) \\
 &= \ln x + O(1),  
-\end{align*}
+\end{align}
 o, lo que es lo mismo, 
-$$
+\begin{align}
 \ln x = \sum_{n \leq x} \frac{1}{n} + O(1). 
-$$
+\end{align}
 
 Reeplazamos este nuevo estimado en el obtenido p\'arrafos atr\'a para conseguir 
 \begin{align*}
