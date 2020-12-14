@@ -673,6 +673,32 @@ vale $0$ como se deduce al descomponer
 \begin{align}
 \frac{\ln n}{n (n - 1)} n^\frac{3}{2} = \left(\frac{\ln n}{\sqrt{n}}\right)\left(\frac{n}{n - 1}\right).
 \end{align}
+
+Analicemos el l\'imite de lo que est\'a dentro del par\'entesis de la izquierda
+\begin{align}
+\lim_{n \to \infty} \frac{\ln n}{\sqrt{n}} = \frac{\infty}{\infty}.
+\end{align}
+Como este es de la forma $\frac{\infty}{\infty}$, aplicamos la regla de L'Hospital
+\begin{align}
+\lim_{n \to \infty} \frac{\ln n}{\sqrt{n}}
+= \lim_{n \to \infty}\frac{\frac{1}{n}}{\frac{1}{2\sqrt{n}}}
+= \lim_{n \to \infty} \frac{2}{\sqrt{n}} = 0.
+\end{align}
+
+Ahora analicemos el l\'imite de lo que est\'a dentro del par\'entesis de la derecha
+\begin{align}
+\lim_{n \to \infty} \frac{n}{n - 1}
+= \lim_{n \to \infty} \frac{1}{1 - \frac{1}{n}}
+= \frac{1}{1 - 0} = 1.
+\end{align}
+
+Como ambos l\'imites existen, por aritm\'etica de l\'imites obtenemos
+\begin{align}
+\lim_{n \to \infty} \frac{\ln n}{n (n - 1)} n^\frac{3}{2}
+= \left(\lim_{n \to \infty} \frac{\ln n}{\sqrt{n}}\right)\left(\lim_{n \to \infty} \frac{n}{n - 1}\right)
+= 0 \cdot 1 = 0.
+\end{align}
+
 Por supuesto, lo mismo es v\'alido si crecemos a lo largo de primos, conque se tiene 
 \begin{align}
 \lim_{p \to \infty} \frac{\ln p}{p (p - 1)} p^\frac{3}{2}=0.
