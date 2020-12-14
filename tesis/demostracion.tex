@@ -656,50 +656,65 @@ lo que permite concluir $\sum_{n = 2}^m \vartheta(x^\frac{1}{n}) = O(\sqrt{x} \l
 Con lo anterior queda establecida la relaci\'on $\Psi(x) = \vartheta(x) + O(\sqrt{x} \ln x)$.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem19}
 La serie
-$$\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}$$
+\[
+\sum_{p = 2}^{\infty} \frac{\ln p}{p (p - 1)}
+\]
 tomada sobre los primos converge.
 \end{lemma}
+
 \begin{proof}
 El primer paso es notar que el l\'imite
-$$\lim_{n \to \infty} \frac{\ln n}{n (n - 1)} n^\frac{3}{2}$$
+\begin{align}
+\lim_{n \to \infty} \frac{\ln n}{n (n - 1)} n^\frac{3}{2}
+\end{align}
 vale $0$ como se deduce al descomponer 
-$$\frac{\ln n}{n (n - 1)} n^\frac{3}{2} = \left(\frac{\ln n}{\sqrt{n}}\right)\left(\frac{n}{n - 1}\right).$$
+\begin{align}
+\frac{\ln n}{n (n - 1)} n^\frac{3}{2} = \left(\frac{\ln n}{\sqrt{n}}\right)\left(\frac{n}{n - 1}\right).
+\end{align}
 Por supuesto, lo mismo es v\'alido si crecemos a lo largo de primos, conque se tiene 
-$$
+\begin{align}
 \lim_{p \to \infty} \frac{\ln p}{p (p - 1)} p^\frac{3}{2}=0.
-$$
+\end{align}
 
 Por definici\'on entonces, dado $\epsilon > 0$, existe un $n_0$ 
 a partir del cual se tiene 
-$$\frac{\ln p}{p (p - 1)} p^\frac{3}{2} < \epsilon$$
+\begin{align}
+\frac{\ln p}{p (p - 1)} p^\frac{3}{2} < \epsilon
+\end{align}
+
 De este modo, al hacer $n_1 = \floor{n_0} + 1$, sabemos que para todo $p \geq n_1$ se tendr\'a 
-$$
+\begin{align}
 \sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} <  \sum_{p \geq n_1} \frac{\epsilon}{p^\frac{3}{2}}. 
-$$
+\end{align}
+
 Como el menor primo es 2, logramos el estimado 
-$$
+\begin{align}
 \sum_{p \geq n_1} \frac{\ln p}{p (p - 1)} <  \sum_{p \geq n_1} \frac{\epsilon}{p^\frac{3}{2}} \le \int_{1}^\infty \frac{\epsilon}{x^\frac{3}{2}} dx  < 2 \epsilon. 
-$$
+\end{align}
+
 Esto, por supuesto, lleva a 
-$$
+\begin{align}
 \sum_{p = 2}^\infty \frac{\ln p}{p (p - 1)} < \sum_{p < n_1} \frac{\ln p}{p (p - 1)} + 2 \epsilon, 
-$$
+\end{align}
 lo que equivale a la convergencia absoluta de la serie. 
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem20}
 Para todo $x \geq 1$ tenemos
-$$\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x).$$
+\[
+\vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p = 2x\ln x + O(x).
+\]
 \end{lemma}
+
 \begin{proof}
 El primer paso es comparar la sumatoria con otra m\'as a tono con nuestros intereses: 
-\begin{align*}
+\begin{align}
 \sum_{n \leq x} \Psi\left(\frac{x}{n}\right)\Lambda(n) - \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p
 &= \sum_{n \leq x} \sum_{m \leq \frac{x}{n}} \Lambda(m)\Lambda(n) - \sum_{p \leq x} \sum_{q \leq \frac{x}{p}} \ln q \ln p \\
 &= \sum_{nm \leq x} \Lambda(n)\Lambda(m) - \sum_{pq \leq x} \ln p \ln q.
-\end{align*}
+\end{align}
 En el primero de los dos sumandos sobrevivientes, la funci\'on de Mangoldt solo act\'ua sobre las potencias de los primos. 
 En particular, todas las combinaciones de primos con potencias iguales a uno van de la mano con la sumatoria que estamos restando a la derecha.
 De esta manera, apenas sobreviven aquellos t\'erminos 
@@ -771,19 +786,21 @@ De ac\'a, el uso consecutivo del lema 18 (para $\Psi$) y el lema 16 (para $\ln^2
 
 \begin{lemma}
 La serie
-$$\sum_{n = 1}^\infty \frac{1}{n ^ 2}$$
+\[
+\sum_{n = 1}^\infty \frac{1}{n ^ 2}
+\]
 converge a un n\'umero menor o igual a $2$. 
 \end{lemma}
 
 \begin{proof}
 Esto es sencillo si utilizamos sumas telesc\'opicas: 
-\begin{align*}
+\begin{align}
 \sum_{n = 1}^k \frac{1}{n^2} &= 1 + \sum_{n = 2}^k \frac{1}{n^2} \\
 &\leq 1 + \sum_{n = 2}^k \frac{1}{n (n - 1)} \\
 &= 1 + \sum_{n = 2}^k \left(\frac{1}{n - 1} - \frac{1}{n}\right) \\
 &= 1 + \left(\frac{1}{2 - 1} - \frac{1}{k}\right) \\
 &= 2 - \frac{1}{k}.
-\end{align*}
+\end{align}
 El resultado se sigue de inmediato. 
 \end{proof}
 
