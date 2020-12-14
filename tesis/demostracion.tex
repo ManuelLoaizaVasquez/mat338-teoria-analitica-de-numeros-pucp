@@ -8,6 +8,7 @@
 % Descomentar fullpage cuando se quiera utilizar menos margen horizontal
 %\usepackage{fullpage}
 \usepackage{hyperref}
+\usepackage{cleveref}% http://ctan.org/pkg/cleveref
 %    \hypersetup{colorlinks=true,citecolor=blue,urlcolor =black,linkbordercolor={1 0 0}}
 \usepackage{listings}
 \usepackage[usenames,dvipsnames]{color}
@@ -93,6 +94,8 @@
 \newtheorem*{remark}{Observaci\'on}
 \newtheorem*{notation}{Notaci\'on}
 \newtheorem*{note}{Nota}
+
+\crefname{lemma}{Lema}{Lemas}
 
 % Define tus comandos para hacer la vida más fácil.
 \newcommand{\BR}{\mathbb R}
@@ -196,7 +199,7 @@ entonces se satisface
 \]
 \end{theorem}
 
-\begin{defn}
+\begin{defn}\label{def03}
 Sea $f$ y $g$ dos funciones aritm\'eticas, 
 definimos su {\bf producto de Dirichlet} como la funci\'on aritm\'etica $h$ definida puntualmente por 
 \[
@@ -320,7 +323,7 @@ Finalmente, para establecer la f\'ormula anunciada ponemos $k=\floor{x}$ y estim
 %\end{align*}
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem09}
 Para todo $x \geq 1$ tenemos
 \[
 \sum_{n \leq x} \ln n = x\ln x - x + O(\ln x).
@@ -341,7 +344,7 @@ se cumple $\sum_{n \leq x} \ln n = x\ln x - x + O(\ln x)$,
 lo anunciado. 
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem10}
 Para toda funci\'on aritm\'etica $f$ se cumple
 \[
 \sum_{n \leq x} \sum_{d \mid n} f(d) = \sum_{n \leq x} f(n) \floor*{\frac{x}{n}}.
@@ -370,7 +373,7 @@ De este modo, al introducir $G(x)=\floor{x}$ en la Ecuaci\'on \ref{eq02} se logr
 lo buscado. 
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem11}
 Para todo n\'umero real $x$ tenemos
 \[
 \floor{x} = x + O(1).
@@ -388,7 +391,7 @@ De esta manera, por definici\'on de m\'aximo entero tenemos
 Concluimos trivialmente la propiedad $\floor{x} = x + O(1)$.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem12}
 Para todo $x \geq 1$ tenemos
 \[
 \Psi(x) = O(x).
@@ -417,7 +420,7 @@ Como ello equivale a
 se consigue $\Psi(x) = O(x)$.
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem13}
 La funci\'on de Mangoldt se puede expresar como el siguiente producto de Dirichlet
 $$\Lambda = \mu * \ln.$$
 \end{lemma}
@@ -425,45 +428,42 @@ $$\Lambda = \mu * \ln.$$
 Esta f\'ormula equivale a  $\Lambda * 1 = \ln$ v\'ia  inversi\'on de M\"obius.  
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem14}
 Para todo $x \geq 1$ tenemos
 $$\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1).$$
 \end{lemma}
+
 \begin{proof}
 El desarrollo de  $\ln = \Lambda * 1$ cual 
 $\ln n = \sum_{d \mid n} \Lambda(d)$ 
-lleva a 
-$$
+lleva a
+\begin{align}
 \sum_{n \leq x} \ln n = \sum_{n \leq x} \sum_{d \mid n} \Lambda(d).
-$$
-Una aplicaci\'on directa del lema 3 deriva en 
-$$
-\sum_{n \leq x} \ln n = \sum_{n \leq x} \Lambda(n) \floor{\frac{x}{n}}. 
-$$
-De ac\'a, en uso del lema 4 conseguimos
-$$
-\begin{aligned}
+\end{align}
+Una aplicaci\'on directa del \cref{lem10} deriva en 
+\begin{align}
+\sum_{n \leq x} \ln n = \sum_{n \leq x} \Lambda(n) \floor*{\frac{x}{n}}. 
+\end{align}
+De ac\'a, en uso del \cref{lem11} conseguimos
+\begin{align}
 \sum_{n \leq x} \ln n &= \sum_{n \leq x} \Lambda(n) \left(\frac{x}{n} + O(1)\right) \\
 &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O\left(\sum_{n \leq x} \Lambda(x) \right) \\
 &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(\Psi(x)) \\
 &= x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(x)
-\end{aligned}
-$$
-dado que $\Psi(x) = O(x)$ claramente implica $O(\Psi(x))=O(x)$. 
-Si aplicamos el lema 2 al lado izquierdo desembocamos en
-$$
+\end{align}
+dado que, por el \cref{lem12}, $\Psi(x) = O(x)$ claramente implica $O(\Psi(x))=O(x)$. 
+Si aplicamos el \cref{lem09} al lado izquierdo desembocamos en
+\begin{align}
 x\ln x - x + O(\ln x) = x \sum_{n \leq x} \frac{\Lambda(n)}{n} + O(x). 
-$$ 
+\end{align}
 Al despejar obtenemos 
-$$
-\begin{aligned}
+\begin{align}
 \sum_{n \leq x} \frac{\Lambda(n)}{n} &= \frac{x \ln x}{x} - 1 + O\left(\frac{\ln x}{x}\right) + O(1) \\
 &= \ln x - 1 + O(1) + O\left(\frac{\ln x}{x}\right) \\
 %&\leq \ln x - 1 + c_0 + O(1) \\
 %&\leq \ln x + c_1 \\
 &= \ln x + O(1),
-\end{aligned}
-$$ 
+\end{align}
 pues $-1 + O(1)+ O(\ln x/x)$ es acotado. 
 \end{proof}
 
