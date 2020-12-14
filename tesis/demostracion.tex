@@ -594,50 +594,54 @@ Finalmente, igualamos los resultados de ambas partes
 equivalente a lo aseverado. 
 \end{proof}
 
-\begin{lemma}
+\begin{lemma}\label{lem18}
 Para todo $x \geq 1$ tenemos
-$$\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln x).$$
+\[
+\Psi(x) = \vartheta(x) + O(\sqrt{x}\ln x).
+\]
 \end{lemma}
 
 \begin{proof}
 Directo de la definici\'on observamos que se cumple 
-$$\Psi(x) = \sum_{n = 1}^\infty \vartheta(x^\frac{1}{n}).$$ 
+\begin{align}
+\Psi(x) = \sum_{n = 1}^\infty \vartheta(x^\frac{1}{n}).
+\end{align}
 Notemos que al mismo tiempo esta sumatoria tiene apenas una cantidad finita de t\'erminos efectivos puesto que la funci\'on $\vartheta$ 
 solo tiene sentido cuando es evaluada en valores mayores o iguales a $2$. 
 Para un $x$ espec\'ifico,  hallamos ese momento $m=m(x)$ mediante la cadena 
-\begin{align*}
+\begin{align}
 x^\frac{1}{m} &\geq 2 \\
 x^\frac{2}{m} &\geq 4 \\
 x^\frac{2}{m} &> e \\
 \frac{2}{m}\ln x &> \ln e \\
 \frac{2}{m}\ln x &> 1 \\
 m &< 2 \ln x
-\end{align*}
+\end{align}
 y notamos que para valores mayores $m = \floor{2 \ln x}$ los constituyentes de la suma son nulos.
 Ahora podemos escribir a $\Psi$ como 
-\begin{align*}
+\begin{align}
 \Psi(x) &= \vartheta(x) + \vartheta(x^\frac{1}{2}) + \cdots + \vartheta(x^\frac{1}{m}) \\
 \Psi(x) &= \vartheta(x) + \sum_{n = 2}^m \vartheta(x^\frac{1}{n}).
-\end{align*}
+\end{align}
 
 Para el an\'alisis de $\sum_{n = 2}^m \vartheta(x^\frac{1}{n})$ desdoblamos 
-$$
+\begin{align}
 \sum_{n = 2}^m \vartheta(x^\frac{1}{n}) = \sum_{n = 2}^m \sum_{p \leq x^\frac{1}{n}} \ln p. 
-$$
+\end{align}
 Trataremos de darle forma manipulativa sencilla. 
 Si un n\'umero primo $p$ ser\'a inmiscuido en la sumatoria, 
 su logaritmo contribuir\'a a la sumatoria tantas veces como las ra\'ices de $x$ lo permitan: 
 entre $1$ y $k$, donde $k$ es el m\'aximo entero que obedece $p^k \le x$.  
 F\'acilmente hallamos que este m\'aximo est\'a dado por 
-$$
+\begin{align}
 k = \floor*{\frac{\ln x}{\ln p}}.
-$$
+\end{align}
 
-Por su parte, para forzar por lo menos $p^2 \le x$, se necesita $p \le \sqrt{x}$
+Por su parte, para forzar por lo menos $p^2 \le x$, se necesita $p \le \sqrt{x}$,
 detalle importante que aprovecharemos.
 
 Ahora analicemos la forma equivalente de la doble sumatoria
-\begin{align*}
+\begin{align}
 \sum_{n = 2}^m \sum_{p^n \leq x} \ln p &= \sum_{p \leq \sqrt{x}} \, \, \sum_{2 \leq n \leq \floor*{\frac{\ln x}{\ln p}}} \ln p \\
 &= \sum_{p \leq \sqrt{x}} \ln p \sum_{2 \leq n \leq \floor*{\frac{\ln x}{\ln p}}} 1 \\
 &\leq \sum_{p \leq \sqrt{x}} \ln p \floor*{\frac{\ln x}{\ln p}} \\
@@ -646,7 +650,7 @@ Ahora analicemos la forma equivalente de la doble sumatoria
 &= \ln x \sum_{p \leq \sqrt{x}} 1 \\
 &\leq \ln x \sum_{n \leq \sqrt{x}} 1 \\
 &\leq \ln x \sqrt{x}, 
-\end{align*}
+\end{align}
 lo que permite concluir $\sum_{n = 2}^m \vartheta(x^\frac{1}{n}) = O(\sqrt{x} \ln x)$. 
 
 Con lo anterior queda establecida la relaci\'on $\Psi(x) = \vartheta(x) + O(\sqrt{x} \ln x)$.
