@@ -125,7 +125,17 @@ implement it in C++ to estimate numeric results.
 \keywords{Algorithmic Number Theory, Analytic Number Theory, Linear Sieve, Prime Number Theorem, Selberg's Identity}
 
 \section{Introducci\'on}
-Cuando despert\'o, el dinosaurio todav\'ia estaba all\'i.
+Riemann, Erdos, Selberg, Newman, Tao y otros matem\'aticos han demostrado el
+teorema del n\'umero primo de distintas maneras as\'i como Chebyshev y Euler lograron resultados parciales.
+Todos aportaron teoremas y t\'ecnicas que han
+logrado el desarrollo de nuevas teor\'ias, as\'i como la soluci\'on de conjeturas y propuestas
+de hip\'otesis a\'un sin una demostraci\'on.
+Adem\'as, desde hace miles de a\~nos Euclides y Erat\'ostenes
+como tambi\'en en los \'ultimos cincuenta a\~nos Miller, Rabin, Pollard, Gries y
+otros cient\'ificos han podido desarrollar algoritmos eficientes que permiten implementar y conseguir resultados
+combinando la Teor\'ia de N\'umeros y las Ciencias de la Computaci\'on,
+lo cual tiene un alto impacto en el mundo contempor\'aneo tanto en la teor\'ia como en la pr\'actica,
+lo cual se ve reflejado en ramas como la Criptograf\'ia y la Matem\'atica Computacional.
  
 \subsection{Nuestros resultados}
 El prop\'osito de este trabajo es doble: 
@@ -832,7 +842,7 @@ El resultado se sigue de inmediato.
 
 Finalmente el resultado te\'orico m\'as importante de esta recopilaci\'on. 
 
-\begin{theorem}[F\'ormula asint\'otica de Selberg]
+\begin{theorem}[F\'ormula asint\'otica de Selberg]\label{the22}
 Para todo $x \geq 1$ tenemos
 \[
 \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x).
@@ -904,50 +914,58 @@ la f\'ormula de Selberg.
 \end{proof}
 
 \subsection{Algoritmo Principal}
-Adicional a la prueba del Teorema 15, he dise\~nado unos algoritmos para poder obtener estimados
+Adicional a la prueba del Teorema \ref{the22}, he dise\~nado unos algoritmos para poder obtener estimados
 con la f\'ormula asint\'otica de Selberg. Primero, realicemos ciertas manipulaciones a la f\'ormula demostrada
-\begin{gather*}
+\begin{gather}
 \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q = 2x\ln x + O(x) \\
 \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x = O(x) \\
 \frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x} = O(1).
-\end{gather*}
+\end{gather}
 
-Por definici\'on, esto significa que existe un momento $n_0 > 0$ y una constante $C > 0$ a partir del cual
-$$\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right| \leq C$$
+Por definici\'on, esto significa que existe un momento $n_0 > 0$ y una constante $c > 0$ a partir del cual
+\begin{align}
+\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right| \leq c
+\end{align}
 para todo $x \geq n_0$.
 
 Asumamos que tenemos un n\'umero $x$ y queremos calcular
-$$\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right|.$$
+\begin{align}
+\left|\frac{\sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q - 2x\ln x}{x}\right|.
+\end{align}
 
 La estrategia que utilizaremos consiste en lo siguiente:
 Primero precalcularemos los n\'umeros primos en el rango $[1 \dots x]$.
 Como solamente manipularemos logaritmos de n\'umeros primos, aprovechar\'e de esto para poder precalcular
 las sumatorias y hallar sumas en rangos en $O(1)$ como diferencia de sumas.
-El contenedor $\log$ almacenar\'a lo siguiente
+El contenedor $\log$ almacenar\'a lo siguiente:
 \[
 \log[p] =
 \begin{cases}
-\ln p &\quad\text{si }$p$\text{ es primo}\\
-0 &\quad\text{ en otro caso.}
+\ln p &\quad\text{si }$p$\text{ es primo,}\\
+0 &\quad\text{en otro caso.}
 \end{cases}
 \]
 
 As\'i, $\sum_{i = l}^r \log[i]$ solo tendr\'a la sumatoria de
 los logaritmos naturales de los n\'umeros primos en el intervalo $[l, r]$.
 
-El contenedor $es\_primo$ almacenar\'a lo siguiente
+El contenedor es\_primo almacenar\'a lo siguiente:
 \[
-es\_primo[p] =
+\text{es\_primo[$p$]} =
 \begin{cases}
-\text{verdadero} &\quad\text{si }$p$\text{ es primo}\\
-\text{falso} &\quad\text{ en otro caso.}
+\text{verdadero} &\quad\text{si }$p$\text{ es primo,}\\
+\text{falso} &\quad\text{en otro caso.}
 \end{cases}
 \]
 
-Los contenedores $suma\_log$ y $suma\_log^2$ almacenar\'an
-$$suma\_log[x] = \sum_{i = 0}^x \log[i]$$
+Los contenedores suma\_$\log$ y suma\_$\log^2$ almacenar\'an
+\[
+\text{suma\_$\log$[$x$]} = \sum_{i = 0}^x \log[i]
+\]
 y
-$$suma\_log^2[x] = \sum_{i = 0}^x \log^2[i].$$
+\[
+\text{suma\_$\log^2$[$x$]} = \sum_{i = 0}^x \log^2[i].
+\]
 
 El primer preprocesamiento que realizaremos ser\'a llamar al m\'etodo CribaLineal.
 Este m\'etodo reibir\'a como par\'ametro al n\'umero n. 
@@ -955,21 +973,21 @@ Este m\'etodo reibir\'a como par\'ametro al n\'umero n.
 \begin{algorithm}[H]
 \SetAlgoLined
 \DontPrintSemicolon
-\KwData{$es\_primo, primos, n$.}
-\KwResult{N\'umeros primos en el rango $[1 \dots n]$ guardados en $primos$.}
+\KwData{es\_primo, primos, $n$.}
+\KwResult{N\'umeros primos en el rango $[1 \dots n]$ guardados en primos.}
 \Begin{
-    $es\_primo[0] \leftarrow$ falso\;
-    $es\_primo[1] \leftarrow$ falso\;
+    es\_primo[$0$] $\leftarrow$ falso\;
+    es\_primo[$1$] $\leftarrow$ falso\;
     \For{$i \leftarrow 2$ \KwTo $n$} {
-        $es\_primo[i] \leftarrow$ verdadero\;
+        es\_primo[$i$] $\leftarrow$ verdadero\;
     }
-    $primos \leftarrow \emptyset$\;
+    primos $\leftarrow$ $\emptyset$\;
     \For{$i \leftarrow 2$ \KwTo $n$} {
-        \If{$es\_primo[i]$} {
-            $primos \leftarrow primos \cup \{i\}$\;
+        \If{es\_primo[$i$]} {
+            primos $\leftarrow$ primos $\cup\;\{i\}$\;
         }
-        \For{$p \in primos$ \textbf{and} $i \cdot p \leq n$}{
-            $es\_primo[i \cdot p] \leftarrow$ falso\;
+        \For{$p \in$ primos \textbf{and} $i \cdot p \leq n$}{
+            es\_primo[$i \cdot p$] $\leftarrow$ falso\;
             \If{$i \equiv 0 \mod{p}$}{
                 \textbf{break}\;
             }
@@ -990,13 +1008,13 @@ en el cual queremos hallar todos los n\'umeros primos mediante la ejecuci\'on de
 \begin{algorithm}[H]
 \SetAlgoLined
 \DontPrintSemicolon
-\KwData{$i, x, primos$}
+\KwData{$i, x,$ primos}
 \KwResult{Posici\'on del mayor n\'umero primo $q$ tal que $pq \leq x$.
 En caso no exista, se retornar\'a $-1$.}
 \Begin{
-    $p \leftarrow primos[i]$\;
+    $p \leftarrow$ primos[$i$]\;
     $l \leftarrow i$\;
-    $r \leftarrow |primos| - 1$\;
+    $r \leftarrow |$primos$| - 1$\;
     \If{$p \cdot primos[r] \leq x$}{
         \textbf{return} r\;
     }
@@ -1041,13 +1059,13 @@ pues para cualquier $q < p_r$ tenemos $pq < p \cdot p_r \leq x$,
 por lo cual todos los dem\'as primos en el rango tambi\'en cumplir\'ian.
 Analizar ambos casos nos tomar\'ia $O(1)$ en tiempo.
 Al entrar al bucle en las l\'ineas $11 - 18$ se satisface $i = l < r = \pi(x) - 1$ y adem\'as
-$p \cdot primos[l] \leq x$ y $p \cdot primos[r] > x$.
+$p\;\cdot$ primos[$l$] $\leq x$ y $p\;\cdot$ primos[$r$] $> x$.
 Mientras que $l$ y $r$ disten al menos 2, computaremos $m = \floor*{\frac{l + r}{2}}$
 y podemos distinguir dos casos:
-el primer caso es cuando se cumple $p \cdot primos[m] \leq x$, $l$ cambiar\'ia
+el primer caso es cuando se cumple $p\;\cdot$ primos[$m$] $\leq x$, $l$ cambiar\'ia
 su valor a $m$ y, debido a que la diferencia entre $l$ y $r$ era mayor a 1, entonces
-$l' = m < r$ y la condici\'on $p \cdot primos[l'] \leq x$ y $p \cdot primos[r] > x$ se sigue cumpliendo.
-En el segundo caso tenemos $p \cdot primos[m] > x$, aqu\'i $r' = m$ y cuando $r' > l$ la condici\'on se cumple de manera an\'aloga al caso anterior,
+$l' = m < r$ y la condici\'on $p\;\cdot$ primos[$l'$] $\leq x$ y $p\;\cdot$ primos[$r$] $> x$ se sigue cumpliendo.
+En el segundo caso tenemos $p\;\cdot$ primos[$m$] $> x$, aqu\'i $r' = m$ y cuando $r' > l$ la condici\'on se cumple de manera an\'aloga al caso anterior,
 pero cuando $r' = l$, tenemos que en la siguiente iteraci\'on del bucle, al ya no distar $2$, saldr\'iamos del bucle
 y necesariamente la respuesta se encuentra en nuestro extremo izquierdo $l$.
 Ahora que ya sabemos que siempre terminamos obteniendo el \'ultimo elemento que cumple la condici\'on, analicemos el
@@ -1063,18 +1081,18 @@ $O(\log_2 \pi(x))$, el cual es a su vez $O(\log_2 x)$ por definici\'on.
 \begin{algorithm}[H]
 \SetAlgoLined
 \DontPrintSemicolon
-\KwData{$primos, suma\_log, x$.}
+\KwData{primos, suma\_log, $x$.}
 \KwResult{$\sum_{pq \leq x} \ln p \ln q$.}
 \Begin{
     $suma \leftarrow 0$\;
-    \For{$pos_p \leftarrow 0$ \KwTo $|primos| - 1$}{
+    \For{$pos_p \leftarrow 0$ \KwTo $|$primos$| - 1$}{
         $pos_q \leftarrow$ Buscar\'UltimaPosici\'on($pos_p$, $x$)\;
         \If{$pos_q = -1$}{
             \textbf{break}\;
         }
-        $p \leftarrow primos[pos_p]$\;
-        $q \leftarrow primos[pos_q]$\;
-        $suma \leftarrow suma + \ln p \cdot (suma\_log[q] - suma\_log[p - 1])$\;
+        $p \leftarrow$ primos$[pos_p]$\;
+        $q \leftarrow$ primos$[pos_q]$\;
+        $suma \leftarrow suma + \ln p \cdot ($suma\_log$[q] - $suma\_log$[p - 1])$\;
     }
     \textbf{return} $suma$\;
 }
@@ -1097,16 +1115,17 @@ La funci\'on Buscar\'UltimaPosici\'on en la l\'inea $4$ es llamada exactamente u
 toma $O(\log_2 x)$ en tiempo de acuerdo con el lema 17, 
 las dem\'as operaciones dentro del bucle toman $O(1)$ en tiempo.
 De esta manera, el tiempo de ejecuci\'on del algoritmo es $O(\pi(x)\log_2 x)$.
-Asimismo, Rosser y Barkley probaron que se tiene \cite[teorema 2 y corolario 1]{Chebyshev}
-$$\pi(x) \leq 1.25506\;\frac{x}{\ln x}. %%%%\;x > 1.
-$$
+Asimismo, Rosser y Barkley \cite[teorema 2 y corolario 1]{Chebyshev} probaron lo siguiente:
+\begin{align}
+\pi(x) \leq 1.25506\;\frac{x}{\ln x}. %%%%\;x > 1.
+\end{align}
 Utilizamos esto para tener un mejor estimado cual 
-\begin{align*}
+\begin{align}
     \pi(x)\log_2 x &\leq 1.25506\;\frac{x}{\ln x} \log_2 x\\
     &= 1.25506\;\log_2 e \frac{x}{\log_2 e \cdot \log_e x} \log_2 x\\
     &= 1.25506\;\log_2 e \frac{x}{\log_2 x} \log_2 x\\
     &= (1.25506\;\log_2 e) x\\
-\end{align*}
+\end{align}
 y concluimos que el tiempo de ejecuci\'on del algoritmo es $O(x)$.
 \end{proof}
 
@@ -1118,8 +1137,8 @@ y concluimos que el tiempo de ejecuci\'on del algoritmo es $O(x)$.
 \Begin{
     CribaLineal($x$)\;
     \For{$i \leftarrow 1$ \KwTo $x$}{
-        $suma\_log[i] \leftarrow 0$\;
-        $suma\_log^2[i] \leftarrow 0$\;
+        suma\_log$[i] \leftarrow 0$\;
+        suma\_$\log^2[i] \leftarrow 0$\;
         \eIf{$es\_primo[i]$}{
             $\log[i] \leftarrow \ln i$\;
         }{
@@ -1127,10 +1146,10 @@ y concluimos que el tiempo de ejecuci\'on del algoritmo es $O(x)$.
         }
     }
     \For{$i \leftarrow 2$ \KwTo $x$}{
-        $suma\_log[i] \leftarrow suma\_log[i - 1] + \log[i]$\;
-        $suma\_log^2[i] \leftarrow suma\_log^2[i - 1] + (\log[i])^2$\;
+        suma\_log[$i] \leftarrow$ suma\_$\log[i - 1] + \log[i]$\;
+        suma\_$\log^2[i] \leftarrow$ suma\_$\log^2[i - 1] + (\log[i])^2$\;
     }
-    \textbf{return} $\frac{|suma\_log^2[x] + \text{CalcularSuma}(x) - 2x\ln x|}{x}$\;
+    \textbf{return} $\frac{|\text{suma}\_\log^2[x] + \text{CalcularSuma}(x) - 2x\ln x|}{x}$\;
 }
 \caption{EstimarConstante}
 \end{algorithm}
@@ -1161,7 +1180,7 @@ de tan solo tres segundos.
     \texttt{sys	0m0,436s}.
 \end{center}
 
-%\cppfile{formula_selberg.cpp}
+\cppfile{formula_selberg.cpp}
 
 \begin{table}
 \centering
