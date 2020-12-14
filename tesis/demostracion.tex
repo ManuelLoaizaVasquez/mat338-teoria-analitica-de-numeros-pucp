@@ -852,7 +852,7 @@ Consolidemos la diferencia en una \'unica suma
 \begin{align}
 \vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{p \leq x} \ln p \ln x - \sum_{p \leq x} \ln p \ln p \\
 &= \sum_{p \leq x} \ln p (\ln x - \ln p) \\
-&= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right). 
+&= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right).\label{eq127}
 \end{align}
 
 A continuaci\'on recurrimos a una versi\'on gruesa del \cref{lem08}:
@@ -866,40 +866,40 @@ o, lo que es lo mismo,
 \ln x = \sum_{n \leq x} \frac{1}{n} + O(1). 
 \end{align}
 
-Reeplazamos este nuevo estimado en el obtenido p\'arrafos atr\'a para conseguir 
-\begin{align*}
+Reeplazamos este nuevo estimado en la Ecuaci\'on \ref{eq127} para conseguir 
+\begin{align}
 \vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{p \leq x} \ln p \ln \left(\frac{x}{p}\right) \\
 &= \sum_{p \leq x} \ln p \left(\sum_{n \leq \frac{x}{p}} \frac{1}{n} + O(1)\right) \\
 &= \sum_{p \leq x} \ln p \sum_{n \leq \frac{x}{p}} \frac{1}{n} + O\left(\sum_{p \leq x} \ln p\right) \\
 &= \sum_{p \leq x} \sum_{n \leq \frac{x}{p}} \frac{\ln p}{n} + O\left(\sum_{p \leq x} \ln p\right) \\
 &= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O\left(\sum_{p \leq x} \ln p\right) \\
-&= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O(\vartheta(x)).
-\end{align*}
-Pero una combinaci\'on de los lemas 12 y 18 conduce a 
-\begin{align*}
+&= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O(\vartheta(x)).\label{eq136}
+\end{align}
+Pero una combinaci\'on de \cref{lem12} y \cref{lem18} conduce a 
+\begin{align}
 \Psi(x) &= O(x),  \\
 \vartheta(x) &= O(x),
-\end{align*}
+\end{align}
 propiedad que utilizaremos en la forma $O(\vartheta(x))=O(x)$.
 
-A continuaci\'on desdoblamos uno de los sumandos para llegar a 
-\begin{align*}
+A continuaci\'on desdoblamos uno de los sumandos en Ecuaci\'on \ref{eq136} para llegar a 
+\begin{align}
 \vartheta(x)\ln x - \sum_{p \leq x} \ln^2 p &= \sum_{n \leq x} \sum_{p \leq \frac{x}{n}} \frac{\ln p}{n} + O(x) \\
 &= \sum_{n \leq x} \frac{1}{n}\sum_{p \leq \frac{x}{n}} \ln p + O(x) \\
 &= \sum_{n \leq x} \frac{1}{n}\cdot \vartheta\left(\frac{x}{n}\right) + O(x) \\
 %&= \sum_{n \leq x} \frac{O\left(\frac{x}{n}\right)}{n} + O(x) \\
 &= O\left(x \sum_{n \leq x} \frac{1}{n^2}\right) + O(x) \\
 &= O(2x)+O(x)=O(x), 
-\end{align*}
+\end{align}
 pues la sumatoria de rec\'iprocos al cuadrado est\'a acotada por $2$. 
 
-Para el remate es cuesti\'on de reemplazar en el lema 20 y lograr  
-\begin{align*}
+Para el remate es cuesti\'on de reemplazar en el \cref{lem20} y lograr  
+\begin{align}
 2x\ln x + O(x) &= \vartheta(x)\ln x + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p  \\
 &= \sum_{p \leq x} \ln^2 p + O(x) + \sum_{p \leq x} \vartheta\left(\frac{x}{p}\right)\ln p  \\
 &= \sum_{p \leq x} \ln^2 p + \sum_{p \leq x} \sum_{q \leq \frac{x}{p}} \ln q \ln p  \\
 &= \sum_{p \leq x} \ln^2 p + \sum_{pq \leq x} \ln p \ln q, 
-\end{align*}
+\end{align}
 la f\'ormula de Selberg.
 \end{proof}
 
