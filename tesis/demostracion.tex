@@ -430,7 +430,9 @@ Esta f\'ormula equivale a  $\Lambda * 1 = \ln$ v\'ia  inversi\'on de M\"obius.
 
 \begin{lemma}\label{lem14}
 Para todo $x \geq 1$ tenemos
-$$\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1).$$
+\[
+\sum_{n \leq x} \frac{\Lambda(n)}{n} = \ln x + O(1).
+\]
 \end{lemma}
 
 \begin{proof}
@@ -469,25 +471,23 @@ pues $-1 + O(1)+ O(\ln x/x)$ es acotado.
 
 \begin{lemma}
 Para $f, g : [1, \infty) \to \BR$ sujetos a  $g(x) = \sum_{n \leq x} f\left(\frac{x}{n}\right) \ln x$ tenemos
-$$
+\[
 \sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) = f(x) \ln(x) + \sum_{n \leq x} f\left(\frac{x}{n}\right) \Lambda(n).
-$$
+\]
 \end{lemma}
 \begin{proof}
 Desarrollemos la sumatoria que queremos analizar
-$$
-\begin{aligned}
-\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= \sum_{n \leq x} \mu(n) \sum_{m \leq x/n} f\left(\frac{x}{nm}\right) \ln \left(x/n  \right) \\
+\begin{align}
+\sum_{n \leq x} \mu(n) g\left(\frac{x}{n}\right) &= \sum_{n \leq x} \mu(n) \sum_{m \leq x/n} f\left(\frac{x}{nm}\right) \ln \left(\frac{x}{n}\right) \\
 &= \sum_{nm \leq x} \mu(n) \ln\left(\frac{x}{n}\right) f \left(\frac{x}{nm}\right) \\    
 &= \sum_{c \leq x} f\left(\frac{x}{c}\right) \sum_{d \mid c} \mu(d) \ln\left(\frac{x}{d}\right) \\
 &= \sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \left[\ln \left(\frac{x}{n}\right) + \ln\left(\frac{n}{d}\right)\right] \\
 &= \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \ln\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d)\right]
 +  \left[\sum_{n \leq x} f\left(\frac{x}{n}\right) \sum_{d \mid n} \mu(d) \ln\left(\frac{n}{d}\right)\right].\\
 &= f(x) +  \ln{x} +  \sum_{n \leq x} f\left(\frac{x}{n}\right) (\mu * \ln)(n). 
-\end{aligned}
-$$
+\end{align}
 Con ello, finalmente, 
-utilizamos el lema 6 para concluir lo deseado. 
+utilizamos el \cref{lem13} para concluir lo deseado. 
 \end{proof}
 
 \begin{lemma}
